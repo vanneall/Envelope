@@ -6,4 +6,8 @@
     <string name="forget_password">Forget password</string>
     <string name="authorize_button">Authorize</string>
     <string name="registration_button">Registration</string>
+
+    <string name="registration_title">Registration</string>
+    <string name="name_label">Name</string>
+    <string name="registration_informer">By registering, you agree to the rules of the community.</string>
 </resources>

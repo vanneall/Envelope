@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.point.auth.authorization.presenter.mvi.AuthState
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.auth.registration.presenter.mvi.RegState
+import com.point.auth.registration.presenter.ui.RegistrationScreen
 import com.point.envelope.ui.theme.EnvelopeTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,12 +24,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             EnvelopeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AuthorizationScreen(
-                        state = AuthState(
-                            "",
-                            "",
-                            false,
-                        ),
+                    RegistrationScreen(
+                        state = RegState(),
                         onAction = {},
                         modifier = Modifier
                             .fillMaxSize()

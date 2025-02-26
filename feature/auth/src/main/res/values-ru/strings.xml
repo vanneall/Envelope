@@ -6,4 +6,8 @@
     <string name="forget_password">Забыл пароль</string>
     <string name="authorize_button">Авторизоваться</string>
     <string name="registration_button">Зарегистрироваться</string>
+
+    <string name="registration_title">Регистрация</string>
+    <string name="name_label">Имя</string>
+    <string name="registration_informer">Регистрируясь, вы соглашаетесь с правилами сообщества.</string>
 </resources>
