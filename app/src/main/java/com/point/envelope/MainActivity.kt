@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.point.envelope.ui.theme.EnvelopeTheme
+import com.point.viewmodel.MviViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        MviViewModel
         setContent {
             EnvelopeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
