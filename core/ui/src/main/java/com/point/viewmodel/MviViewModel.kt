@@ -46,13 +46,13 @@ open class MviViewModel<UiState, Action, Event>(initialValue: UiState) : ViewMod
         }
     }
 
-    fun emit(action: Action) {
+    fun emitAction(action: Action) {
         viewModelScope.launch {
             _actions.emit(action)
         }
     }
 
-    fun emit(event: Event) {
+    fun emitEvent(event: Event) {
         viewModelScope.launch {
             _events.emit(event)
         }
@@ -64,7 +64,7 @@ open class MviViewModel<UiState, Action, Event>(initialValue: UiState) : ViewMod
         viewModelScope.launch {
             actions.filterIsInstance<T>()
                 .map { block(it) }
-                .collect { emit(it) }
+                .collect { emitAction(it) }
         }
     }
 

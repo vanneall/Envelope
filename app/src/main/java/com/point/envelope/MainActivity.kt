@@ -11,39 +11,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.point.auth.authorization.presenter.mvi.AuthState
+import com.point.auth.authorization.presenter.ui.AuthorizationScreen
 import com.point.envelope.ui.theme.EnvelopeTheme
-import com.point.viewmodel.MviViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        MviViewModel
         setContent {
             EnvelopeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    AuthorizationScreen(
+                        state = AuthState(
+                            "",
+                            "",
+                            false,
+                        ),
+                        onAction = {},
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding))
                 }
             }
         }
     }
 }
 
+@Preview
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EnvelopeTheme {
-        Greeting("Android")
-    }
+fun a() {
+    Text("ewew")
 }

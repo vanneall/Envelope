@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authorization_title">Авторизация</string>
+    <string name="login_label">Логин</string>
+    <string name="password_label">Пароль</string>
+    <string name="forget_password">Забыл пароль</string>
+    <string name="authorize_button">Авторизоваться</string>
+    <string name="registration_button">Зарегистрироваться</string>
+</resources>

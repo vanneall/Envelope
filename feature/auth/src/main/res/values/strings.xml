@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authorization_title">Authorization</string>
+    <string name="login_label">Login</string>
+    <string name="password_label">Password</string>
+    <string name="forget_password">Forget password</string>
+    <string name="authorize_button">Authorize</string>
+    <string name="registration_button">Registration</string>
+</resources>
