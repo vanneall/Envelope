@@ -6,25 +6,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
+import com.point.auth.authorization.presenter.ui.AuthorizationScreen
 
 @Composable
 fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.AllChats,
+        startDestination = Screen.Authorization,
         modifier = modifier,
     ) {
 
         composable<Screen.Authorization> {
-            Box(
+
+            val viewModel = hiltViewModel<AuthorizationViewModel>()
+
+            AuthorizationScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Authorization")
-            }
+            )
         }
 
         composable<Screen.Registration> {

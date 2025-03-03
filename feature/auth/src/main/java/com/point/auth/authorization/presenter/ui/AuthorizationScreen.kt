@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PlatformImeOptions
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +55,6 @@ fun AuthorizationScreen(
         modifier = modifier
             .padding(horizontal = 20.dp)
             .padding(bottom = 20.dp, top = 40.dp)
-            .imePadding(),
     ) {
         Text(
             text = stringResource(R.string.authorization_title),
@@ -86,7 +86,7 @@ fun AuthorizationScreen(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp)
+                .height(60.dp)
         )
 
         Spacer(
@@ -96,7 +96,7 @@ fun AuthorizationScreen(
         )
 
         CredentialsTextField(
-            value = state.login,
+            value = state.password,
             onValueChanged = { onAction(OnPasswordInput(it)) },
             onClear = { onAction(OnPasswordClear) },
             label = { Text(stringResource(R.string.password_label)) },
@@ -124,7 +124,7 @@ fun AuthorizationScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            {},
+            onClick = { onAction(Authorization) },
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = Color.Black,
                 contentColor = Color.White,
@@ -141,7 +141,7 @@ fun AuthorizationScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            {},
+            onClick = { onAction(Authorization) },
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = TextFieldContainerColor,
                 contentColor = Color.Black,
@@ -181,7 +181,7 @@ fun CredentialsTextField(
                         imageVector = Icons.Default.Close,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(8.dp)
+                            .size(16.dp)
                             .clip(CircleShape)
                             .clickable { onClear() }
                     )

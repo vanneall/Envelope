@@ -13,6 +13,9 @@ sealed interface AuthAction {
     }
 
     sealed interface Event : AuthAction {
+        data object OnAuthorizationSuccess : Event
+        data object OnAuthorizationFailed : Event
 
+        data object OnFieldsEmpty : Event
     }
 }

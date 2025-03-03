@@ -17,4 +17,5 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.okhttp)
     implementation(libs.retrofit.adapters.result)
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 }

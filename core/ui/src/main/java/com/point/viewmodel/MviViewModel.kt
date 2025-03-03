@@ -58,7 +58,7 @@ open class MviViewModel<UiState, Action, Event>(initialValue: UiState) : ViewMod
         }
     }
 
-    protected fun reduce(action: Action, state: UiState): UiState = state
+    protected open fun reduce(action: Action, state: UiState): UiState = state
 
     inline fun <reified T : Action> mapAction(crossinline block: suspend (T) -> Action) {
         viewModelScope.launch {

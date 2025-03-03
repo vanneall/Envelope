@@ -48,6 +48,12 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":feature:auth"))
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit.adapters.result)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -60,7 +66,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // Extended Icons
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.material.icons.extended)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
