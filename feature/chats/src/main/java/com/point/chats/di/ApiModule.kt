@@ -1,0 +1,20 @@
+package com.point.chats.di
+
+import com.point.chats.main.data.reporitory.ChatsService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
+import retrofit2.Retrofit
+import retrofit2.create
+
+@Module
+@InstallIn(ViewModelComponent::class)
+class ApiModule {
+
+    @Provides
+    @ViewModelScoped
+    fun provideChatsService(retrofit: Retrofit) = retrofit.create<ChatsService>()
+
+}

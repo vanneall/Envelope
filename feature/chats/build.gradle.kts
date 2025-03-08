@@ -1,4 +1,7 @@
 plugins {
+    kotlin("plugin.serialization") version "2.1.10"
+    alias(libs.plugins.kotlinAndroidKsp)
+    alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
@@ -41,6 +44,18 @@ dependencies {
 
     implementation(project(":core:ui"))
     api(project(":core:network"))
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Retrofit + OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit.adapters.result)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

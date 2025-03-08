@@ -12,6 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.chats.main.ui.ChatsScreen
+import com.point.chats.main.viewmodel.ChatsHostViewModel
 
 @Composable
 fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
@@ -51,11 +53,19 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
         }
 
         composable<Screen.AllChats> {
+
+            val viewModel = hiltViewModel<ChatsHostViewModel>()
+
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "All chats")
+                ChatsScreen(
+                    state = viewModel.state,
+                    events = viewModel.events,
+                    onAction = {},
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
 

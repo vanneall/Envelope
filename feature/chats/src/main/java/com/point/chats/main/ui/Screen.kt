@@ -1,5 +1,6 @@
 package com.point.chats.main.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,9 +16,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,12 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.point.chats.main.viewmodel.Chat
 import com.point.chats.main.viewmodel.ChatAction
+import com.point.chats.main.viewmodel.ChatEvents
 import com.point.chats.main.viewmodel.ChatsState
 import com.point.ui.AccentColor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun ChatsScreen(
     state: ChatsState,
+    events: Flow<ChatEvents>,
     onAction: (ChatAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -53,6 +60,13 @@ fun ChatsScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        events.collect {
+            Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG)
         }
     }
 }
@@ -159,5 +173,6 @@ fun ChatScreenPreview() {
         ),
         onAction = {},
         modifier = Modifier.size(300.dp, 560.dp),
+        events = emptyFlow(),
     )
 }

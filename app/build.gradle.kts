@@ -57,6 +57,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(project(":feature:chats"))
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
