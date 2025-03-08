@@ -2,23 +2,33 @@ package com.point.chats.main.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -39,26 +49,47 @@ fun ChatsScreen(
     state: ChatsState,
     events: Flow<ChatEvents>,
     onAction: (ChatAction) -> Unit,
-    modifier: Modifier = Modifier
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
+    Scaffold(
         modifier = modifier,
-    ) {
-        items(
-            count = state.chats.size,
-            key = { index -> state.chats[index].id },
-        ) {
-            ChatComposable(
-                chat = state.chats[it],
-                modifier = Modifier.height(60.dp),
+        floatingActionButton = {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(shape = RoundedCornerShape(16.dp))
+                    .background(AccentColor, shape = RoundedCornerShape(16.dp))
+                    .clickable { onNavigate() }
+                    .padding(8.dp)
             )
-
-            if (it != state.chats.lastIndex) {
-                VerticalDivider(
-                    thickness = 1.dp,
-                    color = Color.LightGray,
-                    modifier = Modifier.fillMaxWidth(),
+        },
+        floatingActionButtonPosition = FabPosition.End,
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
+        ) {
+            items(
+                count = state.chats.size,
+                key = { index -> state.chats[index].id },
+            ) {
+                ChatComposable(
+                    chat = state.chats[it],
+                    modifier = Modifier.height(60.dp),
                 )
+
+                if (it != state.chats.lastIndex) {
+                    VerticalDivider(
+                        thickness = 1.dp,
+                        color = Color.LightGray,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             }
         }
     }
@@ -174,5 +205,6 @@ fun ChatScreenPreview() {
         onAction = {},
         modifier = Modifier.size(300.dp, 560.dp),
         events = emptyFlow(),
+        onNavigate = {}
     )
 }

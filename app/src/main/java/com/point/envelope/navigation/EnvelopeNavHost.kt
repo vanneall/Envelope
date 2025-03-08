@@ -7,11 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.chats.create.presenter.ui.ContactsScreen
+import com.point.chats.create.presenter.viewmodel.CreateChatViewModel
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 
@@ -61,9 +64,10 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 ChatsScreen(
-                    state = viewModel.state,
+                    state = viewModel.composableState.value,
                     events = viewModel.events,
                     onAction = {},
+                    onNavigate = { navHostController.navigate(Screen.CreateNewChat) },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -76,6 +80,18 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
             ) {
                 Text(text = "Profile")
             }
+        }
+
+        composable<Screen.CreateNewChat> {
+
+            val viewModel = hiltViewModel<CreateChatViewModel>()
+
+            ContactsScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                onNavigate = {},
+                modifier = Modifier.fillMaxSize(),
+            )
         }
     }
 }

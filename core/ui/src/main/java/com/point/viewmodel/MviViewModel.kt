@@ -22,7 +22,7 @@ open class MviViewModel<UiState, Action, Event>(initialValue: UiState) : ViewMod
     val state: UiState
         get() = _state.value
 
-    private val _actions = MutableSharedFlow<Action>()
+    private val _actions = MutableSharedFlow<Action>(replay = 1, extraBufferCapacity = 10)
 
     val actions: SharedFlow<Action>
         get() = _actions.asSharedFlow()
