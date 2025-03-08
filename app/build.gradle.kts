@@ -45,6 +45,7 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
+    implementation(project(":core:user"))
     implementation(project(":core:network"))
     implementation(project(":feature:auth"))
 
