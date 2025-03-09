@@ -11,13 +11,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
 import com.point.auth.registration.presenter.mvi.RegistrationViewModel
 import com.point.auth.registration.presenter.ui.RegistrationScreen
 import com.point.chats.create.presenter.ui.ContactsScreen
 import com.point.chats.create.presenter.viewmodel.CreateChatViewModel
+import com.point.chats.dialog.ui.ChatDialog
+import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
+import com.point.chats.main.viewmodel.Chat
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.contacts.search.presenter.ui.SearchContactScreen
 import com.point.contacts.search.presenter.viewmodel.SearchContactsViewModel
@@ -55,12 +59,17 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
         }
 
         composable<Screen.Chat> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Chat")
-            }
+            val args = it.toRoute<Screen.Chat>()
+
+            val viewModel : ChatDialogViewModel = hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory >(
+                creationCallback = { factory -> factory.create(args.id) }
+            )
+
+            ChatDialog(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
         composable<Screen.AllChats> {
@@ -75,6 +84,7 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
                     state = viewModel.composableState.value,
                     events = viewModel.events,
                     onAction = {},
+                    onNavigateToChat = { navHostController.navigate(Screen.Chat(it)) },
                     onNavigate = { navHostController.navigate(Screen.CreateNewChat) },
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -91,6 +101,7 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
         }
 
         composable<Screen.CreateNewChat> {
+
 
             val viewModel = hiltViewModel<CreateChatViewModel>()
 

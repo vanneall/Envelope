@@ -50,6 +50,7 @@ fun ChatsScreen(
     events: Flow<ChatEvents>,
     onAction: (ChatAction) -> Unit,
     onNavigate: () -> Unit,
+    onNavigateToChat: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -80,7 +81,9 @@ fun ChatsScreen(
             ) {
                 ChatComposable(
                     chat = state.chats[it],
-                    modifier = Modifier.height(60.dp),
+                    modifier = Modifier
+                        .height(60.dp)
+                        .clickable { onNavigateToChat(state.chats[it].id) },
                 )
 
                 if (it != state.chats.lastIndex) {
@@ -205,6 +208,7 @@ fun ChatScreenPreview() {
         onAction = {},
         modifier = Modifier.size(300.dp, 560.dp),
         events = emptyFlow(),
-        onNavigate = {}
+        onNavigate = {},
+        onNavigateToChat = {},
     )
 }
