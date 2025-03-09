@@ -6,4 +6,6 @@ sealed interface ChatDialogAction {
 
     data class TypeMessage(val value: String) : ChatDialogAction
 
+
+    data class UpdateList(val text: Message) : ChatDialogAction
 }

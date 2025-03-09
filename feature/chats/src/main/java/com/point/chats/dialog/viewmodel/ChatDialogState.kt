@@ -23,4 +23,6 @@ data class Message(
     val content: String,
     @SerialName("photos")
     val photos: MutableList<Long>?,
+    @SerialName("_class")
+    val type: String,
 )

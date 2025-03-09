@@ -1,16 +1,18 @@
 package com.point.envelope
 
 import android.app.Application
-import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 @HiltAndroidApp
 class EnvelopeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
+
         Thread.setDefaultUncaughtExceptionHandler { _, e ->
-            Log.e("Uncaught exception", e.stackTraceToString())
+            Timber.tag("Uncaught exception").e(e.stackTraceToString())
         }
     }
 }

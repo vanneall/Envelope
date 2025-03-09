@@ -45,6 +45,9 @@ dependencies {
     implementation(project(":core:ui"))
     api(project(":core:network"))
 
+    // Timber
+    implementation(libs.timber)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
