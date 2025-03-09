@@ -17,6 +17,8 @@ import com.point.chats.create.presenter.ui.ContactsScreen
 import com.point.chats.create.presenter.viewmodel.CreateChatViewModel
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
+import com.point.contacts.search.presenter.ui.SearchContactScreen
+import com.point.contacts.search.presenter.viewmodel.SearchContactsViewModel
 
 @Composable
 fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
@@ -90,7 +92,19 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
                 events = viewModel.events,
-                onNavigate = {},
+                onNavigate = { navHostController.navigate(Screen.SearchContacts) },
+                onPopBackState = { navHostController.popBackStack() },
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+
+        composable<Screen.SearchContacts> {
+
+            val viewModel = hiltViewModel<SearchContactsViewModel>()
+
+            SearchContactScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
                 onPopBackState = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
             )

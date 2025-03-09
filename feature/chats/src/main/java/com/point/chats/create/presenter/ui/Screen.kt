@@ -7,16 +7,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.VerticalDivider
@@ -24,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,6 +40,7 @@ import com.point.chats.create.presenter.viewmodel.CreateChatAction
 import com.point.chats.create.presenter.viewmodel.CreateChatEvent
 import com.point.chats.create.presenter.viewmodel.CreateChatState
 import com.point.chats.main.ui.UserPhoto
+import com.point.ui.AccentColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -46,61 +53,86 @@ fun ContactsScreen(
     onPopBackState: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(shape = RoundedCornerShape(16.dp))
+                    .background(AccentColor, shape = RoundedCornerShape(16.dp))
+                    .clickable { onNavigate() }
+                    .padding(8.dp)
+            )
+        },
+        floatingActionButtonPosition = FabPosition.End,
+    ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(it)) {
+            TextField(
+                value = state.search,
+                onValueChange = { onAction(CreateChatAction.Action.OnValueChanged(it)) },
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 1,
+                trailingIcon = {
+                    Row {
 
-    Column(modifier = modifier) {
-        TextField(
-            value = state.search,
-            onValueChange = { onAction(CreateChatAction.Action.OnValueChanged(it)) },
-            modifier = Modifier.fillMaxWidth(),
-            maxLines = 1,
-            trailingIcon = {
-                Row {
+                        if (state.search.isNotEmpty()) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .clickable {
+                                        onAction(CreateChatAction.Action.OnValueChanged(""))
+                                    }
+                            )
 
-                    if (state.search.isNotEmpty()) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
                         Icon(
-                            imageVector = Icons.Default.Close,
+                            imageVector = Icons.Default.Search,
                             contentDescription = null,
-                            modifier = Modifier
-                                .size(16.dp)
-                                .clickable {
-                                    onAction(CreateChatAction.Action.OnValueChanged(""))
-                                }
+                            modifier = Modifier.size(16.dp)
                         )
-
-                        Spacer(modifier = Modifier.width(8.dp))
                     }
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp)
-                    )
                 }
-            }
-        )
+            )
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(
-                count = state.contacts.size,
-                key = { state.contacts[it].id },
+            LazyColumn(
+                modifier = Modifier.weight(1f)
             ) {
-                ChatComposable(
-                    contact = state.contacts[it],
-                    modifier = Modifier
-                        .height(60.dp)
-                        .fillMaxWidth()
-                        .clickable { onAction(CreateChatAction.Action.CreateChatWithContact(state.contacts[it].id)) },
-                )
-
-                if (it != state.contacts.lastIndex) {
-                    VerticalDivider(
-                        thickness = 1.dp,
-                        color = Color.LightGray,
-                        modifier = Modifier.fillMaxWidth(),
+                items(
+                    count = state.contacts.size,
+                    key = { state.contacts[it].id },
+                ) {
+                    ChatComposable(
+                        contact = state.contacts[it],
+                        modifier = Modifier
+                            .height(60.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                onAction(
+                                    CreateChatAction.Action.CreateChatWithContact(
+                                        state.contacts[it].id
+                                    )
+                                )
+                            },
                     )
+
+                    if (it != state.contacts.lastIndex) {
+                        VerticalDivider(
+                            thickness = 1.dp,
+                            color = Color.LightGray,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 }
             }
         }
