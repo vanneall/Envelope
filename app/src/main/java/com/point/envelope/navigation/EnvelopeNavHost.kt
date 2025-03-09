@@ -89,7 +89,9 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
             ContactsScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
+                events = viewModel.events,
                 onNavigate = {},
+                onPopBackState = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
             )
         }

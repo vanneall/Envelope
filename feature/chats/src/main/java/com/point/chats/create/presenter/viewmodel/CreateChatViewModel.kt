@@ -1,5 +1,6 @@
 package com.point.chats.create.presenter.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.point.chats.create.repository.ContactsRepository
 import com.point.viewmodel.MviViewModel
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateChatViewModel @Inject constructor(private val contactsRepository: ContactsRepository) :
-    MviViewModel<CreateChatState, CreateChatAction, Any>(
+    MviViewModel<CreateChatState, CreateChatAction, CreateChatEvent>(
         CreateChatState()
     ) {
 
@@ -23,6 +24,7 @@ class CreateChatViewModel @Inject constructor(private val contactsRepository: Co
         }
 
         onTextInputed()
+        onCreateChatWithContact()
     }
 
     override fun reduce(action: CreateChatAction, state: CreateChatState) = when (action) {
@@ -34,6 +36,18 @@ class CreateChatViewModel @Inject constructor(private val contactsRepository: Co
         CreateChatAction.Event.OnContactLoadFailed -> state.copy(isError = true)
 
         is CreateChatAction.Action.OnValueChanged -> state.copy(search = action.value)
+
+        is CreateChatAction.Action.CreateChatWithContact -> state
+    }
+
+    private fun onCreateChatWithContact() {
+        handleAction<CreateChatAction.Action.CreateChatWithContact> {
+            contactsRepository.createChatWithContact(id = it.id)
+                .fold(
+                    onSuccess = { emitEvent(CreateChatEvent.ChatCreatedSuccessfully) },
+                    onFailure = { it.printStackTrace() }
+                )
+        }
     }
 
     private fun onTextInputed() {

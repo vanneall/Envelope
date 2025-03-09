@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -22,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,14 +31,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.point.chats.create.presenter.viewmodel.Contact
 import com.point.chats.create.presenter.viewmodel.CreateChatAction
+import com.point.chats.create.presenter.viewmodel.CreateChatEvent
 import com.point.chats.create.presenter.viewmodel.CreateChatState
 import com.point.chats.main.ui.UserPhoto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ContactsScreen(
     state: CreateChatState,
+    events: Flow<CreateChatEvent>,
     onAction: (CreateChatAction) -> Unit,
     onNavigate: () -> Unit,
+    onPopBackState: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -55,9 +60,11 @@ fun ContactsScreen(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp).clickable {
-                                onAction(CreateChatAction.Action.OnValueChanged(""))
-                            }
+                            modifier = Modifier
+                                .size(16.dp)
+                                .clickable {
+                                    onAction(CreateChatAction.Action.OnValueChanged(""))
+                                }
                         )
 
                         Spacer(modifier = Modifier.width(8.dp))
@@ -82,7 +89,10 @@ fun ContactsScreen(
             ) {
                 ChatComposable(
                     contact = state.contacts[it],
-                    modifier = Modifier.height(60.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .height(60.dp)
+                        .fillMaxWidth()
+                        .clickable { onAction(CreateChatAction.Action.CreateChatWithContact(state.contacts[it].id)) },
                 )
 
                 if (it != state.contacts.lastIndex) {
@@ -93,6 +103,12 @@ fun ContactsScreen(
                     )
                 }
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        events.collectLatest {
+            onPopBackState()
         }
     }
 }
