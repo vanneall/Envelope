@@ -49,6 +49,7 @@ import com.point.ui.AlertColor
 fun AuthorizationScreen(
     state: AuthState,
     onAction: (AuthAction) -> Unit,
+    onNavigate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -141,7 +142,7 @@ fun AuthorizationScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { onAction(Authorization) },
+            onClick = { onNavigate() },
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = TextFieldContainerColor,
                 contentColor = Color.Black,

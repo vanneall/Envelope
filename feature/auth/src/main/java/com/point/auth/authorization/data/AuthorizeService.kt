@@ -9,4 +9,7 @@ interface AuthorizeService {
     @POST("/auth/api-v1/login")
     suspend fun authorize(@Body authRequest: AuthRequest): Result<Token>
 
+    @POST("/auth/api-v1/registration")
+    suspend fun registration(@Body registrationRequest: UserRegistrationRequest): Result<Token>
+
 }

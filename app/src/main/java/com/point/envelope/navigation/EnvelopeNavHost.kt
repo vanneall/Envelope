@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.auth.registration.presenter.mvi.RegistrationViewModel
+import com.point.auth.registration.presenter.ui.RegistrationScreen
 import com.point.chats.create.presenter.ui.ContactsScreen
 import com.point.chats.create.presenter.viewmodel.CreateChatViewModel
 import com.point.chats.main.ui.ChatsScreen
@@ -34,18 +36,22 @@ fun EnvelopeNavHost(navHostController: NavHostController, modifier: Modifier) {
 
             AuthorizationScreen(
                 state = viewModel.composableState.value,
+                onNavigate = { navHostController.navigate(Screen.Registration) },
                 onAction = viewModel::emitAction,
                 modifier = Modifier.fillMaxSize(),
             )
         }
 
         composable<Screen.Registration> {
-            Box(
+
+            val viewModel = hiltViewModel<RegistrationViewModel>()
+
+            RegistrationScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                onNavigate = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Registration")
-            }
+            )
         }
 
         composable<Screen.Chat> {

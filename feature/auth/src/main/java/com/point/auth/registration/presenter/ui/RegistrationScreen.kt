@@ -36,6 +36,7 @@ import com.point.ui.TextFieldContainerColor
 @Composable
 fun RegistrationScreen(
     state: RegState,
+    onNavigate: () -> Unit,
     onAction: (RegAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -90,10 +91,10 @@ fun RegistrationScreen(
         )
 
         CredentialsTextField(
-            value = state.login,
+            value = state.password,
             onValueChanged = { onAction(OnPasswordInput(it)) },
             onClear = { onAction(OnPasswordClear) },
-            label = { Text(stringResource(R.string.name_label)) },
+            label = { Text(stringResource(R.string.password_label)) },
             isError = state.isInvalidCredentials,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -113,10 +114,10 @@ fun RegistrationScreen(
         )
 
         CredentialsTextField(
-            value = state.login,
-            onValueChanged = { onAction(OnPasswordInput(it)) },
-            onClear = { onAction(OnPasswordClear) },
-            label = { Text(stringResource(R.string.password_label)) },
+            value = state.name,
+            onValueChanged = { onAction(OnNameInput(it)) },
+            onClear = { onAction(OnNameClear) },
+            label = { Text(stringResource(R.string.name_label)) },
             isError = state.isInvalidCredentials,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
@@ -132,7 +133,7 @@ fun RegistrationScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            {},
+            { onAction(OnRegistration) },
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = TextFieldContainerColor,
                 contentColor = Color.Black,
