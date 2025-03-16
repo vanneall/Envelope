@@ -30,6 +30,7 @@ class NetworkModule {
         isLenient = true
     }
 
+    
     @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
