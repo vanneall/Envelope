@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
+    implementation(project(":core:utils"))
     api(project(":core:network"))
 
     // Timber
