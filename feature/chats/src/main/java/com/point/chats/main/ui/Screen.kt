@@ -40,7 +40,7 @@ import com.point.chats.main.viewmodel.Chat
 import com.point.chats.main.viewmodel.ChatAction
 import com.point.chats.main.viewmodel.ChatEvents
 import com.point.chats.main.viewmodel.ChatsState
-import com.point.ui.AccentColor
+import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -63,7 +63,7 @@ fun ChatsScreen(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .background(AccentColor, shape = RoundedCornerShape(16.dp))
+                    .background(Theme.colorScheme.accent, shape = RoundedCornerShape(16.dp))
                     .clickable { onNavigate() }
                     .padding(8.dp)
             )
@@ -176,31 +176,31 @@ fun ChatScreenPreview() {
                 Chat(
                     id = "1",
                     name = "My dialog",
-                    image = AccentColor,
+                    image = Theme.colorScheme.accent,
                     lastMessage = "It's my last very very very big message in this dialog"
                 ),
                 Chat(
                     id = "2",
                     name = "My dialog",
-                    image = AccentColor,
+                    image = Theme.colorScheme.accent,
                     lastMessage = "It's my last message in this dialog"
                 ),
                 Chat(
                     id = "3",
                     name = "My dialog",
-                    image = AccentColor,
+                    image = Theme.colorScheme.accent,
                     lastMessage = "It's my last message in this dialog"
                 ),
                 Chat(
                     id = "4",
                     name = "My dialog",
-                    image = AccentColor,
+                    image = Theme.colorScheme.accent,
                     lastMessage = "It's my last message in this dialog"
                 ),
                 Chat(
                     id = "5",
                     name = "My dialog",
-                    image = AccentColor,
+                    image = Theme.colorScheme.accent,
                     lastMessage = "It's my last message in this dialog"
                 )
             )

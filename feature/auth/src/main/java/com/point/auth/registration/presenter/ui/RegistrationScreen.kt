@@ -30,7 +30,7 @@ import com.point.auth.registration.presenter.mvi.RegAction.Action.*
 import com.point.auth.authorization.presenter.ui.CredentialsTextField
 import com.point.auth.registration.presenter.mvi.RegAction
 import com.point.auth.registration.presenter.mvi.RegState
-import com.point.ui.TextFieldContainerColor
+import com.point.ui.Theme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -135,10 +135,10 @@ fun RegistrationScreen(
         Button(
             { onAction(OnRegistration) },
             colors = ButtonDefaults.buttonColors().copy(
-                containerColor = TextFieldContainerColor,
+                containerColor = Theme.colorScheme.surface,
                 contentColor = Color.Black,
                 disabledContentColor = Color.Black,
-                disabledContainerColor = TextFieldContainerColor,
+                disabledContainerColor = Theme.colorScheme.disabled,
             ),
             modifier = Modifier
                 .fillMaxWidth()

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.point.chats.dialog.viewmodel.ChatDialogAction
 import com.point.chats.dialog.viewmodel.ChatDialogState
 import com.point.chats.dialog.viewmodel.Message
-import com.point.ui.AccentColor
+import com.point.ui.Theme
 
 @Composable
 fun ChatDialog(
@@ -74,6 +74,6 @@ fun Message(message: Message, modifier: Modifier = Modifier) {
     Text(
         text = message.content,
         color = Color.Black,
-        modifier = modifier.background(color = AccentColor, shape = RoundedCornerShape(8.dp)),
+        modifier = modifier.background(color = Theme.colorScheme.accent, shape = RoundedCornerShape(8.dp)),
     )
 }

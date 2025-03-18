@@ -40,7 +40,7 @@ import com.point.chats.create.presenter.viewmodel.CreateChatAction
 import com.point.chats.create.presenter.viewmodel.CreateChatEvent
 import com.point.chats.create.presenter.viewmodel.CreateChatState
 import com.point.chats.main.ui.UserPhoto
-import com.point.ui.AccentColor
+import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -63,7 +63,7 @@ fun ContactsScreen(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .background(AccentColor, shape = RoundedCornerShape(16.dp))
+                    .background(Theme.colorScheme.accent, shape = RoundedCornerShape(16.dp))
                     .clickable { onNavigate() }
                     .padding(8.dp)
             )

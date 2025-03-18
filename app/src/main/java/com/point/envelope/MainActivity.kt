@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.point.envelope.navigation.EnvelopeNavHost
 import com.point.envelope.navigation.Screen
-import com.point.envelope.ui.theme.EnvelopeTheme
+import com.point.ui.EnvelopeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

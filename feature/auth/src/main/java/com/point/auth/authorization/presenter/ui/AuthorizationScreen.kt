@@ -39,11 +39,8 @@ import androidx.compose.ui.unit.sp
 import com.point.auth.R
 import com.point.auth.authorization.presenter.mvi.AuthAction
 import com.point.auth.authorization.presenter.mvi.AuthState
-import com.point.ui.TextFieldContainerColor
-import com.point.ui.TextFieldLabelColor
 import com.point.auth.authorization.presenter.mvi.AuthAction.Action.*
-import com.point.ui.AccentColor
-import com.point.ui.AlertColor
+import com.point.ui.Theme
 
 @Composable
 fun AuthorizationScreen(
@@ -117,7 +114,7 @@ fun AuthorizationScreen(
 
         Text(
             text = stringResource(R.string.forget_password),
-            color = AccentColor,
+            color = Theme.colorScheme.accent,
             fontSize = 12.sp,
             modifier = Modifier.padding(start = 4.dp)
         )
@@ -144,10 +141,10 @@ fun AuthorizationScreen(
         Button(
             onClick = { onNavigate() },
             colors = ButtonDefaults.buttonColors().copy(
-                containerColor = TextFieldContainerColor,
+                containerColor = Theme.colorScheme.surface,
                 contentColor = Color.Black,
                 disabledContentColor = Color.Black,
-                disabledContainerColor = TextFieldContainerColor,
+                disabledContainerColor = Theme.colorScheme.disabled,
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -192,19 +189,19 @@ fun CredentialsTextField(
         singleLine = true,
         shape = RoundedCornerShape(12.dp),
         colors = TextFieldDefaults.colors().copy(
-            focusedContainerColor = TextFieldContainerColor,
-            unfocusedContainerColor = TextFieldContainerColor,
-            errorContainerColor = TextFieldContainerColor,
-            disabledContainerColor = TextFieldContainerColor,
-            focusedIndicatorColor = Color.Transparent,
-            errorIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            unfocusedLabelColor = TextFieldLabelColor,
-            focusedLabelColor = TextFieldLabelColor,
-            errorLabelColor = AlertColor,
-            errorTrailingIconColor = AlertColor,
-            errorCursorColor = AlertColor,
+//            focusedContainerColor = TextFieldContainerColor,
+//            unfocusedContainerColor = TextFieldContainerColor,
+//            errorContainerColor = TextFieldContainerColor,
+//            disabledContainerColor = TextFieldContainerColor,
+//            focusedIndicatorColor = Color.Transparent,
+//            errorIndicatorColor = Color.Transparent,
+//            disabledIndicatorColor = Color.Transparent,
+//            unfocusedIndicatorColor = Color.Transparent,
+//            unfocusedLabelColor = TextFieldLabelColor,
+//            focusedLabelColor = TextFieldLabelColor,
+//            errorLabelColor = AlertColor,
+//            errorTrailingIconColor = AlertColor,
+//            errorCursorColor = AlertColor,
         ),
         label = label,
         keyboardOptions = keyboardOptions,
