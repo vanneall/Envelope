@@ -46,6 +46,9 @@ dependencies {
     implementation(project(":core:utils"))
     api(project(":core:network"))
 
+    // Coil
+    implementation(libs.coil.compose)
+    
     // Timber
     implementation(libs.timber)
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,9 +18,13 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.point.envelope.navigation.EnvelopeNavHost
 import com.point.envelope.navigation.Screen
 import com.point.ui.EnvelopeTheme
+import com.point.ui.Theme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,15 +50,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val scrollBehavior =
-                TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
             val selectedItemIndex = rememberSaveable { mutableIntStateOf(0) }
+            val appBarState = remember { mutableStateOf(TopAppBarState2("")) }
             EnvelopeTheme {
                 Scaffold(
                     topBar = {
-                        EnvelopeTopAppBar(
-                            navController = navController,
-                            scrollBehavior = scrollBehavior,
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    text = appBarState.value.text,
+                                    style = Theme.typography.headlineM,
+                                    color = Theme.colorScheme.textPrimary,
+                                )
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = Theme.colorScheme.background,
+                            )
                         )
                     },
                     bottomBar = {
@@ -92,7 +105,8 @@ class MainActivity : ComponentActivity() {
                         navHostController = navController,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(innerPadding)
+                            .padding(innerPadding),
+                        topAppBarState = appBarState,
                     )
                 }
             }

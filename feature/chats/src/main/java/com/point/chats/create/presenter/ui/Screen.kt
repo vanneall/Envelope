@@ -155,7 +155,6 @@ private fun ChatComposable(contact: Contact, modifier: Modifier = Modifier) {
             .padding(vertical = 8.dp),
     ) {
         UserPhoto(
-            color = contact.image,
             modifier = Modifier.size(40.dp)
         )
 
