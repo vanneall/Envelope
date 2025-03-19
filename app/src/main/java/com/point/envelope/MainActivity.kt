@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,12 +15,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +33,7 @@ import com.point.envelope.navigation.EnvelopeNavHost
 import com.point.envelope.navigation.Screen
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
+import com.point.ui.colors.White
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,6 +70,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         NavigationBar(
                             modifier = Modifier.fillMaxWidth(),
+                            containerColor = Theme.colorScheme.background,
                         ) {
                             bottomNavList.forEachIndexed { index, item ->
                                 val selected = index == selectedItemIndex.intValue
@@ -95,11 +95,16 @@ class MainActivity : ComponentActivity() {
                                             contentDescription = null
                                         )
                                     },
+                                    colors = NavigationBarItemDefaults.colors(
+                                        indicatorColor = Theme.colorScheme.accent,
+                                        selectedIconColor = White,
+                                    )
                                 )
                             }
                         }
                     },
                     modifier = Modifier.fillMaxSize(),
+                    containerColor = Theme.colorScheme.background,
                 ) { innerPadding ->
                     EnvelopeNavHost(
                         navHostController = navController,
