@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_profile_settings">Edit profile</string>
+    <string name="requests_settings">My requests</string>
+    <string name="contacts_settings">Contacts</string>
+    
+    <string name="storage_settings">Storage</string>
+    <string name="battery_settings">Battery and optimization</string>
+    <string name="theme_settings">App theme</string>
+    
+    <string name="exit_settings">Exit</string>
+</resources>

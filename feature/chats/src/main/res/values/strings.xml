@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="chats_host_screen_title">Chats</string>
+    <string name="settings_screen_title">Settings</string>
 </resources>

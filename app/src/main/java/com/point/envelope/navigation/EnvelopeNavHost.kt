@@ -1,11 +1,8 @@
 package com.point.envelope.navigation
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,6 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.settings.main.ui.MainSettingsScreen
+import com.example.settings.main.viewmodel.SettingsViewModel
 import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
 import com.point.auth.registration.presenter.mvi.RegistrationViewModel
@@ -97,12 +96,16 @@ fun EnvelopeNavHost(
         }
 
         composable<Screen.Profile> {
-            Box(
+            topAppBarState.value =
+                TopAppBarState2(text = stringResource(R.string.settings_screen_title))
+            
+            val viewModel = hiltViewModel<SettingsViewModel>()
+
+            MainSettingsScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Profile")
-            }
+                )
         }
 
         composable<Screen.CreateNewChat> {

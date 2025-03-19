@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_profile_settings">Редактировать профиль</string>
+    <string name="requests_settings">Заявки</string>
+    <string name="contacts_settings">Контакты</string>
+    
+    <string name="storage_settings">Данные и память</string>
+    <string name="battery_settings">Батарея</string>
+    <string name="theme_settings">Оформление</string>
+
+    <string name="exit_settings">Выйти из аккаунта</string>
+</resources>
