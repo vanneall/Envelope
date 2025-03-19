@@ -1,6 +1,5 @@
 package com.point.envelope.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -10,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,17 +17,15 @@ import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
 import com.point.auth.registration.presenter.mvi.RegistrationViewModel
 import com.point.auth.registration.presenter.ui.RegistrationScreen
+import com.point.chats.R
 import com.point.chats.create.presenter.ui.ContactsScreen
 import com.point.chats.create.presenter.viewmodel.CreateChatViewModel
 import com.point.chats.dialog.ui.ChatDialog
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
-import com.point.chats.main.viewmodel.Chat
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.contacts.search.presenter.ui.SearchContactScreen
 import com.point.contacts.search.presenter.viewmodel.SearchContactsViewModel
-import com.point.chats.R
-import com.point.envelope.TopAppBarState
 import com.point.envelope.TopAppBarState2
 
 @Composable

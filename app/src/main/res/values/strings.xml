@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Envelope</string>
+    <string name="chats_screen">Chats</string>
+    <string name="settings_screen">Settings</string>
 </resources>

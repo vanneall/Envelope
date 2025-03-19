@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
@@ -84,7 +86,7 @@ class MainActivity : ComponentActivity() {
                                     },
                                     label = {
                                         Text(
-                                            text = item.text,
+                                            text = stringResource(item.textId),
                                             fontSize = 14.sp,
                                             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
                                         )
@@ -120,7 +122,8 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class BottomBarItem(
-    val text: String,
+    @StringRes
+    val textId: Int,
     val screen: Screen,
     private val selectedIcon: ImageVector,
     private val unselectedIcon: ImageVector,
@@ -129,17 +132,16 @@ sealed class BottomBarItem(
     fun icon(selected: Boolean) = if (selected) selectedIcon else unselectedIcon
 
     data object AllChats : BottomBarItem(
-        text = "Chats",
+        textId = R.string.chats_screen,
         selectedIcon = Icons.AutoMirrored.Filled.Message,
         unselectedIcon = Icons.AutoMirrored.Default.Message,
         screen = Screen.AllChats,
     )
 
     data object Profile : BottomBarItem(
-        text = "Profile",
-        selectedIcon = Icons.Default.Person,
-        unselectedIcon = Icons.Outlined.Person,
-        screen = Screen.Profile
+        textId = R.string.settings_screen,
+        selectedIcon = Icons.Default.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
+        screen = Screen.Profile,
     )
-
 }
