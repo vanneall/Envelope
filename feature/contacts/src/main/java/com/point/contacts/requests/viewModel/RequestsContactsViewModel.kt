@@ -35,7 +35,7 @@ class RequestsContactsViewModel @Inject constructor(
 
     override fun reduce(action: RequestsAction, state: RequestsState) = when (action) {
 
-        is RequestsAction.Refresh -> state.copy(isRefreshing = true)
+        is RequestsAction.Refresh -> state.copy(isRefreshing = true, isRefreshingEnabled = true)
 
         is RequestsAction.LoadUserContacts -> state.copy(
             contacts = action.contacts.map {
@@ -46,6 +46,8 @@ class RequestsContactsViewModel @Inject constructor(
                 )
             },
             isRefreshing = false,
+            isRefreshingEnabled = true,
+            isInitialLoading = false,
         )
 
         is RequestsAction.RequestHandledSuccessfully -> state.copy(

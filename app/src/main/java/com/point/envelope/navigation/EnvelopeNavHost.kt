@@ -1,5 +1,13 @@
 package com.point.envelope.navigation
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -79,7 +87,12 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Registration> {
+        composable<Screen.Registration>(
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             val focusManager = LocalFocusManager.current
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -110,7 +123,12 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Chat> {
+        composable<Screen.Chat>(
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             bottomBarState.value = BottomBarState(true)
             val args = it.toRoute<Screen.Chat>()
 
@@ -126,7 +144,23 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.AllChats> {
+        composable<Screen.AllChats>(
+            enterTransition = {
+                slideInVertically(
+                    initialOffsetY = { it / 2 }
+                ) + scaleIn(
+                    initialScale = 0.85f,
+                    animationSpec = tween(200, easing = FastOutSlowInEasing)
+                ) + fadeIn(
+                    animationSpec = tween(200)
+                )
+            },
+            exitTransition = {
+                fadeOut(animationSpec = tween(0))
+            },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             val focusManager = LocalFocusManager.current
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -147,7 +181,21 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Profile> {
+        composable<Screen.Profile>(
+            enterTransition = {
+                slideInVertically(
+                    initialOffsetY = { it / 2 }
+                ) + scaleIn(
+                    initialScale = 0.85f,
+                    animationSpec = tween(200, easing = FastOutSlowInEasing)
+                ) + fadeIn(
+                    animationSpec = tween(200)
+                )
+            },
+            exitTransition = { fadeOut(animationSpec = tween(0)) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             bottomBarState.value = BottomBarState(true)
             topAppBarState.value =
                 TopAppBarState2(text = stringResource(R.string.settings_screen_title))
@@ -176,7 +224,21 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Contacts> {
+        composable<Screen.Contacts>(
+            enterTransition = {
+                slideInVertically(
+                    initialOffsetY = { it / 2 }
+                ) + scaleIn(
+                    initialScale = 0.85f,
+                    animationSpec = tween(200, easing = FastOutSlowInEasing)
+                ) + fadeIn(
+                    animationSpec = tween(200)
+                )
+            },
+            exitTransition = { fadeOut(animationSpec = tween(0)) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.contacts_screen_title),
                 actions = listOf(
@@ -196,11 +258,16 @@ fun EnvelopeNavHost(
             ContactsScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),/**/
             )
         }
 
-        composable<Screen.SearchContacts> {
+        composable<Screen.SearchContacts>(
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.search_screen_title),
                 isBackVisible = true,
@@ -216,7 +283,12 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.NotificationContacts> {
+        composable<Screen.NotificationContacts>(
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.search_requests_title),
                 isBackVisible = true,

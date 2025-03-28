@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-28T18:18:15.402552100Z">
+        <DropdownSelection timestamp="2025-03-28T19:30:12.272686600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\defox\.android\avd\Pixel_9_API_35.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=2A311FDH2008PV" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -17,6 +17,12 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="EnvelopeOutlinedTextFieldPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="pre">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="p">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

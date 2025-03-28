@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":feature:chats"))
     implementation(project(":feature:contacts"))
+    implementation(libs.androidx.animation.core.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 

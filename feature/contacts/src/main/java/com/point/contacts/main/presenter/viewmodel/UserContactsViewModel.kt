@@ -20,6 +20,7 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
             contactsRepository.fetchUserContacts()
                 .fold(
                     onSuccess = {
+                        delay(1500)
                         Timber.tag(TAG).i("fetch success")
                         emitAction(ContactsActions.LoadUserContacts(it))
                     },
@@ -40,8 +41,14 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
                 )
             },
             isRefreshing = false,
+            isRefreshingEnabled = true,
+            isInitialLoading = false,
         )
-        ContactsActions.Refresh -> state.copy(isRefreshing = true)
+
+        ContactsActions.Refresh -> state.copy(
+            isRefreshing = true,
+            isRefreshingEnabled = false,
+        )
     }
 
     private fun handleRefresh() {

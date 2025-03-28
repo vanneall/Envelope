@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.retrofit.adapters.result)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
+    // Compose Shimmer
+    implementation("com.valentinilk.shimmer:compose-shimmer:1.3.2")
+
     // Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

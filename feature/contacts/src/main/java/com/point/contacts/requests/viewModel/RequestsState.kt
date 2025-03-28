@@ -6,4 +6,6 @@ data class RequestsState(
     val query: String = "",
     val contacts: List<Contact> = emptyList(),
     val isRefreshing: Boolean = false,
+    val isRefreshingEnabled: Boolean = false,
+    val isInitialLoading: Boolean = true,
 )

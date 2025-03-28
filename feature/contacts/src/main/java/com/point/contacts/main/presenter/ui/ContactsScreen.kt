@@ -1,5 +1,6 @@
 package com.point.contacts.main.presenter.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -14,14 +15,20 @@ fun ContactsScreen(
     modifier: Modifier = Modifier,
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
-    SwipeRefresh(
-        state = swipeRefreshState,
-        onRefresh = { onAction(ContactsActions.Refresh) }
-    ) {
-        ContactsScreenContent(
-            state = state,
-            onAction = onAction,
-            modifier = modifier,
-        )
+
+    if (state.isInitialLoading) {
+        ContactsInitialLoading(modifier = Modifier.fillMaxWidth(),)
+    } else {
+        SwipeRefresh(
+            state = swipeRefreshState,
+            swipeEnabled = state.isRefreshingEnabled,
+            onRefresh = { onAction(ContactsActions.Refresh) }
+        ) {
+            ContactsScreenContent(
+                state = state,
+                onAction = onAction,
+                modifier = modifier,
+            )
+        }
     }
 }

@@ -5,6 +5,8 @@ import androidx.compose.ui.graphics.Color
 data class ContactState(
     val contacts: List<Contact> = emptyList(),
     val isRefreshing: Boolean = false,
+    val isRefreshingEnabled: Boolean = false,
+    val isInitialLoading: Boolean = true,
     val search: String = "",
     val isError: Boolean = false,
 )
