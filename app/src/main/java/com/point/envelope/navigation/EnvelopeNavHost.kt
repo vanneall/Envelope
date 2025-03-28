@@ -34,6 +34,8 @@ import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.contacts.main.presenter.ui.ContactsScreen
 import com.point.contacts.main.presenter.viewmodel.UserContactsViewModel
+import com.point.contacts.requests.ui.UserRequestsScreen
+import com.point.contacts.requests.viewModel.RequestsContactsViewModel
 import com.point.contacts.search.ui.SearchUsersScreen
 import com.point.contacts.search.viewModel.SearchContactsViewModel
 import com.point.envelope.BottomBarState
@@ -184,7 +186,7 @@ fun EnvelopeNavHost(
                     ),
                     TopBarAction(
                         icon = Icons.Default.Notifications,
-                        action = {},
+                        action = { navHostController.navigate(Screen.NotificationContacts) },
                     )
                 )
             )
@@ -208,6 +210,22 @@ fun EnvelopeNavHost(
             val viewModel = hiltViewModel<SearchContactsViewModel>()
 
             SearchUsersScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+
+        composable<Screen.NotificationContacts> {
+            topAppBarState.value = TopAppBarState2(
+                text = stringResource(com.point.contacts.R.string.search_requests_title),
+                isBackVisible = true,
+                onBackClick = { navHostController.popBackStack() },
+            )
+            bottomBarState.value = BottomBarState(true)
+            val viewModel = hiltViewModel<RequestsContactsViewModel>()
+
+            UserRequestsScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
                 modifier = Modifier.fillMaxSize(),

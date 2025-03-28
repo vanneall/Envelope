@@ -16,6 +16,7 @@ class SearchContactsViewModel @Inject constructor(
 
     init {
         handleOnNameTyped()
+        handleSendRequest()
     }
 
     override fun reduce(action: SearchContactsAction, state: SearchContactsState) = when (action) {
@@ -30,6 +31,8 @@ class SearchContactsViewModel @Inject constructor(
                 )
             },
         )
+
+        is SearchContactsAction.SendRequest -> state
     }
 
     private fun handleOnNameTyped() {
@@ -39,6 +42,15 @@ class SearchContactsViewModel @Inject constructor(
                     Timber.tag(TAG).i("fetch success")
                     emitAction(SearchContactsAction.LoadUserContacts(it))
                 },
+                onFailure = { it.printStackTrace() }
+            )
+        }
+    }
+
+    private fun handleSendRequest() {
+        handleAction<SearchContactsAction.SendRequest> { action ->
+            contactsRepository.sendRequest(action.userId).fold(
+                onSuccess = { Timber.tag(TAG).i("send request success") },
                 onFailure = { it.printStackTrace() }
             )
         }

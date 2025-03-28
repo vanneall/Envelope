@@ -2,7 +2,6 @@ package com.point.auth.registration.presenter.mvi
 
 
 import android.util.Log
-import com.point.auth.authorization.data.UserRegistrationRequest
 import com.point.auth.authorization.domain.AuthorizeUseCase
 import com.point.auth.registration.presenter.credentials.CredentialsViewModel
 import com.point.auth.registration.presenter.profile.RegistrationProfileViewModel
@@ -60,7 +59,10 @@ class RegistrationViewModel @Inject constructor(
                     status = userData.status,
                     about = userData.about,
                 )
-            ).onSuccess { emitEvent(RegEvent.NavigateToMainScreen) }
+            ).fold(
+                onSuccess = { emitEvent(RegEvent.NavigateToMainScreen) },
+                onFailure = { it.printStackTrace() }
+            )
         }
     }
 }

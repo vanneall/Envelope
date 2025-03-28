@@ -3,4 +3,6 @@
     <string name="contacts_screen_title">Контакты</string>
 
     <string name="search_screen_title">Поиск</string>
+
+    <string name="search_requests_title">Заявки</string>
 </resources>

@@ -27,4 +27,7 @@ sealed interface Screen {
 
     @Serializable
     data object SearchContacts : Screen
+
+    @Serializable
+    data object NotificationContacts : Screen
 }
