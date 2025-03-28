@@ -57,6 +57,9 @@ dependencies {
     implementation(libs.retrofit.adapters.result)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
+    // Foundation
+    implementation("androidx.compose.foundation:foundation:1.7.8")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

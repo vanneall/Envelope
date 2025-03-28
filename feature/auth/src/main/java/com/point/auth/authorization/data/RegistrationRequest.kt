@@ -9,10 +9,14 @@ data class UserRegistrationRequest(
     val username: String,
     @SerialName("password")
     val password: String,
-    @SerialName("telephone")
-    val telephone: String? = null,
-    @SerialName("email")
-    val email: String? = null,
+    @SerialName("name")
+    val name: String,
+    @SerialName("status")
+    val status: String? = null,
+    @SerialName("about_user")
+    val aboutUser: String? = null,
+    @SerialName("birth_date")
+    val birthDate: String,
     @SerialName("is_dev")
-    val isDeveloper: Boolean = true,
+    val isDeveloper: Boolean = false
 )

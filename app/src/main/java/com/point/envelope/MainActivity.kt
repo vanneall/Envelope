@@ -5,11 +5,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.point.envelope.navigation.EnvelopeNavHost
@@ -53,6 +61,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val selectedItemIndex = rememberSaveable { mutableIntStateOf(0) }
             val appBarState = remember { mutableStateOf(TopAppBarState2("")) }
+            val bottomBarState = remember { mutableStateOf(BottomBarState(false)) }
             EnvelopeTheme {
                 Scaffold(
                     topBar = {
@@ -62,7 +71,21 @@ class MainActivity : ComponentActivity() {
                                     text = appBarState.value.text,
                                     style = Theme.typography.headlineM,
                                     color = Theme.colorScheme.textPrimary,
+                                    modifier = Modifier.padding(start = 12.dp)
                                 )
+                            },
+                            navigationIcon = {
+                                if (appBarState.value.isBackVisible) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(start = 8.dp)
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                            .clickable { appBarState.value.onBackClick() }
+                                    )
+                                }
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = Theme.colorScheme.background,
@@ -70,38 +93,40 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        NavigationBar(
-                            modifier = Modifier.fillMaxWidth(),
-                            containerColor = Theme.colorScheme.background,
-                        ) {
-                            bottomNavList.forEachIndexed { index, item ->
-                                val selected = index == selectedItemIndex.intValue
-                                NavigationBarItem(
-                                    selected = selected,
-                                    onClick = {
-                                        if (selectedItemIndex.intValue == index) return@NavigationBarItem
+                        if (bottomBarState.value.isVisible) {
+                            NavigationBar(
+                                modifier = Modifier.fillMaxWidth(),
+                                containerColor = Theme.colorScheme.background,
+                            ) {
+                                bottomNavList.forEachIndexed { index, item ->
+                                    val selected = index == selectedItemIndex.intValue
+                                    NavigationBarItem(
+                                        selected = selected,
+                                        onClick = {
+                                            if (selectedItemIndex.intValue == index) return@NavigationBarItem
 
-                                        selectedItemIndex.intValue = index
-                                        navController.navigate(item.screen)
-                                    },
-                                    label = {
-                                        Text(
-                                            text = stringResource(item.textId),
-                                            fontSize = 14.sp,
-                                            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                                            selectedItemIndex.intValue = index
+                                            navController.navigate(item.screen)
+                                        },
+                                        label = {
+                                            Text(
+                                                text = stringResource(item.textId),
+                                                fontSize = 14.sp,
+                                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                                            )
+                                        },
+                                        icon = {
+                                            Icon(
+                                                imageVector = item.icon(selected),
+                                                contentDescription = null
+                                            )
+                                        },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            indicatorColor = Theme.colorScheme.accent,
+                                            selectedIconColor = White,
                                         )
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = item.icon(selected),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    colors = NavigationBarItemDefaults.colors(
-                                        indicatorColor = Theme.colorScheme.accent,
-                                        selectedIconColor = White,
                                     )
-                                )
+                                }
                             }
                         }
                     },
@@ -114,6 +139,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxWidth()
                             .padding(innerPadding),
                         topAppBarState = appBarState,
+                        bottomBarState = bottomBarState,
                     )
                 }
             }

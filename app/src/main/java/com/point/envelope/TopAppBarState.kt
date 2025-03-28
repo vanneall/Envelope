@@ -9,10 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 @Stable
 class TopAppBarState(val composable: @Composable () -> Unit = {})
 
-data class TopAppBarState2(val text: String)
+data class TopAppBarState2(
+    val text: String,
+    val isBackVisible: Boolean = false,
+    val onBackClick: () -> Unit = {},
+)
 
 @Immutable
-data class BottomBarState(val composable: @Composable () -> Unit = {})
+data class BottomBarState(val isVisible: Boolean)
 
 data class FabState(
     val composable: @Composable () -> Unit = {},

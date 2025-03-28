@@ -2,4 +2,6 @@
 <resources>
     <string name="chats_host_screen_title">Чаты</string>
     <string name="settings_screen_title">Настройки</string>
+    <string name="settings_authorization_title">Авторизация</string>
+    <string name="registration_screen_title">Регистрация</string>
 </resources>

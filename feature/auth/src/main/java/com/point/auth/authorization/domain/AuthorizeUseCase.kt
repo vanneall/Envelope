@@ -3,6 +3,7 @@ package com.point.auth.authorization.domain
 import com.point.auth.authorization.data.AuthRequest
 import com.point.auth.authorization.data.AuthorizationRepository
 import com.point.auth.authorization.data.UserRegistrationRequest
+import com.point.auth.registration.presenter.mvi.UserRegistrationData
 import com.point.user.storage.UserStorage
 import com.skydoves.retrofit.adapters.result.foldSuspend
 
@@ -24,8 +25,8 @@ class AuthorizeUseCase(
             )
     }
 
-    suspend fun execute2(registrationRequest: UserRegistrationRequest): Result<Unit> {
-        return authorizationRepository.registration(registrationRequest = registrationRequest)
+    suspend fun execute2(registrationRequest: UserRegistrationData): Result<Unit> {
+        return authorizationRepository.registration(dto = registrationRequest)
             .foldSuspend(
                 onSuccess = { token ->
                     userStorage.token = token.token

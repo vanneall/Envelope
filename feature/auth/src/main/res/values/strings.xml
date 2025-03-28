@@ -9,5 +9,14 @@
 
     <string name="registration_title">Registration</string>
     <string name="name_label">Name</string>
+    <string name="status_label">Status</string>
+    <string name="about_label">About</string>
     <string name="registration_informer">By registering, you agree to the rules of the community.</string>
+    <string name="name_input_invite">Input your name</string>
+    <string name="status_input_invite">Specify your status so that other users can see it.</string>
+    <string name="about_user_input_invite">Tell us about yourself so that users are more familiar with you.</string>
+
+    <string name="login_input_invite">Create your own login in Envelope</string>
+    <string name="password_input_invite">Come up with a strong password</string>
+    <string name="repassword_input_invite">And also repeat it so that we can make sure that you haven\'t forgotten it.</string>
 </resources>

@@ -9,5 +9,14 @@
 
     <string name="registration_title">Регистрация</string>
     <string name="name_label">Имя</string>
+    <string name="status_label">Статус</string>
+    <string name="about_label">О себе</string>
     <string name="registration_informer">Регистрируясь, вы соглашаетесь с правилами сообщества.</string>
+    <string name="name_input_invite">Укажите свое имя</string>
+    <string name="status_input_invite">Укажите свой статус, чтобы его могли видеть другие пользователи.</string>
+    <string name="about_user_input_invite">Расскажите нам о себе, чтобы пользователи лучше узнали вас.</string>
+
+    <string name="login_input_invite">Создай свой логин в Envelope</string>
+    <string name="password_input_invite">Придумай надежный пароль</string>
+    <string name="repassword_input_invite">А также повтори его, чтобы мы убедились, что ты его не забыл</string>
 </resources>

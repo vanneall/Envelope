@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthorizationViewModel @Inject constructor(
     private val authorizeUseCase: AuthorizeUseCase,
-) : MviViewModel<AuthState, AuthAction, Any>(
+) : MviViewModel<AuthState, AuthAction, AuthEvent>(
     initialValue = AuthState()
 ) {
 
@@ -46,10 +46,13 @@ class AuthorizationViewModel @Inject constructor(
             authorizeUseCase.execute(
                 authRequest = AuthRequest(
                     username = state.login,
-                    password = state.password
+                    password = state.password,
                 )
             ).fold(
-                onSuccess = { Event.OnAuthorizationSuccess },
+                onSuccess = {
+                    emitEvent(AuthEvent.NavigateAllChats)
+                    Event.OnAuthorizationSuccess
+                },
                 onFailure = {
                     Log.e("mong", it.stackTraceToString())
                     Event.OnAuthorizationFailed
