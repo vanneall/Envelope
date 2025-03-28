@@ -45,6 +45,15 @@ dependencies {
     implementation(project(":core:user"))
     api(project(":core:network"))
 
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Timber
+    implementation(libs.timber)
+
+    // Swipe && refresh
+    implementation(libs.accompanist.swiperefresh)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

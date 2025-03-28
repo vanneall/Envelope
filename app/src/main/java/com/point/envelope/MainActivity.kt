@@ -6,17 +6,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.Message
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -54,7 +55,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val bottomNavList = listOf(
             BottomBarItem.AllChats,
-            BottomBarItem.Profile,
+            BottomBarItem.Contacts,
+            BottomBarItem.Settings,
         )
         enableEdgeToEdge()
         setContent {
@@ -85,6 +87,22 @@ class MainActivity : ComponentActivity() {
                                             .clip(CircleShape)
                                             .clickable { appBarState.value.onBackClick() }
                                     )
+                                }
+                            },
+                            actions = {
+                                appBarState.value.actions.forEach {
+                                    Icon(
+                                        imageVector = it.icon,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(32.dp)
+                                            .clip(CircleShape)
+                                            .clickable {
+                                                it.action()
+                                            }
+                                            .size(24.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
                                 }
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
@@ -124,6 +142,9 @@ class MainActivity : ComponentActivity() {
                                         colors = NavigationBarItemDefaults.colors(
                                             indicatorColor = Theme.colorScheme.accent,
                                             selectedIconColor = White,
+                                            selectedTextColor = Theme.colorScheme.accent,
+                                            unselectedIconColor = Theme.colorScheme.secondary,
+                                            unselectedTextColor = Theme.colorScheme.secondary,
                                         )
                                     )
                                 }
@@ -164,7 +185,14 @@ sealed class BottomBarItem(
         screen = Screen.AllChats,
     )
 
-    data object Profile : BottomBarItem(
+    data object Contacts : BottomBarItem(
+        textId = R.string.contacts_screen,
+        selectedIcon = Icons.Filled.SupervisedUserCircle,
+        unselectedIcon = Icons.Default.SupervisedUserCircle,
+        screen = Screen.Contacts,
+    )
+
+    data object Settings : BottomBarItem(
         textId = R.string.settings_screen,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Outlined.Settings,

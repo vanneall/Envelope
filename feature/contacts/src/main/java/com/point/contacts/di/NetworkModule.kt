@@ -1,6 +1,6 @@
-package com.point.contacts.search.di
+package com.point.contacts.di
 
-import com.point.contacts.search.data.ContactsService2
+import com.point.contacts.data.ContactsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ class NetworkModule {
 
     @Provides
     @ViewModelScoped
-    fun provideContactsService(retrofit: Retrofit) = retrofit.create<ContactsService2>()
+    fun provideContactsService(retrofit: Retrofit) = retrofit.create<ContactsService>()
 
 }

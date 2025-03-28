@@ -1,4 +1,4 @@
-package com.point.contacts.search.data.request
+package com.point.contacts.data.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

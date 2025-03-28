@@ -3,4 +3,5 @@
     <string name="app_name">Envelope</string>
     <string name="chats_screen">Чаты</string>
     <string name="settings_screen">Настройки</string>
+    <string name="contacts_screen">Контакты</string>
 </resources>

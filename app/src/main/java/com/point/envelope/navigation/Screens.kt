@@ -23,5 +23,8 @@ sealed interface Screen {
     data object CreateNewChat : Screen
 
     @Serializable
+    data object Contacts : Screen
+
+    @Serializable
     data object SearchContacts : Screen
 }

@@ -2,6 +2,9 @@ package com.point.envelope.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -29,10 +32,13 @@ import com.point.chats.dialog.ui.ChatDialog
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
-import com.point.contacts.search.presenter.ui.SearchContactScreen
-import com.point.contacts.search.presenter.viewmodel.SearchContactsViewModel
+import com.point.contacts.main.presenter.ui.ContactsScreen
+import com.point.contacts.main.presenter.viewmodel.UserContactsViewModel
+import com.point.contacts.search.ui.SearchUsersScreen
+import com.point.contacts.search.viewModel.SearchContactsViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
+import com.point.envelope.TopBarAction
 
 @Composable
 fun EnvelopeNavHost(
@@ -162,20 +168,48 @@ fun EnvelopeNavHost(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
                 events = viewModel.events,
-                onNavigate = { navHostController.navigate(Screen.SearchContacts) },
+                onNavigate = { navHostController.navigate(Screen.Contacts) },
                 onPopBackState = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
             )
         }
 
+        composable<Screen.Contacts> {
+            topAppBarState.value = TopAppBarState2(
+                text = stringResource(com.point.contacts.R.string.contacts_screen_title),
+                actions = listOf(
+                    TopBarAction(
+                        icon = Icons.Default.Search,
+                        action = { navHostController.navigate(Screen.SearchContacts) },
+                    ),
+                    TopBarAction(
+                        icon = Icons.Default.Notifications,
+                        action = {},
+                    )
+                )
+            )
+            bottomBarState.value = BottomBarState(true)
+            val viewModel = hiltViewModel<UserContactsViewModel>()
+
+            ContactsScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+
         composable<Screen.SearchContacts> {
+            topAppBarState.value = TopAppBarState2(
+                text = stringResource(com.point.contacts.R.string.search_screen_title),
+                isBackVisible = true,
+                onBackClick = { navHostController.popBackStack() },
+            )
             bottomBarState.value = BottomBarState(true)
             val viewModel = hiltViewModel<SearchContactsViewModel>()
 
-            SearchContactScreen(
+            SearchUsersScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
-                onPopBackState = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
             )
         }

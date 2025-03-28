@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contacts_screen_title">Контакты</string>
+
+    <string name="search_screen_title">Поиск</string>
+</resources>
