@@ -33,4 +33,8 @@ class ContactsRepository @Inject constructor(private val contactsService: Contac
     suspend fun fetchUserDataShort(username: String) = withContext(Dispatchers.IO) {
         contactsService.fetchUserInfoShort(username = username)
     }
+
+    suspend fun deleteUserFromFriends(username: String) = withContext(Dispatchers.IO) {
+        contactsService.deleteUserFromFriends(username)
+    }
 }

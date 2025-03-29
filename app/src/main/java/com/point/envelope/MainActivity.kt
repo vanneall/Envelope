@@ -6,12 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -78,31 +79,40 @@ class MainActivity : ComponentActivity() {
                             },
                             navigationIcon = {
                                 if (appBarState.value.isBackVisible) {
+                                    val interactionSource = remember { MutableInteractionSource() }
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                         contentDescription = null,
                                         modifier = Modifier
-                                            .padding(start = 8.dp)
-                                            .size(24.dp)
+                                            .size(40.dp)
                                             .clip(CircleShape)
-                                            .clickable { appBarState.value.onBackClick() }
+                                            .clickable(
+                                                interactionSource = interactionSource,
+                                                indication = rememberRipple(color = Color.Black),
+                                            ) {
+                                                appBarState.value.onBackClick()
+                                            }
+                                            .padding(8.dp)
                                     )
                                 }
                             },
                             actions = {
                                 appBarState.value.actions.forEach {
+                                    val interactionSource = remember { MutableInteractionSource() }
                                     Icon(
                                         imageVector = it.icon,
                                         contentDescription = null,
                                         modifier = Modifier
-                                            .size(32.dp)
+                                            .size(40.dp)
                                             .clip(CircleShape)
-                                            .clickable {
+                                            .clickable(
+                                                interactionSource = interactionSource,
+                                                indication = rememberRipple(color = Color.Black),
+                                            ) {
                                                 it.action()
                                             }
-                                            .size(24.dp)
+                                            .padding(8.dp)
                                     )
-                                    Spacer(modifier = Modifier.width(12.dp))
                                 }
                             },
                             colors = TopAppBarDefaults.topAppBarColors(

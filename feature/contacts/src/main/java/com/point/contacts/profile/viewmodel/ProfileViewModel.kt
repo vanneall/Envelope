@@ -29,9 +29,11 @@ class ProfileViewModel @AssistedInject constructor(
         }
 
         handleRefreshing()
+        deleteContact()
+        addContact()
     }
 
-    override fun reduce(action: ProfileAction, state: ProfileState) = when(action) {
+    override fun reduce(action: ProfileAction, state: ProfileState) = when (action) {
         ProfileAction.Refresh -> state.copy(isRefreshing = true, isRefreshingEnable = false)
 
         is ProfileAction.ProfileDataLoaded -> state.copy(
@@ -45,12 +47,45 @@ class ProfileViewModel @AssistedInject constructor(
             userInContacts = action.data.inContacts,
             userInSent = action.data.inSentRequests,
         )
+
+        ProfileAction.UserDeletedSuccessfully -> state.copy(
+            userInContacts = false,
+        )
+
+        ProfileAction.SentRequestSuccessfully -> state.copy(
+            userInSent = true,
+        )
+
+        is ProfileAction.DeleteFromContacts,
+        is ProfileAction.AddContact -> state
     }
 
     private fun handleRefreshing() {
         handleAction<ProfileAction.Refresh> {
             contactsRepository.fetchUserDataShort(username).fold(
                 onSuccess = { emitAction(ProfileAction.ProfileDataLoaded(it)) },
+                onFailure = { it.printStackTrace() }
+            )
+        }
+    }
+
+    private fun deleteContact() {
+        handleAction<ProfileAction.DeleteFromContacts> {
+            contactsRepository.deleteUserFromFriends(username).fold(
+                onSuccess = {
+                    emitAction(ProfileAction.UserDeletedSuccessfully)
+                },
+                onFailure = { it.printStackTrace() }
+            )
+        }
+    }
+
+    private fun addContact() {
+        handleAction<ProfileAction.AddContact> {
+            contactsRepository.sendRequest(username).fold(
+                onSuccess = {
+                    emitAction(ProfileAction.SentRequestSuccessfully)
+                },
                 onFailure = { it.printStackTrace() }
             )
         }

@@ -29,6 +29,7 @@ fun ProfileScreen(
         ) {
             ProfileScreenContent(
                 state = state,
+                onAction = onAction,
                 modifier = modifier.padding(horizontal = 8.dp),
             )
         }

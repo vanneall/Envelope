@@ -4,11 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -34,12 +35,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.point.contacts.R
+import com.point.contacts.profile.viewmodel.ProfileAction
 import com.point.contacts.profile.viewmodel.ProfileState
 import com.point.ui.Theme
 
 @Composable
 internal fun ProfileScreenContent(
     state: ProfileState,
+    onAction: (ProfileAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollableState = rememberScrollState()
@@ -47,11 +50,27 @@ internal fun ProfileScreenContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.verticalScroll(scrollableState),
     ) {
-        Box(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             UserAvatar(null, modifier = Modifier.size(120.dp))
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Text(
+                text = state.name,
+                style = Theme.typography.titleL,
+                color = Theme.colorScheme.textPrimary
+            )
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Text(
+                text = "@${state.username}",
+                style = Theme.typography.labelL,
+                color = Theme.colorScheme.textSecondary,
+            )
         }
 
         Row(
@@ -82,7 +101,7 @@ internal fun ProfileScreenContent(
                 ActionButton(
                     text = "Удалить",
                     icon = Icons.Default.PersonOff,
-                    onClick = {},
+                    onClick = { onAction(ProfileAction.DeleteFromContacts) },
                     modifier = Modifier
                         .defaultMinSize(minHeight = 60.dp)
                         .background(
@@ -98,7 +117,7 @@ internal fun ProfileScreenContent(
                 ActionButton(
                     text = "Добавить",
                     icon = Icons.Default.PersonAdd,
-                    onClick = {},
+                    onClick = { onAction(ProfileAction.AddContact) },
                     modifier = Modifier
                         .defaultMinSize(minHeight = 60.dp)
                         .background(
@@ -151,23 +170,7 @@ internal fun ProfileScreenContent(
                 .background(color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
                 .padding(12.dp)
         ) {
-            UserDescriptionItem(
-                title = stringResource(R.string.username),
-                description = "@${state.username}",
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            HorizontalDivider(modifier = Modifier.fillMaxWidth())
-
-            UserDescriptionItem(
-                title = stringResource(R.string.name),
-                description = state.name,
-                modifier = Modifier.fillMaxWidth()
-            )
-
             if (state.status != null) {
-                HorizontalDivider(modifier = Modifier.fillMaxWidth())
-
                 UserDescriptionItem(
                     title = stringResource(R.string.status),
                     description = state.status,
@@ -175,8 +178,11 @@ internal fun ProfileScreenContent(
                 )
             }
 
-            if (state.about != null) {
+            if (state.status != null && state.about != null) {
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
+            }
+
+            if (state.about != null) {
 
                 UserDescriptionItem(
                     title = stringResource(R.string.about),

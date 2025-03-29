@@ -8,4 +8,10 @@ sealed interface ProfileAction {
 
     data class ProfileDataLoaded(val data: UserInfoShortResponse) : ProfileAction
 
+    data object DeleteFromContacts : ProfileAction
+    data object UserDeletedSuccessfully : ProfileAction
+
+    data object AddContact : ProfileAction
+    data object SentRequestSuccessfully : ProfileAction
+
 }

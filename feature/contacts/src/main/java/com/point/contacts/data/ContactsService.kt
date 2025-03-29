@@ -4,6 +4,7 @@ import com.point.contacts.data.response.UserInfoShort
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.Path
@@ -31,6 +32,9 @@ interface ContactsService {
 
     @GET("/users/api-v2/{id}")
     suspend fun fetchUserInfoShort(@Path("id") username: String): Result<UserInfoShortResponse>
+
+    @DELETE("/users/api-v2/friends/{username}")
+    suspend fun deleteUserFromFriends(@Path("username") username: String): Result<Unit>
 
 }
 
