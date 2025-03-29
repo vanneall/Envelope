@@ -4,30 +4,39 @@ import kotlinx.serialization.Serializable
 
 sealed interface Screen {
 
-    @Serializable
-    data object Authorization : Screen
+    sealed interface Main : Screen {
 
-    @Serializable
-    data object Registration : Screen
+        @Serializable
+        data object AllChats : Main
 
-    @Serializable
-    data object AllChats : Screen
+        @Serializable
+        data object Profile : Main
 
-    @Serializable
-    data class Chat(val id: String) : Screen
+        @Serializable
+        data object Contacts : Main
+    }
 
-    @Serializable
-    data object Profile : Screen
+    sealed interface SubScreen : Screen {
 
-    @Serializable
-    data object CreateNewChat : Screen
+        @Serializable
+        data class Chat(val id: String) : SubScreen
 
-    @Serializable
-    data object Contacts : Screen
+        @Serializable
+        data object Authorization : SubScreen
 
-    @Serializable
-    data object SearchContacts : Screen
+        @Serializable
+        data object Registration : SubScreen
 
-    @Serializable
-    data object NotificationContacts : Screen
+        @Serializable
+        data object CreateNewChat : SubScreen
+
+        @Serializable
+        data object SearchContacts : SubScreen
+
+        @Serializable
+        data object NotificationContacts : SubScreen
+
+        @Serializable
+        data class UserProfile(val userId: String) : SubScreen
+    }
 }

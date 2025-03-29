@@ -12,6 +12,7 @@ import com.point.contacts.main.presenter.viewmodel.ContactsActions
 fun ContactsScreen(
     state: ContactState,
     onAction: (ContactsActions) -> Unit,
+    onNavigation: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
@@ -27,6 +28,7 @@ fun ContactsScreen(
             ContactsScreenContent(
                 state = state,
                 onAction = onAction,
+                onNavigation = onNavigation,
                 modifier = modifier,
             )
         }

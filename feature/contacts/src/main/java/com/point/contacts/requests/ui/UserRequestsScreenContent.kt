@@ -24,6 +24,7 @@ import com.point.contacts.requests.viewModel.RequestsState
 fun UserRequestsScreenContent(
     state: RequestsState,
     onAction: (RequestsAction) -> Unit,
+    onNavigation: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier.fillMaxWidth()) {
@@ -37,7 +38,9 @@ fun UserRequestsScreenContent(
             ) {
                 ContactComposable(
                     contact = contact,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onNavigation(contact.id) },
                 )
 
                 Icon(

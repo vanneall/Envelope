@@ -9,11 +9,13 @@ import com.point.contacts.search.viewModel.SearchContactsState
 fun SearchUsersScreen(
     state: SearchContactsState,
     onAction: (SearchContactsAction) -> Unit,
+    onNavigation: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SearchUsersScreenContent(
         state = state,
         onAction = onAction,
+        onNavigation = onNavigation,
         modifier = modifier,
     )
 }

@@ -28,6 +28,8 @@ class SearchContactsViewModel @Inject constructor(
                     id = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
+                    inContacts = it.inContacts,
+                    isSentRequest = it.inSentRequests,
                 )
             },
         )

@@ -16,4 +16,6 @@ data class Contact(
     val name: String = "",
     val status: String = "",
     val image: Color = Color.Gray,
+    val inContacts: Boolean = false,
+    val isSentRequest: Boolean = false,
 )

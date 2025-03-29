@@ -29,4 +29,8 @@ class ContactsRepository @Inject constructor(private val contactsService: Contac
     suspend fun sendRequest(userId: String) = withContext(Dispatchers.IO) {
         contactsService.patchSendRequest(FriendRequest(otherId = userId))
     }
+
+    suspend fun fetchUserDataShort(username: String) = withContext(Dispatchers.IO) {
+        contactsService.fetchUserInfoShort(username = username)
+    }
 }

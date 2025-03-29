@@ -5,4 +5,12 @@
     <string name="search_screen_title">Search</string>
 
     <string name="search_requests_title">Requests</string>
+
+    <string name="profile_title">Profile</string>
+
+    <string name="information">Information</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="about">About</string>
 </resources>

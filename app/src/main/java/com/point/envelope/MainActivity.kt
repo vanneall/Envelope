@@ -182,20 +182,20 @@ sealed class BottomBarItem(
         textId = R.string.chats_screen,
         selectedIcon = Icons.AutoMirrored.Filled.Message,
         unselectedIcon = Icons.AutoMirrored.Default.Message,
-        screen = Screen.AllChats,
+        screen = Screen.Main.AllChats,
     )
 
     data object Contacts : BottomBarItem(
         textId = R.string.contacts_screen,
         selectedIcon = Icons.Filled.SupervisedUserCircle,
         unselectedIcon = Icons.Default.SupervisedUserCircle,
-        screen = Screen.Contacts,
+        screen = Screen.Main.Contacts,
     )
 
     data object Settings : BottomBarItem(
         textId = R.string.settings_screen,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Outlined.Settings,
-        screen = Screen.Profile,
+        screen = Screen.Main.Profile,
     )
 }

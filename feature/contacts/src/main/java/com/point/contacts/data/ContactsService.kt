@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ContactsService {
@@ -28,10 +29,31 @@ interface ContactsService {
     @PATCH("/users/api-v2/requests")
     suspend fun patchSendRequest(@Body request: FriendRequest): Result<Unit>
 
+    @GET("/users/api-v2/{id}")
+    suspend fun fetchUserInfoShort(@Path("id") username: String): Result<UserInfoShortResponse>
+
 }
 
 @Serializable
 data class FriendRequest(
     @SerialName("friend_user_id")
     val otherId: String,
+)
+
+@Serializable
+data class UserInfoShortResponse(
+    @SerialName("username")
+    val username: String,
+    @SerialName("name")
+    val name: String,
+    @SerialName("status")
+    val status: String?,
+    @SerialName("about")
+    val about: String?,
+    @SerialName("photos")
+    val photos: List<Long>,
+    @SerialName("in_contacts")
+    val inContacts: Boolean,
+    @SerialName("in_sent_requests")
+    val inSentRequests: Boolean,
 )

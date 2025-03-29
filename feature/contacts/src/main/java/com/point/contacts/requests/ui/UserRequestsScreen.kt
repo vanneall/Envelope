@@ -13,6 +13,7 @@ import com.point.contacts.requests.viewModel.RequestsState
 fun UserRequestsScreen(
     state: RequestsState,
     onAction: (RequestsAction) -> Unit,
+    onNavigation: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
@@ -27,6 +28,7 @@ fun UserRequestsScreen(
             UserRequestsScreenContent(
                 state = state,
                 onAction = onAction,
+                onNavigation = onNavigation,
                 modifier = modifier,
             )
         }

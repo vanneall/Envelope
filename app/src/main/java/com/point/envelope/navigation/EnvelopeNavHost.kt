@@ -1,5 +1,6 @@
 package com.point.envelope.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -21,6 +22,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -42,6 +45,8 @@ import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.contacts.main.presenter.ui.ContactsScreen
 import com.point.contacts.main.presenter.viewmodel.UserContactsViewModel
+import com.point.contacts.profile.ui.content.ProfileScreen
+import com.point.contacts.profile.viewmodel.ProfileViewModel
 import com.point.contacts.requests.ui.UserRequestsScreen
 import com.point.contacts.requests.viewModel.RequestsContactsViewModel
 import com.point.contacts.search.ui.SearchUsersScreen
@@ -49,6 +54,8 @@ import com.point.contacts.search.viewModel.SearchContactsViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
 import com.point.envelope.TopBarAction
+import com.point.envelope.navigation.Screen.Main
+import com.point.envelope.navigation.Screen.SubScreen
 
 @Composable
 fun EnvelopeNavHost(
@@ -59,11 +66,11 @@ fun EnvelopeNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.Authorization,
+        startDestination = SubScreen.Authorization,
         modifier = modifier,
     ) {
 
-        composable<Screen.Authorization> {
+        subComposable<SubScreen.Authorization> {
             val focusManager = LocalFocusManager.current
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -77,8 +84,8 @@ fun EnvelopeNavHost(
 
             AuthorizationScreen(
                 state = viewModel.composableState.value,
-                onNavigate = { navHostController.navigate(Screen.Registration) },
-                onNavigateMain = { navHostController.navigate(Screen.AllChats) },
+                onNavigate = { navHostController.navigate(SubScreen.Registration) },
+                onNavigateMain = { navHostController.navigate(Main.AllChats) },
                 onAction = viewModel::emitAction,
                 events = viewModel.events,
                 modifier = Modifier
@@ -87,12 +94,7 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Registration>(
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        subComposable<Screen.SubScreen.Registration> {
             val focusManager = LocalFocusManager.current
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -112,7 +114,7 @@ fun EnvelopeNavHost(
             RegistrationHostScreen(
                 onAction = viewModel::emitAction,
                 events = viewModel.events,
-                onNavigateToMain = { navHostController.navigate(Screen.AllChats) },
+                onNavigateToMain = { navHostController.navigate(Main.AllChats) },
                 regProfileState = viewModel.regProfileViewModel.composableState.value,
                 regProfileAction = viewModel.regProfileViewModel::emitAction,
                 credentialsState = viewModel.credentialsViewModel.composableState.value,
@@ -123,14 +125,9 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.Chat>(
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        subComposable<SubScreen.Chat> {
             bottomBarState.value = BottomBarState(true)
-            val args = it.toRoute<Screen.Chat>()
+            val args = it.toRoute<SubScreen.Chat>()
 
             val viewModel: ChatDialogViewModel =
                 hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
@@ -144,23 +141,7 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.AllChats>(
-            enterTransition = {
-                slideInVertically(
-                    initialOffsetY = { it / 2 }
-                ) + scaleIn(
-                    initialScale = 0.85f,
-                    animationSpec = tween(200, easing = FastOutSlowInEasing)
-                ) + fadeIn(
-                    animationSpec = tween(200)
-                )
-            },
-            exitTransition = {
-                fadeOut(animationSpec = tween(0))
-            },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        mainComposable<Main.AllChats> {
             val focusManager = LocalFocusManager.current
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -175,27 +156,13 @@ fun EnvelopeNavHost(
                 state = viewModel.composableState.value,
                 events = viewModel.events,
                 onAction = {},
-                onNavigateToChat = { navHostController.navigate(Screen.Chat(it)) },
-                onNavigate = { navHostController.navigate(Screen.CreateNewChat) },
+                onNavigateToChat = { navHostController.navigate(SubScreen.Chat(it)) },
+                onNavigate = { navHostController.navigate(SubScreen.CreateNewChat) },
                 modifier = Modifier.fillMaxSize(),
             )
         }
 
-        composable<Screen.Profile>(
-            enterTransition = {
-                slideInVertically(
-                    initialOffsetY = { it / 2 }
-                ) + scaleIn(
-                    initialScale = 0.85f,
-                    animationSpec = tween(200, easing = FastOutSlowInEasing)
-                ) + fadeIn(
-                    animationSpec = tween(200)
-                )
-            },
-            exitTransition = { fadeOut(animationSpec = tween(0)) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        mainComposable<Main.Profile> {
             bottomBarState.value = BottomBarState(true)
             topAppBarState.value =
                 TopAppBarState2(text = stringResource(R.string.settings_screen_title))
@@ -209,7 +176,7 @@ fun EnvelopeNavHost(
             )
         }
 
-        composable<Screen.CreateNewChat> {
+        subComposable<SubScreen.CreateNewChat> {
             bottomBarState.value = BottomBarState(true)
 
             val viewModel = hiltViewModel<CreateChatViewModel>()
@@ -218,37 +185,23 @@ fun EnvelopeNavHost(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
                 events = viewModel.events,
-                onNavigate = { navHostController.navigate(Screen.Contacts) },
+                onNavigate = { navHostController.navigate(Main.Contacts) },
                 onPopBackState = { navHostController.popBackStack() },
                 modifier = Modifier.fillMaxSize(),
             )
         }
 
-        composable<Screen.Contacts>(
-            enterTransition = {
-                slideInVertically(
-                    initialOffsetY = { it / 2 }
-                ) + scaleIn(
-                    initialScale = 0.85f,
-                    animationSpec = tween(200, easing = FastOutSlowInEasing)
-                ) + fadeIn(
-                    animationSpec = tween(200)
-                )
-            },
-            exitTransition = { fadeOut(animationSpec = tween(0)) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        mainComposable<Main.Contacts> {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.contacts_screen_title),
                 actions = listOf(
                     TopBarAction(
                         icon = Icons.Default.Search,
-                        action = { navHostController.navigate(Screen.SearchContacts) },
+                        action = { navHostController.navigate(SubScreen.SearchContacts) },
                     ),
                     TopBarAction(
                         icon = Icons.Default.Notifications,
-                        action = { navHostController.navigate(Screen.NotificationContacts) },
+                        action = { navHostController.navigate(SubScreen.NotificationContacts) },
                     )
                 )
             )
@@ -258,16 +211,12 @@ fun EnvelopeNavHost(
             ContactsScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
-                modifier = Modifier.fillMaxSize(),/**/
+                onNavigation = { navHostController.navigate(SubScreen.UserProfile(it)) },
+                modifier = Modifier.fillMaxSize(),
             )
         }
 
-        composable<Screen.SearchContacts>(
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        subComposable<SubScreen.SearchContacts> {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.search_screen_title),
                 isBackVisible = true,
@@ -279,16 +228,12 @@ fun EnvelopeNavHost(
             SearchUsersScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
+                onNavigation = { navHostController.navigate(SubScreen.UserProfile(it)) },
                 modifier = Modifier.fillMaxSize(),
             )
         }
 
-        composable<Screen.NotificationContacts>(
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
-        ) {
+        subComposable<SubScreen.NotificationContacts> {
             topAppBarState.value = TopAppBarState2(
                 text = stringResource(com.point.contacts.R.string.search_requests_title),
                 isBackVisible = true,
@@ -300,8 +245,63 @@ fun EnvelopeNavHost(
             UserRequestsScreen(
                 state = viewModel.composableState.value,
                 onAction = viewModel::emitAction,
+                onNavigation = { navHostController.navigate(SubScreen.UserProfile(it)) },
                 modifier = Modifier.fillMaxSize(),
+            )
+        }
+
+        subComposable<SubScreen.UserProfile> {
+            val userProfileData = it.toRoute<SubScreen.UserProfile>()
+
+            topAppBarState.value = TopAppBarState2(
+                text = stringResource(com.point.contacts.R.string.profile_title),
+                isBackVisible = true,
+                onBackClick = { navHostController.popBackStack() },
+            )
+
+            val viewModel = hiltViewModel<ProfileViewModel, ProfileViewModel.Factory> { factory ->
+                factory.create(username = userProfileData.userId)
+            }
+
+            ProfileScreen(
+                state = viewModel.composableState.value,
+                onAction = viewModel::emitAction,
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
 }
+
+private inline fun <reified T : SubScreen> NavGraphBuilder.subComposable(
+    noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
+) {
+    composable<T>(
+        enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        content = content,
+    )
+}
+
+private inline fun <reified T : Main> NavGraphBuilder.mainComposable(
+    noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
+) {
+    composable<T>(
+        enterTransition = {
+            slideInVertically(
+                initialOffsetY = { it / 2 }
+            ) + scaleIn(
+                initialScale = 0.85f,
+                animationSpec = tween(200, easing = FastOutSlowInEasing)
+            ) + fadeIn(
+                animationSpec = tween(200)
+            )
+        },
+        exitTransition = { fadeOut(animationSpec = tween(0)) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        content = content,
+    )
+}
+
