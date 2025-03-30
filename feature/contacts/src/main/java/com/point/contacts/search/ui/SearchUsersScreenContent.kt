@@ -22,13 +22,14 @@ import androidx.compose.ui.unit.dp
 import com.point.contacts.main.presenter.ui.ContactComposable
 import com.point.contacts.search.viewModel.SearchContactsAction
 import com.point.contacts.search.viewModel.SearchContactsState
+import com.point.navigation.Route
 import com.point.ui.Theme
 
 @Composable
 fun SearchUsersScreenContent(
     state: SearchContactsState,
     onAction: (SearchContactsAction) -> Unit,
-    onNavigation: (String) -> Unit,
+    onNavigation: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -42,12 +43,12 @@ fun SearchUsersScreenContent(
         ) {
             items(
                 items = state.contacts,
-                key = { it.id }
+                key = { it.username }
             ) { contact ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onNavigation(contact.id) },
+                        .clickable { onNavigation(Route.ContactsFeature.UserProfile(contact.username)) },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     ContactComposable(
@@ -76,7 +77,7 @@ fun SearchUsersScreenContent(
                                 .size(38.dp)
                                 .clip(CircleShape)
                                 .clickable {
-                                    onAction(SearchContactsAction.SendRequest(contact.id))
+                                    onAction(SearchContactsAction.SendRequest(contact.username))
                                 }
                                 .padding(6.dp)
                         )

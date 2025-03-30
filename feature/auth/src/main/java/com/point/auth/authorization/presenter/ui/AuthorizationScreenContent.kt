@@ -48,6 +48,7 @@ import com.point.auth.authorization.presenter.mvi.AuthAction.Action.Authorizatio
 import com.point.auth.authorization.presenter.mvi.AuthAction.Action.OnPasswordInput
 import com.point.auth.authorization.presenter.mvi.AuthEvent
 import com.point.auth.authorization.presenter.mvi.AuthState
+import com.point.navigation.Route
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.debounce
@@ -58,14 +59,13 @@ fun AuthorizationScreenContent(
     state: AuthState,
     onAction: (AuthAction) -> Unit,
     events: Flow<AuthEvent>,
-    onNavigateMain: () -> Unit,
-    onNavigate: () -> Unit,
+    onNavigate: (Route) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LaunchedEffect(Unit) {
         launch {
             events.collect {
-                onNavigateMain()
+                onNavigate(Route.ChatsFeature.Chats)
             }
         }
     }
@@ -166,7 +166,7 @@ fun AuthorizationScreenContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { onNavigate() },
+            onClick = { onNavigate(Route.AuthFeature.Registration) },
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = Theme.colorScheme.surface,
                 contentColor = Color.Black,

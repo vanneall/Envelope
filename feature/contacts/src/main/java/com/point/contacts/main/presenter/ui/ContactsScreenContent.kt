@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.point.contacts.main.presenter.viewmodel.ContactState
 import com.point.contacts.main.presenter.viewmodel.ContactsActions
+import com.point.navigation.Route
 
 @Composable
 fun ContactsScreenContent(
     state: ContactState,
     onAction: (ContactsActions) -> Unit,
-    onNavigation: (String) -> Unit,
+    onNavigation: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -25,7 +26,7 @@ fun ContactsScreenContent(
     ) {
         items(
             items = state.contacts,
-            key = { it.id }
+            key = { it.username }
         ) { contact ->
             val source = remember { MutableInteractionSource() }
             val ripple = rememberRipple(color = Color.Black)
@@ -37,7 +38,7 @@ fun ContactsScreenContent(
                         interactionSource = source,
                         indication = ripple,
                     ) {
-                        onNavigation(contact.id)
+                        onNavigation(Route.ContactsFeature.UserProfile(contact.username))
                     },
             )
         }

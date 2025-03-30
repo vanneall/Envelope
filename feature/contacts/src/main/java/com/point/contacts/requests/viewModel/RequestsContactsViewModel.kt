@@ -40,7 +40,7 @@ class RequestsContactsViewModel @Inject constructor(
         is RequestsAction.LoadUserContacts -> state.copy(
             contacts = action.contacts.map {
                 Contact(
-                    id = it.username,
+                    username = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
                 )
@@ -51,7 +51,7 @@ class RequestsContactsViewModel @Inject constructor(
         )
 
         is RequestsAction.RequestHandledSuccessfully -> state.copy(
-            contacts = state.contacts.filter { it.id != action.userId }
+            contacts = state.contacts.filter { it.username != action.userId }
         )
 
         is RequestsAction.DenyRequest,

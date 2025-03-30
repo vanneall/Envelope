@@ -19,18 +19,19 @@ import androidx.compose.ui.unit.dp
 import com.point.contacts.main.presenter.ui.ContactComposable
 import com.point.contacts.requests.viewModel.RequestsAction
 import com.point.contacts.requests.viewModel.RequestsState
+import com.point.navigation.Route
 
 @Composable
 fun UserRequestsScreenContent(
     state: RequestsState,
     onAction: (RequestsAction) -> Unit,
-    onNavigation: (String) -> Unit,
+    onNavigation: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier.fillMaxWidth()) {
         items(
             items = state.contacts,
-            key = { it.id }
+            key = { it.username }
         ) { contact ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -40,7 +41,7 @@ fun UserRequestsScreenContent(
                     contact = contact,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable { onNavigation(contact.id) },
+                        .clickable { onNavigation(Route.ContactsFeature.UserProfile(contact.username)) },
                 )
 
                 Icon(
@@ -49,7 +50,7 @@ fun UserRequestsScreenContent(
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            onAction(RequestsAction.AcceptRequest(contact.id))
+                            onAction(RequestsAction.AcceptRequest(contact.username))
                         }
                 )
 
@@ -61,7 +62,7 @@ fun UserRequestsScreenContent(
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            onAction(RequestsAction.DenyRequest(contact.id))
+                            onAction(RequestsAction.DenyRequest(contact.username))
                         }
                 )
             }

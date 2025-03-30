@@ -35,7 +35,7 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
         is ContactsActions.LoadUserContacts -> state.copy(
             contacts = action.contacts.map {
                 Contact(
-                    id = it.username,
+                    username = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
                 )

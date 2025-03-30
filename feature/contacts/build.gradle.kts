@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":core:user"))
     api(project(":core:network"))

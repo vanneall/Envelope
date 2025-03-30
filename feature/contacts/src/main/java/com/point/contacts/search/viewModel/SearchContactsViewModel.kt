@@ -25,7 +25,7 @@ class SearchContactsViewModel @Inject constructor(
         is SearchContactsAction.LoadUserContacts -> state.copy(
             contacts = action.contacts.map {
                 Contact(
-                    id = it.username,
+                    username = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
                     inContacts = it.inContacts,

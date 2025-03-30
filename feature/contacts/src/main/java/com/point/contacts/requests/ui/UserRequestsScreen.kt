@@ -8,12 +8,13 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.point.contacts.main.presenter.ui.ContactsInitialLoading
 import com.point.contacts.requests.viewModel.RequestsAction
 import com.point.contacts.requests.viewModel.RequestsState
+import com.point.navigation.Route
 
 @Composable
 fun UserRequestsScreen(
     state: RequestsState,
     onAction: (RequestsAction) -> Unit,
-    onNavigation: (String) -> Unit,
+    onNavigation: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)

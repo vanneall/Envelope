@@ -12,7 +12,7 @@ data class ContactState(
 )
 
 data class Contact(
-    val id: String = "",
+    val username: String = "",
     val name: String = "",
     val status: String = "",
     val image: Color = Color.Gray,

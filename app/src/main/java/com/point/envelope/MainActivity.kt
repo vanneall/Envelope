@@ -41,8 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.point.envelope.navigation.EnvelopeNavHost
-import com.point.envelope.navigation.Screen
+import com.point.envelope.navigation.navhost.ComposeNavigationRoute
+import com.point.envelope.navigation.navhost.EnvelopeNavHost
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import com.point.ui.colors.White
@@ -134,7 +134,7 @@ class MainActivity : ComponentActivity() {
                                             if (selectedItemIndex.intValue == index) return@NavigationBarItem
 
                                             selectedItemIndex.intValue = index
-                                            navController.navigate(item.screen)
+                                            navController.navigate(item.composeNavigationRoute)
                                         },
                                         label = {
                                             Text(
@@ -181,7 +181,7 @@ class MainActivity : ComponentActivity() {
 sealed class BottomBarItem(
     @StringRes
     val textId: Int,
-    val screen: Screen,
+    val composeNavigationRoute: ComposeNavigationRoute,
     private val selectedIcon: ImageVector,
     private val unselectedIcon: ImageVector,
 ) {
@@ -192,20 +192,20 @@ sealed class BottomBarItem(
         textId = R.string.chats_screen,
         selectedIcon = Icons.AutoMirrored.Filled.Message,
         unselectedIcon = Icons.AutoMirrored.Default.Message,
-        screen = Screen.Main.AllChats,
+        composeNavigationRoute = ComposeNavigationRoute.EntryRoute.Chats,
     )
 
     data object Contacts : BottomBarItem(
         textId = R.string.contacts_screen,
         selectedIcon = Icons.Filled.SupervisedUserCircle,
         unselectedIcon = Icons.Default.SupervisedUserCircle,
-        screen = Screen.Main.Contacts,
+        composeNavigationRoute = ComposeNavigationRoute.EntryRoute.Contacts,
     )
 
     data object Settings : BottomBarItem(
         textId = R.string.settings_screen,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Outlined.Settings,
-        screen = Screen.Main.Profile,
+        composeNavigationRoute = ComposeNavigationRoute.EntryRoute.Settings,
     )
 }

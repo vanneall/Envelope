@@ -40,6 +40,7 @@ import com.point.chats.create.presenter.viewmodel.CreateChatAction
 import com.point.chats.create.presenter.viewmodel.CreateChatEvent
 import com.point.chats.create.presenter.viewmodel.CreateChatState
 import com.point.chats.main.ui.UserPhoto
+import com.point.navigation.Route
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +50,7 @@ fun ContactsScreen(
     state: CreateChatState,
     events: Flow<CreateChatEvent>,
     onAction: (CreateChatAction) -> Unit,
-    onNavigate: () -> Unit,
+    onNavigate: (Route) -> Unit,
     onPopBackState: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -64,15 +65,17 @@ fun ContactsScreen(
                     .size(48.dp)
                     .clip(shape = RoundedCornerShape(16.dp))
                     .background(Theme.colorScheme.accent, shape = RoundedCornerShape(16.dp))
-                    .clickable { onNavigate() }
+                    .clickable { onNavigate(Route.ContactsFeature.UserContacts) }
                     .padding(8.dp)
             )
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
             TextField(
                 value = state.search,
                 onValueChange = { onAction(CreateChatAction.Action.OnValueChanged(it)) },

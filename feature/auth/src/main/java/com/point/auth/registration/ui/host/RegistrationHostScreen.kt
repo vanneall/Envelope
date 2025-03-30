@@ -11,13 +11,14 @@ import com.point.auth.registration.presenter.profile.RegProfileState
 import com.point.auth.registration.ui.credentials.CredentialsScreen
 import com.point.auth.registration.ui.onboarding.OnboardingScreen
 import com.point.auth.registration.ui.profile.ProfileScreen
+import com.point.navigation.Route
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun RegistrationHostScreen(
     onAction: (RegAction) -> Unit,
     events: Flow<RegEvent>,
-    onNavigateToMain: () -> Unit,
+    onNavigate: (Route) -> Unit,
     regProfileState: RegProfileState,
     regProfileAction: (RegProfileAction) -> Unit,
     credentialsState: CredentialsState,
@@ -44,7 +45,7 @@ fun RegistrationHostScreen(
         ),
         onAction = onAction,
         events = events,
-        onNavigateToMain = onNavigateToMain,
+        onNavigate = onNavigate,
         modifier = modifier,
     )
 }
