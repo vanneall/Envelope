@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BatterySaver
@@ -31,7 +30,6 @@ import com.example.settings.main.viewmodel.UserData
 import com.example.settings.main.viewmodel.UserSettings
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
-import kotlin.reflect.typeOf
 
 @Composable
 fun MainSettingsScreenContent(state: MainSettingsState, modifier: Modifier = Modifier) {
@@ -87,7 +85,7 @@ fun MainSettingsScreenContent(state: MainSettingsState, modifier: Modifier = Mod
                     HorizontalDivider(
                         modifier = Modifier
                             .background(Theme.colorScheme.surface)
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                 } else {
                     Spacer(modifier = Modifier.height(20.dp))
@@ -113,16 +111,19 @@ private fun MainSettingsScreenContentPreview() {
             textId = R.string.storage_settings,
             icon = Icons.Default.DataUsage,
             iconBackground = Color.Blue,
+            iconColor = Color.Red
         ),
         AppSettings(
             textId = R.string.battery_settings,
             icon = Icons.Default.BatterySaver,
             iconBackground = Color.Green,
+            iconColor = Color.Red
         ),
         AppSettings(
             textId = R.string.theme_settings,
             icon = Icons.Default.DesignServices,
             iconBackground = Color.Red,
+            iconColor = Color.Red
         ),
     )
 

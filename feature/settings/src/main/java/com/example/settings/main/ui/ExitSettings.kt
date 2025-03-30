@@ -9,22 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.outlined.DataUsage
 import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.settings.R
-import com.example.settings.main.viewmodel.AppSettings
 import com.example.settings.main.viewmodel.ExitSettings
 import com.point.ui.Theme
 
@@ -38,10 +34,10 @@ fun ExitSettings(exitSettings: ExitSettings, modifier: Modifier = Modifier) {
         Icon(
             imageVector = exitSettings.icon,
             contentDescription = null,
-            tint = Color.White,
+            tint = exitSettings.iconColor,
             modifier = Modifier
-                .size(34.dp)
-                .background(color = Theme.colorScheme.error, shape = RoundedCornerShape(12.dp))
+                .size(38.dp)
+                .background(color = exitSettings.iconBackground, shape = RoundedCornerShape(12.dp))
                 .padding(8.dp)
         )
 
@@ -63,6 +59,7 @@ private fun ExitSettingsPreview() {
         textId = R.string.exit_settings,
         iconBackground = Color.Red,
         icon = Icons.Outlined.Logout,
+        iconColor = Color.White,
     )
     ExitSettings(
         exitSettings = appSettings,

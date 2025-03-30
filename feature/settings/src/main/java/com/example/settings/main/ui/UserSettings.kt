@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.outlined.DataUsage
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -37,9 +36,9 @@ fun UserSettings(userSettings: UserSettings, modifier: Modifier = Modifier) {
         Icon(
             imageVector = userSettings.icon,
             contentDescription = null,
-            tint = Color.White,
+            tint = userSettings.iconColor,
             modifier = Modifier
-                .size(34.dp)
+                .size(38.dp)
                 .background(color = userSettings.iconBackground, shape = RoundedCornerShape(12.dp))
                 .padding(8.dp)
         )
@@ -52,7 +51,7 @@ fun UserSettings(userSettings: UserSettings, modifier: Modifier = Modifier) {
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f),
         )
-        
+
         if (userSettings.count != 0) {
             Text(
                 text = userSettings.count.toString(),
@@ -65,7 +64,9 @@ fun UserSettings(userSettings: UserSettings, modifier: Modifier = Modifier) {
             imageVector = Icons.Default.ArrowBackIosNew,
             contentDescription = null,
             tint = Theme.colorScheme.overlay,
-            modifier = Modifier.rotate(180f).size(16.dp),
+            modifier = Modifier
+                .rotate(180f)
+                .size(16.dp),
         )
     }
 }
@@ -78,6 +79,7 @@ private fun AppSettingsPreview() {
         iconBackground = Color.Blue,
         icon = Icons.Outlined.Edit,
         count = 0,
+        iconColor = Color.Red
     )
     UserSettings(
         userSettings = appSettings,

@@ -36,27 +36,29 @@ fun AppSettings(appSettings: AppSettings, modifier: Modifier = Modifier) {
         Icon(
             imageVector = appSettings.icon,
             contentDescription = null,
-            tint = Color.White,
+            tint = appSettings.iconColor,
             modifier = Modifier
-                .size(34.dp)
+                .size(38.dp)
                 .background(color = appSettings.iconBackground, shape = RoundedCornerShape(12.dp))
                 .padding(8.dp)
         )
-        
+
         Text(
             text = stringResource(appSettings.textId),
-            style = Theme.typography.bodyM,
+            style = Theme.typography.bodyL,
             color = Theme.colorScheme.textPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f),
         )
-        
+
         Icon(
             imageVector = Icons.Default.ArrowBackIosNew,
             contentDescription = null,
             tint = Theme.colorScheme.overlay,
-            modifier = Modifier.rotate(180f).size(16.dp),
+            modifier = Modifier
+                .rotate(180f)
+                .size(16.dp),
         )
     }
 }
@@ -68,6 +70,7 @@ private fun AppSettingsPreview() {
         textId = R.string.storage_settings,
         iconBackground = Color.Blue,
         icon = Icons.Outlined.DataUsage,
+        iconColor = Color.Red
     )
     AppSettings(
         appSettings = appSettings,

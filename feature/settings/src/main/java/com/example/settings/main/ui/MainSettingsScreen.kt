@@ -11,7 +11,11 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
-fun MainSettingsScreen(state: MainSettingsState, onAction: (SettingsAction) -> Unit, modifier: Modifier = Modifier) {
+fun MainSettingsScreen(
+    state: MainSettingsState,
+    onAction: (SettingsAction) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     SwipeRefresh(
         state = rememberSwipeRefreshState(state.isLoading),
         onRefresh = { onAction(SettingsAction.Refresh) },
