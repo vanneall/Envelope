@@ -1,6 +1,8 @@
 package com.example.settings.main.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +13,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -27,11 +31,19 @@ import com.example.settings.main.viewmodel.UserSettings
 import com.point.ui.Theme
 
 @Composable
-fun UserSettings(userSettings: UserSettings, modifier: Modifier = Modifier) {
+fun UserSettings(userSettings: UserSettings, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val ripple = rememberRipple(color = Color.Black)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier,
+        modifier = modifier
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple,
+                onClick = onClick
+            )
+            .padding(horizontal = 12.dp),
     ) {
         Icon(
             imageVector = userSettings.icon,
@@ -45,7 +57,7 @@ fun UserSettings(userSettings: UserSettings, modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(userSettings.textId),
-            style = Theme.typography.bodyM,
+            style = Theme.typography.bodyL,
             color = Theme.colorScheme.textPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -83,6 +95,7 @@ private fun AppSettingsPreview() {
     )
     UserSettings(
         userSettings = appSettings,
+        onClick = {},
         modifier = Modifier
             .height(60.dp)
             .fillMaxWidth()

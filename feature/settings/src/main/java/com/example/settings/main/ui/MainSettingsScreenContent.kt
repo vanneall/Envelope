@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,11 +29,16 @@ import com.example.settings.main.viewmodel.Settings
 import com.example.settings.main.viewmodel.SettingsSection
 import com.example.settings.main.viewmodel.UserData
 import com.example.settings.main.viewmodel.UserSettings
+import com.point.navigation.Route
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 
 @Composable
-fun MainSettingsScreenContent(state: MainSettingsState, modifier: Modifier = Modifier) {
+internal fun MainSettingsScreenContent(
+    state: MainSettingsState,
+    onNavigate: (Route) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -73,12 +79,16 @@ fun MainSettingsScreenContent(state: MainSettingsState, modifier: Modifier = Mod
                     .height(54.dp)
                     .fillMaxWidth()
                     .background(color = Theme.colorScheme.surface, shape = backgroundShape)
-                    .padding(horizontal = 12.dp)
-                
+                    .clip(shape = backgroundShape)
+
                 when (item) {
                     is AppSettings -> AppSettings(appSettings = item, modifier)
                     is ExitSettings -> ExitSettings(exitSettings = item, modifier)
-                    is UserSettings -> UserSettings(userSettings = item, modifier)
+                    is UserSettings -> UserSettings(
+                        userSettings = item,
+                        onClick = { item.route?.let { onNavigate(it) } },
+                        modifier = modifier,
+                    )
                 }
 
                 if (index != section.settings.lastIndex) {
@@ -139,6 +149,7 @@ private fun MainSettingsScreenContentPreview() {
                     )
                 )
             ),
+            onNavigate = { },
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color.White)

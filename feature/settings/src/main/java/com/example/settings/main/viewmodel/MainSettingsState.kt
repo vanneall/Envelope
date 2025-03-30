@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.point.navigation.Route
 
 data class MainSettingsState(
     val isLoading: Boolean,
@@ -22,7 +23,8 @@ data class UserSettings(
     override val icon: ImageVector,
     override val iconColor: Color,
     override val iconBackground: Color,
-    val count: Int, 
+    val count: Int,
+    val route: Route? = null,
 ): Settings
 
 data class AppSettings(

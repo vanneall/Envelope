@@ -31,7 +31,8 @@ fun AppSettings(appSettings: AppSettings, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 12.dp),
     ) {
         Icon(
             imageVector = appSettings.icon,

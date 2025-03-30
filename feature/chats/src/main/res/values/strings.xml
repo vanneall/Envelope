@@ -4,4 +4,5 @@
     <string name="settings_screen_title">Settings</string>
     <string name="settings_authorization_title">Authorization</string>
     <string name="registration_screen_title">Registration</string>
+    <string name="profile_edit_screen_title">Edit</string>
 </resources>

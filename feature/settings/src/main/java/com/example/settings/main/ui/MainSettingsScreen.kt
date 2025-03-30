@@ -9,11 +9,13 @@ import com.example.settings.main.viewmodel.MainSettingsState
 import com.example.settings.main.viewmodel.SettingsAction
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.point.navigation.Route
 
 @Composable
 fun MainSettingsScreen(
     state: MainSettingsState,
     onAction: (SettingsAction) -> Unit,
+    onNavigate: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SwipeRefresh(
@@ -23,6 +25,7 @@ fun MainSettingsScreen(
     ) {
         MainSettingsScreenContent(
             state = state,
+            onNavigate = onNavigate,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),

@@ -33,5 +33,6 @@ sealed interface Route {
 
         data object Settings : SettingsFeature
 
+        data object ProfileEdit : SettingsFeature
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_profile_settings">Редактировать профиль</string>
+    <string name="edit_profile_settings">Профиль</string>
     <string name="requests_settings">Заявки</string>
     <string name="contacts_settings">Контакты</string>
     

@@ -73,89 +73,11 @@ internal fun ProfileScreenContent(
             )
         }
 
-        Row(
+        ActionsRow(
+            state = state,
+            onAction = onAction,
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 12.dp,
-                alignment = Alignment.CenterHorizontally,
-            ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            if (state.showSendMessage) {
-                ActionButton(
-                    text = "Сообщение",
-                    icon = Icons.Default.Message,
-                    onClick = {},
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 60.dp)
-                        .background(
-                            color = Theme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .padding(8.dp)
-                )
-            }
-
-            if (state.showDeleteFromContacts) {
-                ActionButton(
-                    text = "Удалить",
-                    icon = Icons.Default.PersonOff,
-                    onClick = { onAction(ProfileAction.DeleteFromContacts) },
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 60.dp)
-                        .background(
-                            color = Theme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .padding(8.dp)
-                )
-            }
-
-            if (state.showAddToContacts) {
-                ActionButton(
-                    text = "Добавить",
-                    icon = Icons.Default.PersonAdd,
-                    onClick = { onAction(ProfileAction.AddContact) },
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 60.dp)
-                        .background(
-                            color = Theme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .padding(8.dp)
-                )
-            } else if (state.showSentRequest) {
-                ActionButton(
-                    text = "Отправлено",
-                    icon = Icons.Default.MarkEmailRead,
-                    onClick = {},
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 60.dp)
-                        .background(
-                            color = Theme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .padding(8.dp)
-                )
-            }
-
-            ActionButton(
-                text = "Заблокировать",
-                icon = Icons.Default.Block,
-                onClick = {},
-                modifier = Modifier
-                    .background(
-                        color = Theme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .clip(RoundedCornerShape(12.dp))
-                    .padding(8.dp)
-            )
-        }
+        )
 
         Text(
             text = stringResource(R.string.information),
@@ -191,6 +113,97 @@ internal fun ProfileScreenContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ActionsRow(
+    state: ProfileState,
+    onAction: (ProfileAction) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 12.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (state.showSendMessage) {
+            ActionButton(
+                text = "Сообщение",
+                icon = Icons.Default.Message,
+                onClick = {},
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 60.dp)
+                    .background(
+                        color = Theme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(8.dp)
+            )
+        }
+
+        if (state.showDeleteFromContacts) {
+            ActionButton(
+                text = "Удалить",
+                icon = Icons.Default.PersonOff,
+                onClick = { onAction(ProfileAction.DeleteFromContacts) },
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 60.dp)
+                    .background(
+                        color = Theme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(8.dp)
+            )
+        }
+
+        if (state.showAddToContacts) {
+            ActionButton(
+                text = "Добавить",
+                icon = Icons.Default.PersonAdd,
+                onClick = { onAction(ProfileAction.AddContact) },
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 60.dp)
+                    .background(
+                        color = Theme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(8.dp)
+            )
+        } else if (state.showSentRequest) {
+            ActionButton(
+                text = "Отправлено",
+                icon = Icons.Default.MarkEmailRead,
+                onClick = {},
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 60.dp)
+                    .background(
+                        color = Theme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(8.dp)
+            )
+        }
+
+        ActionButton(
+            text = "Заблокировать",
+            icon = Icons.Default.Block,
+            onClick = {},
+            modifier = Modifier
+                .background(
+                    color = Theme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .clip(RoundedCornerShape(12.dp))
+                .padding(8.dp)
+        )
     }
 }
 

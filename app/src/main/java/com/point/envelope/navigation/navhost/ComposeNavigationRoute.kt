@@ -42,6 +42,9 @@ sealed interface ComposeNavigationRoute {
 
         @Serializable
         data class UserProfile(val username: String) : SubRoute
+
+        @Serializable
+        data object EditProfile : SubRoute
     }
 }
 
@@ -59,4 +62,5 @@ val Route.asComposeRoute: ComposeNavigationRoute
         is ChatsFeature.Messaging -> SubRoute.Messaging(chatId)
 
         SettingsFeature.Settings -> EntryRoute.Settings
+        SettingsFeature.ProfileEdit -> SubRoute.EditProfile
     }

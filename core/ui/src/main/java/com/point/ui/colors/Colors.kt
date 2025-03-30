@@ -11,7 +11,7 @@ val GrayDark = Color(0xFF606060)
 val BlueContainerLight = Color(0xFFd1e4ff)
 val BlueContentLight = Color(0xFF2E6CA9)
 
-val OrangeContainer = Color(0xFFF8CFBE)
+val OrangeContainer = Color(0xFFFFDFB8)
 val OrangeContent = Color(0xFFFFA41F)
 
 val GreenContainer = Color(0xFFF0FFBD)

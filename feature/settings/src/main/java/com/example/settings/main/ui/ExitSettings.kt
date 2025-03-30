@@ -29,7 +29,8 @@ fun ExitSettings(exitSettings: ExitSettings, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 12.dp),
     ) {
         Icon(
             imageVector = exitSettings.icon,
@@ -43,7 +44,7 @@ fun ExitSettings(exitSettings: ExitSettings, modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(exitSettings.textId),
-            style = Theme.typography.bodyM,
+            style = Theme.typography.bodyL,
             color = Theme.colorScheme.error,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

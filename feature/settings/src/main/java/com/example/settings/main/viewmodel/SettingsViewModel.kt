@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import com.example.settings.R
 import com.example.settings.main.ui.DEFAULT_IMAGE_URL
+import com.point.navigation.Route
 import com.point.ui.colors.BlueContainerLight
 import com.point.ui.colors.BlueContentLight
 import com.point.ui.colors.CyanContainer
@@ -84,6 +85,7 @@ val userSettings = listOf(
         iconColor = BlueContentLight,
         iconBackground = BlueContainerLight,
         count = 0,
+        route = Route.SettingsFeature.ProfileEdit,
     ),
     UserSettings(
         textId = R.string.requests_settings,
@@ -91,6 +93,7 @@ val userSettings = listOf(
         iconColor = OrangeContent,
         iconBackground = OrangeContainer,
         count = 15,
+        route = Route.ContactsFeature.ContactsRequests,
     ),
     UserSettings(
         textId = R.string.contacts_settings,
@@ -98,6 +101,7 @@ val userSettings = listOf(
         iconColor = GreenContent,
         iconBackground = GreenContainer,
         count = 228,
+        route = Route.ContactsFeature.UserContacts,
     )
 )
 
