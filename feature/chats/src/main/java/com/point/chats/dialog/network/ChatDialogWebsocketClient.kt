@@ -1,6 +1,7 @@
 package com.point.chats.dialog.network
 
-import com.point.chats.dialog.viewmodel.Message
+import com.point.chats.di.globalJson
+import com.point.chats.dialog.data.events.BaseEvent
 import com.point.network.di.TokenProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -26,7 +27,7 @@ class ChatDialogWebsocketClient @Inject constructor(
     private var webSocket: WebSocket? = null
 
     private var chatId = ""
-    fun connect(chatId: String): Flow<Message> = callbackFlow {
+    fun connect(chatId: String): Flow<BaseEvent> = callbackFlow {
         this@ChatDialogWebsocketClient.chatId = chatId
 
         val request = Request.Builder()
@@ -46,9 +47,9 @@ class ChatDialogWebsocketClient @Inject constructor(
                 if (!text.startsWith("MESSAGE")) return
                 try {
                     val json = parseStompResponse(text)
-                    val message = Json.decodeFromString<Message>(json)
+                    val event = globalJson.decodeFromString<BaseEvent>(json)
 
-                    trySend(message)
+                    trySend(event)
                 } catch (e: Exception) {
                     Timber.tag(WEBSOCKET_TAG).e("onMessage error: ${e.message}")
                 }

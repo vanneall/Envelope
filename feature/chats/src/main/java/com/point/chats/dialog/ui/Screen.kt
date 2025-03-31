@@ -2,12 +2,12 @@ package com.point.chats.dialog.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,13 +21,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.point.chats.dialog.data.events.MessageSentEvent
 import com.point.chats.dialog.viewmodel.ChatDialogAction
 import com.point.chats.dialog.viewmodel.ChatDialogState
-import com.point.chats.dialog.viewmodel.Message
 import com.point.ui.Theme
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ChatDialog(
@@ -37,16 +39,26 @@ fun ChatDialog(
 ) {
     Column(modifier = modifier.imePadding()) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().weight(1f)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 8.dp)
+                .weight(1f)
         ) {
             items(
                 items = state.events,
                 key = { it.id }
             ) {
-                Message(
-                    message = it,
-                    modifier = Modifier.wrapContentSize()
-                )
+                when (it) {
+                    is MessageSentEvent -> {
+                        Message(
+                            message = it,
+                            modifier = Modifier.wrapContentSize()
+                        )
+                    }
+                    else -> {}
+                }
+
             }
         }
 
@@ -70,10 +82,31 @@ fun ChatDialog(
 }
 
 @Composable
-fun Message(message: Message, modifier: Modifier = Modifier) {
-    Text(
-        text = message.content,
-        color = Color.Black,
-        modifier = modifier.background(color = Theme.colorScheme.accent, shape = RoundedCornerShape(8.dp)),
-    )
+fun Message(message: MessageSentEvent, modifier: Modifier = Modifier) {
+    val formattedTime = remember(message.timestamp) {
+        DateTimeFormatter.ofPattern("HH:mm")
+            .withZone(ZoneId.systemDefault())
+            .format(message.timestamp)
+    }
+
+    Column(
+        modifier = modifier
+            .background(
+                color = Theme.colorScheme.surface,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(8.dp)
+    ) {
+        Text(
+            text = message.text.orEmpty(),
+            color = Theme.colorScheme.textPrimary,
+            style = Theme.typography.bodyL
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = formattedTime,
+            color = Theme.colorScheme.textSecondary,
+            style = Theme.typography.labelM
+        )
+    }
 }

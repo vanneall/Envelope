@@ -1,7 +1,7 @@
 package com.point.chats.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.example.utils.Fake
+import com.example.utils.Real
 import com.point.chats.main.data.entity.response.ChatInfoShort
 import com.point.chats.main.data.reporitory.ChatRepository
 import com.point.viewmodel.MviViewModel
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatsHostViewModel @Inject constructor(@Fake private val chatRepository: ChatRepository) :
+class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: ChatRepository) :
     MviViewModel<ChatsState, ChatAction, ChatEvents>(
         initialValue = ChatsState()
     ) {

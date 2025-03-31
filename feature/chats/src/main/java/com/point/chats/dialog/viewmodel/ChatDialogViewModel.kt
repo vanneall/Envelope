@@ -19,7 +19,17 @@ class ChatDialogViewModel @AssistedInject constructor(
 ) {
 
     init {
-        viewModelScope.launch { onConnectToChat() }
+        viewModelScope.launch {
+            launch { onConnectToChat() }
+            launch {
+                chatDialogRepository.fetchInfo(chatId).fold(
+                    onSuccess = {
+                        emitAction(ChatDialogAction.EventsLoaded(it))
+                    },
+                    onFailure = { it.printStackTrace() }
+                )
+            }
+        }
 
         onSendMessage()
     }
@@ -27,12 +37,18 @@ class ChatDialogViewModel @AssistedInject constructor(
     override fun reduce(action: ChatDialogAction, state: ChatDialogState) = when (action) {
         is ChatDialogAction.TypeMessage -> state.copy(message = action.value)
         ChatDialogAction.Send -> state
-        is ChatDialogAction.UpdateList -> state.copy(events = state.events + listOf(action.text))
+        is ChatDialogAction.UpdateList -> state.copy(events = state.events + listOf(action.text) )
+        is ChatDialogAction.EventsLoaded -> state.copy(
+            events = action.list
+        )
+
+        ChatDialogAction.ClearField -> state.copy(message = "")
     }
 
     private suspend fun onConnectToChat() {
         chatDialogRepository.connectToChat(chatId = chatId).collect { message ->
             emitAction(ChatDialogAction.UpdateList(message))
+            emitAction(ChatDialogAction.ClearField)
         }
     }
 

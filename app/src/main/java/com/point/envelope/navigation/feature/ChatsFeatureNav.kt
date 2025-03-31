@@ -17,11 +17,11 @@ import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
+import com.point.envelope.navigation.extensions.entryComposable
+import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
-import com.point.envelope.navigation.extensions.entryComposable
-import com.point.envelope.navigation.extensions.subComposable
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
@@ -50,7 +50,13 @@ internal fun NavGraphBuilder.chatsFeature(
     }
 
     subComposable<SubRoute.Messaging> {
-        bottomBarState.value = BottomBarState(true)
+        bottomBarState.value = BottomBarState(false)
+        topAppBarState.value = TopAppBarState2(
+            text = "Конкретный чат",
+            isBackVisible = true,
+            onBackClick = { navController.popBackStack() }
+        )
+
         val args = it.toRoute<SubRoute.Messaging>()
 
         val viewModel: ChatDialogViewModel =
