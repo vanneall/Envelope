@@ -113,6 +113,22 @@ class ChatDialogWebsocketClient @Inject constructor(
         webSocket?.send(stompMessage)
     }
 
+    fun deleteMessage(request: DeleteMessage) {
+        deleteMessage(chatId = chatId, json = Json.encodeToString(request))
+    }
+
+    private fun deleteMessage(chatId: String, json: String) {
+        val stompMessage = """
+        SEND
+        destination:/app/chat/$chatId/deleteMessage
+        
+        $json
+        ${"\u0000"}
+        """.trimIndent()
+
+        webSocket?.send(stompMessage)
+    }
+
 
     fun disconnect() {
         webSocket?.close(1000, "Goodbye")
@@ -133,4 +149,10 @@ data class CreateMessageRequest(
     val content: String,
     @SerialName("photos")
     val photos: MutableList<Long>? = null,
+)
+
+@Serializable
+data class DeleteMessage(
+    @SerialName("message_id")
+    val messageId: String
 )

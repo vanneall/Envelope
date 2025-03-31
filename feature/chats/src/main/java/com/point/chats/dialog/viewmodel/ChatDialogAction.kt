@@ -5,6 +5,8 @@ import com.point.chats.dialog.data.events.BaseEvent
 sealed interface ChatDialogAction {
 
     data object Send : ChatDialogAction
+    data class Delete(val id: String) : ChatDialogAction
+    data class DeleteSuccess(val id: String) : ChatDialogAction
 
     data class TypeMessage(val value: String) : ChatDialogAction
 

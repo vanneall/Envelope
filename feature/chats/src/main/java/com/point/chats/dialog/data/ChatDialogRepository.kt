@@ -3,6 +3,7 @@ package com.point.chats.dialog.data
 import com.point.chats.dialog.data.events.BaseEvent
 import com.point.chats.dialog.network.ChatDialogWebsocketClient
 import com.point.chats.dialog.network.CreateMessageRequest
+import com.point.chats.dialog.network.DeleteMessage
 import com.point.chats.main.data.reporitory.ChatsService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,10 @@ class ChatDialogRepository @Inject constructor(
     )
 
     fun disconnect() = webSocketClient.disconnect()
+
+    fun deleteMessage(id: String) = webSocketClient.deleteMessage(
+        DeleteMessage(messageId = id)
+    )
 
     suspend fun fetchInfo(id: String): Result<List<BaseEvent>> = withContext(Dispatchers.IO) {
         dialogService.fetchEvents(id)
