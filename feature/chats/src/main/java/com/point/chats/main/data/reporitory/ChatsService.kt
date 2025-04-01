@@ -2,6 +2,7 @@ package com.point.chats.main.data.reporitory
 
 import com.point.chats.dialog.data.events.BaseEvent
 import com.point.chats.main.data.entity.response.ChatInfoShort
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,5 +17,8 @@ interface ChatsService {
 
     @GET("/chats/api-v2/{id}")
     suspend fun fetchEvents(@Path("id") id: String): Result<List<BaseEvent>>
+
+    @DELETE("/chats/api-v2/{id}")
+    suspend fun deleteChatById(@Path("id") id: String): Result<Unit>
 
 }

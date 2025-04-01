@@ -5,7 +5,14 @@ import com.point.chats.main.data.entity.response.ChatInfoShort
 sealed interface ChatAction {
     sealed interface Action : ChatAction {
         data class OnChatsLoadSuccess(val chats: List<ChatInfoShort>) : Action
+
+
+        data class DeleteDialog(val id: String) : Action
     }
 
-    sealed interface Event : ChatAction
+    sealed interface Event : ChatAction {
+
+        data class DialogDeleted(val id: String) : Event
+
+    }
 }

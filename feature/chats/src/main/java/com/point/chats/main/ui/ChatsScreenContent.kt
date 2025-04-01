@@ -1,6 +1,7 @@
 package com.point.chats.main.ui
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ripple.rememberRipple
@@ -12,6 +13,7 @@ import com.point.chats.main.viewmodel.ChatsState
 import com.point.navigation.Route
 import com.point.ui.Theme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChatsScreenContent(
     state: ChatsState,
@@ -29,10 +31,12 @@ fun ChatsScreenContent(
             ChatComposable(
                 chat = state.chats[it],
                 modifier = Modifier
-                    .clickable(
+                    .combinedClickable(
                         interactionSource = interactionSource,
-                        indication = rememberRipple(color = Theme.colorScheme.overlay)
-                    ) { onNavigate(Route.ChatsFeature.Messaging(state.chats[it].id)) },
+                        indication = rememberRipple(color = Theme.colorScheme.overlay),
+                        onClick = { onNavigate(Route.ChatsFeature.Messaging(state.chats[it].id)) },
+                        onLongClick = { onAction(ChatAction.Action.DeleteDialog(state.chats[it].id)) },
+                    ),
             )
         }
     }

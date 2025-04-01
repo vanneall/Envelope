@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -36,6 +37,9 @@ interface ContactsService {
     @DELETE("/users/api-v2/friends/{username}")
     suspend fun deleteUserFromFriends(@Path("username") username: String): Result<Unit>
 
+    @POST("/chats/api-v2")
+    suspend fun createChat(@Body metadata: CreateChatRequest): Result<ChatIdResponse>
+
 }
 
 @Serializable
@@ -60,4 +64,18 @@ data class UserInfoShortResponse(
     val inContacts: Boolean,
     @SerialName("in_sent_requests")
     val inSentRequests: Boolean,
+)
+
+@Serializable
+data class CreateChatRequest(
+    @SerialName("participants")
+    val participantIds: List<String>,
+    @SerialName("name")
+    val name: String? = null,
+)
+
+@Serializable
+data class ChatIdResponse(
+    @SerialName("id")
+    val id: String,
 )

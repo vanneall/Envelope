@@ -14,7 +14,7 @@ class ProfileViewModel @AssistedInject constructor(
     @Assisted("username")
     private val username: String,
     private val contactsRepository: ContactsRepository,
-) : MviViewModel<ProfileState, ProfileAction, Any>(
+) : MviViewModel<ProfileState, ProfileAction, ProfileEvent>(
     initialValue = ProfileState()
 ) {
 
@@ -31,6 +31,7 @@ class ProfileViewModel @AssistedInject constructor(
         handleRefreshing()
         deleteContact()
         addContact()
+        onNavigateToChat()
     }
 
     override fun reduce(action: ProfileAction, state: ProfileState) = when (action) {
@@ -56,6 +57,7 @@ class ProfileViewModel @AssistedInject constructor(
             userInSent = true,
         )
 
+        ProfileAction.ToChat,
         is ProfileAction.DeleteFromContacts,
         is ProfileAction.AddContact -> state
     }
@@ -86,6 +88,15 @@ class ProfileViewModel @AssistedInject constructor(
                 onSuccess = {
                     emitAction(ProfileAction.SentRequestSuccessfully)
                 },
+                onFailure = { it.printStackTrace() }
+            )
+        }
+    }
+
+    private fun onNavigateToChat() {
+        handleAction<ProfileAction.ToChat> {
+            contactsRepository.getChatId(username).fold(
+                onSuccess = { emitEvent(ProfileEvent.NavigateToChat(id = username)) },
                 onFailure = { it.printStackTrace() }
             )
         }

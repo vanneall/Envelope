@@ -26,6 +26,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,15 +37,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.point.contacts.R
 import com.point.contacts.profile.viewmodel.ProfileAction
+import com.point.contacts.profile.viewmodel.ProfileEvent
 import com.point.contacts.profile.viewmodel.ProfileState
+import com.point.navigation.Route
 import com.point.ui.Theme
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 internal fun ProfileScreenContent(
     state: ProfileState,
+    onNavigation: (Route) -> Unit,
     onAction: (ProfileAction) -> Unit,
+    events: Flow<ProfileEvent>,
     modifier: Modifier = Modifier
 ) {
+    LaunchedEffect(Unit) {
+        events.collect { event ->
+            when (event) {
+                is ProfileEvent.NavigateToChat -> onNavigation(Route.ChatsFeature.Messaging(event.id))
+            }
+        }
+    }
     val scrollableState = rememberScrollState()
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -134,12 +147,11 @@ private fun ActionsRow(
             ActionButton(
                 text = "Сообщение",
                 icon = Icons.Default.Message,
-                onClick = {},
+                onClick = { onAction(ProfileAction.ToChat) },
                 modifier = Modifier
                     .defaultMinSize(minHeight = 60.dp)
                     .background(
-                        color = Theme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
+                        color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
                     .clip(RoundedCornerShape(12.dp))
                     .padding(8.dp)
@@ -154,8 +166,7 @@ private fun ActionsRow(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 60.dp)
                     .background(
-                        color = Theme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
+                        color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
                     .clip(RoundedCornerShape(12.dp))
                     .padding(8.dp)
@@ -170,8 +181,7 @@ private fun ActionsRow(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 60.dp)
                     .background(
-                        color = Theme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
+                        color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
                     .clip(RoundedCornerShape(12.dp))
                     .padding(8.dp)
@@ -184,8 +194,7 @@ private fun ActionsRow(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 60.dp)
                     .background(
-                        color = Theme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
+                        color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
                     .clip(RoundedCornerShape(12.dp))
                     .padding(8.dp)
@@ -198,8 +207,7 @@ private fun ActionsRow(
             onClick = {},
             modifier = Modifier
                 .background(
-                    color = Theme.colorScheme.surface,
-                    shape = RoundedCornerShape(12.dp)
+                    color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                 )
                 .clip(RoundedCornerShape(12.dp))
                 .padding(8.dp)

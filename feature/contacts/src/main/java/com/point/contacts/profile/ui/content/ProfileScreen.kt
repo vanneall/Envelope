@@ -8,12 +8,17 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.point.contacts.profile.ui.initializing.ProfileScreenContentShimmer
 import com.point.contacts.profile.viewmodel.ProfileAction
+import com.point.contacts.profile.viewmodel.ProfileEvent
 import com.point.contacts.profile.viewmodel.ProfileState
+import com.point.navigation.Route
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ProfileScreen(
     state: ProfileState,
+    onNavigation: (Route) -> Unit,
     onAction: (ProfileAction) -> Unit,
+    events: Flow<ProfileEvent>,
     modifier: Modifier = Modifier,
 ) {
     if (state.isInitialLoading) {
@@ -30,6 +35,8 @@ fun ProfileScreen(
             ProfileScreenContent(
                 state = state,
                 onAction = onAction,
+                events = events,
+                onNavigation = onNavigation,
                 modifier = modifier.padding(horizontal = 8.dp),
             )
         }

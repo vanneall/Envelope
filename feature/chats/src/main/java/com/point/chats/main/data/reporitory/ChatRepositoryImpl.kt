@@ -12,4 +12,7 @@ class ChatRepositoryImpl @Inject constructor(private val chatsService: ChatsServ
             chatsService.getChats(limit = limit, offset = offset)
         }
 
+    override suspend fun deleteDialog(id: String): Result<Unit> = withContext(Dispatchers.IO) {
+        chatsService.deleteChatById(id)
+    }
 }

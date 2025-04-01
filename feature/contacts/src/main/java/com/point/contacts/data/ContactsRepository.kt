@@ -37,4 +37,8 @@ class ContactsRepository @Inject constructor(private val contactsService: Contac
     suspend fun deleteUserFromFriends(username: String) = withContext(Dispatchers.IO) {
         contactsService.deleteUserFromFriends(username)
     }
+
+    suspend fun getChatId(username: String) = withContext(Dispatchers.IO) {
+        contactsService.createChat(CreateChatRequest(listOf(username)))
+    }
 }

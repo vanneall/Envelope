@@ -22,11 +22,11 @@ import com.point.contacts.search.viewModel.SearchContactsViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
 import com.point.envelope.TopBarAction
+import com.point.envelope.navigation.extensions.entryComposable
+import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
-import com.point.envelope.navigation.extensions.entryComposable
-import com.point.envelope.navigation.extensions.subComposable
 
 internal fun NavGraphBuilder.contactsFeature(
     navController: NavController,
@@ -107,7 +107,9 @@ internal fun NavGraphBuilder.contactsFeature(
 
         ProfileScreen(
             state = viewModel.composableState.value,
+            onNavigation = { route -> navController.navigate(route.asComposeRoute) },
             onAction = viewModel::emitAction,
+            events = viewModel.events,
             modifier = Modifier.fillMaxSize()
         )
     }

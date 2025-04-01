@@ -27,10 +27,29 @@ class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: C
                 }
             )
         }
+
+        handleDeleteDialog()
     }
 
     override fun reduce(action: ChatAction, state: ChatsState): ChatsState = when (action) {
         is ChatAction.Action.OnChatsLoadSuccess -> state.copy(chats = action.chats.toChat())
+
+        is ChatAction.Event.DialogDeleted -> state.copy(
+            chats = state.chats.filter { it.id != action.id }
+        )
+
+        is ChatAction.Action.DeleteDialog -> state
+    }
+
+    private fun handleDeleteDialog() {
+        handleAction<ChatAction.Action.DeleteDialog> { deleteAction ->
+            chatRepository.deleteDialog(deleteAction.id).fold(
+                onSuccess = {
+                    emitAction(ChatAction.Event.DialogDeleted(deleteAction.id))
+                },
+                onFailure = { it.printStackTrace() }
+            )
+        }
     }
 
 }
