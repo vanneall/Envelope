@@ -17,7 +17,7 @@ interface ContactsService {
     suspend fun fetchFriends(): Result<List<UserInfoShort>>
 
     @GET("/users/api-v2/all")
-    suspend fun fetchUsersByName(@Query("name") query: String): Result<List<UserInfoShort>>
+    suspend fun fetchUsersByName(@Query("name") query: String): Result<UsersSearchResponse>
 
     @GET("/users/api-v2/requests")
     suspend fun fetchIncomingRequest(@Query("incoming") isIncoming: Boolean = true): Result<List<UserInfoShort>>
@@ -41,6 +41,14 @@ interface ContactsService {
     suspend fun createChat(@Body metadata: CreateChatRequest): Result<ChatIdResponse>
 
 }
+
+@Serializable
+data class UsersSearchResponse(
+    @SerialName("in_contacts")
+    val inContacts: List<UserInfoShort>,
+    @SerialName("all_contacts")
+    val allContacts: List<UserInfoShort>,
+)
 
 @Serializable
 data class FriendRequest(

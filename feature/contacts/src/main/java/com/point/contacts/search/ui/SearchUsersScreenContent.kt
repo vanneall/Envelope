@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MarkEmailRead
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,50 +42,121 @@ fun SearchUsersScreenContent(
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            items(
-                items = state.contacts,
-                key = { it.username }
-            ) { contact ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onNavigation(Route.ContactsFeature.UserProfile(contact.username)) },
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    ContactComposable(
-                        contact = contact,
-                        modifier = Modifier.weight(1f),
-                    )
+            if (state.inContacts.isNotEmpty()) {
 
-                    if (contact.isSentRequest) {
-                        Icon(
-                            imageVector = Icons.Default.MarkEmailRead,
-                            contentDescription = null,
-                            tint = Theme.colorScheme.accent,
-                            modifier = Modifier
-                                .padding(end = 20.dp)
-                                .size(38.dp)
-                                .clip(CircleShape)
-                                .padding(6.dp)
+                item {
+                    Text(
+                        text = "В контактах",
+                        style = Theme.typography.titleS,
+                        color = Theme.colorScheme.textSecondary,
+                        modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
+                    )
+                }
+
+                items(
+                    items = state.inContacts,
+                    key = { "contact1_" + it.username }
+                ) { contact ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onNavigation(Route.ContactsFeature.UserProfile(contact.username)) },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        ContactComposable(
+                            contact = contact,
+                            modifier = Modifier.weight(1f),
                         )
-                    } else if (!contact.inContacts) {
-                        Icon(
-                            imageVector = Icons.Default.PersonAdd,
-                            contentDescription = null,
-                            tint = Theme.colorScheme.accent,
-                            modifier = Modifier
-                                .padding(end = 20.dp)
-                                .size(38.dp)
-                                .clip(CircleShape)
-                                .clickable {
-                                    onAction(SearchContactsAction.SendRequest(contact.username))
-                                }
-                                .padding(6.dp)
+
+                        if (contact.isSentRequest) {
+                            Icon(
+                                imageVector = Icons.Default.MarkEmailRead,
+                                contentDescription = null,
+                                tint = Theme.colorScheme.accent,
+                                modifier = Modifier
+                                    .padding(end = 20.dp)
+                                    .size(38.dp)
+                                    .clip(CircleShape)
+                                    .padding(6.dp)
+                            )
+                        } else if (!contact.inContacts) {
+                            Icon(
+                                imageVector = Icons.Default.PersonAdd,
+                                contentDescription = null,
+                                tint = Theme.colorScheme.accent,
+                                modifier = Modifier
+                                    .padding(end = 20.dp)
+                                    .size(38.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        onAction(SearchContactsAction.SendRequest(contact.username))
+                                    }
+                                    .padding(6.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            if (state.allContacts.isNotEmpty()) {
+
+                item {
+                    Text(
+                        text = "Все пользователи",
+                        style = Theme.typography.titleS,
+                        color = Theme.colorScheme.textSecondary,
+                        modifier = Modifier.padding(start = 8.dp, top = 16.dp, bottom = 8.dp)
+                    )
+                }
+
+                items(
+                    items = state.allContacts,
+                    key = { "all_" + it.username }
+                ) { contact ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onNavigation(Route.ContactsFeature.UserProfile(contact.username)) },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        ContactComposable(
+                            contact = contact,
+                            modifier = Modifier.weight(1f),
                         )
+
+                        if (contact.isSentRequest) {
+                            Icon(
+                                imageVector = Icons.Default.MarkEmailRead,
+                                contentDescription = null,
+                                tint = Theme.colorScheme.accent,
+                                modifier = Modifier
+                                    .padding(end = 20.dp)
+                                    .size(38.dp)
+                                    .clip(CircleShape)
+                                    .padding(6.dp)
+                            )
+                        } else if (!contact.inContacts) {
+                            Icon(
+                                imageVector = Icons.Default.PersonAdd,
+                                contentDescription = null,
+                                tint = Theme.colorScheme.accent,
+                                modifier = Modifier
+                                    .padding(end = 20.dp)
+                                    .size(38.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        onAction(SearchContactsAction.SendRequest(contact.username))
+                                    }
+                                    .padding(6.dp)
+                            )
+                        }
                     }
                 }
 
+
             }
         }
+
+
     }
 }

@@ -1,6 +1,6 @@
 package com.point.contacts.search.viewModel
 
-import com.point.contacts.data.response.UserInfoShort
+import com.point.contacts.data.UsersSearchResponse
 
 sealed interface SearchContactsAction {
 
@@ -8,6 +8,6 @@ sealed interface SearchContactsAction {
 
     data class SendRequest(val userId: String) : SearchContactsAction
 
-    data class LoadUserContacts(val contacts: List<UserInfoShort>) : SearchContactsAction
+    data class LoadUserContacts(val contacts: UsersSearchResponse) : SearchContactsAction
 
 }
