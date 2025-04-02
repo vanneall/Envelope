@@ -13,6 +13,10 @@ data class MessageSentEvent(
     @Serializable(with = InstantSerializer::class)
     @SerialName("timestamp")
     override val timestamp: Instant,
+    @SerialName("userName")
+    val userName: String,
+    @SerialName("userPhotoId")
+    val userPhotoId: Long? = null,
     @SerialName("senderId")
     val senderId: String,
     @SerialName("text")
