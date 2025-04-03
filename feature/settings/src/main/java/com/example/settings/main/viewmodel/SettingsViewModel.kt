@@ -25,21 +25,28 @@ import com.point.ui.colors.PurpleContainer
 import com.point.ui.colors.PurpleContent
 import com.point.ui.colors.RedContainer
 import com.point.ui.colors.RedContent
+import com.point.user.storage.UserStorage
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor() :
-    MviViewModel<MainSettingsState, SettingsAction, Any>(
-        initialValue = state
-    ) {
+class SettingsViewModel @Inject constructor(
+    private val userStorage: UserStorage
+) : MviViewModel<MainSettingsState, SettingsAction, SettingsEvent>(
+    initialValue = state,
+) {
 
-    override fun reduce(action: SettingsAction, state: MainSettingsState): MainSettingsState =
-        when (action) {
-            SettingsAction.Refresh -> state.copy(isLoading = true)
+    init {
+        onLeftFromAccount()
+    }
+
+    private fun onLeftFromAccount() {
+        handleAction<SettingsAction.Action.LeftFromAccount> {
+            userStorage.updateToken(null)
+            emitEvent(SettingsEvent.LeftFromAccount)
         }
-
+    }
 }
 
 val userData = UserData(

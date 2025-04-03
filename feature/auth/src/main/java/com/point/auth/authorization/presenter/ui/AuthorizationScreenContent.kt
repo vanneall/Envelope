@@ -39,15 +39,14 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.point.auth.R
-import com.point.auth.authorization.presenter.mvi.AuthAction
-import com.point.auth.authorization.presenter.mvi.AuthAction.Action.Authorization
-import com.point.auth.authorization.presenter.mvi.AuthAction.Action.OnPasswordInput
-import com.point.auth.authorization.presenter.mvi.AuthEvent
-import com.point.auth.authorization.presenter.mvi.AuthState
+import com.point.auth.authorization.presenter.viewmodel.AuthAction
+import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action.Authorization
+import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action.OnPasswordInput
+import com.point.auth.authorization.presenter.viewmodel.AuthEvent
+import com.point.auth.authorization.presenter.viewmodel.AuthState
 import com.point.navigation.Route
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
@@ -55,7 +54,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @Composable
-fun AuthorizationScreenContent(
+internal fun AuthorizationScreenContent(
     state: AuthState,
     onAction: (AuthAction) -> Unit,
     events: Flow<AuthEvent>,
@@ -183,7 +182,7 @@ fun AuthorizationScreenContent(
 }
 
 @Composable
-fun CredentialsTextField(
+internal fun CredentialsTextField(
     value: String,
     onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -245,15 +244,4 @@ fun CredentialsTextField(
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
     )
-}
-
-@Preview
-@Composable
-fun LoginTextFieldPreview() {
-//    val text = remember { mutableStateOf("") }
-//    CredentialsTextField(
-//        text.value,
-//        { text.value = it },
-//        onClear = { text.value = "" },
-//    )
 }

@@ -12,6 +12,7 @@ class RegistrationProfileViewModel @Inject constructor() : MviViewModel<
         >(
     initialValue = RegProfileState()
 ) {
+
     val userData
         get() = UserData(
             name = state.name.trim(),
@@ -27,9 +28,3 @@ class RegistrationProfileViewModel @Inject constructor() : MviViewModel<
 
     fun isValid() = state.name.trim().isNotEmpty()
 }
-
-data class UserData(
-    val name: String,
-    val status: String?,
-    val about: String?,
-)

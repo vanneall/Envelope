@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
-import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.feature.authFeature
 import com.point.envelope.navigation.feature.chatsFeature
 import com.point.envelope.navigation.feature.contactsFeature
@@ -16,13 +15,14 @@ import com.point.envelope.navigation.feature.settingsFeature
 @Composable
 fun EnvelopeNavHost(
     navHostController: NavHostController,
-    modifier: Modifier,
+    startDestination: ComposeNavigationRoute,
     topAppBarState: MutableState<TopAppBarState2>,
     bottomBarState: MutableState<BottomBarState>,
+    modifier: Modifier,
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = SubRoute.Authorization,
+        startDestination = startDestination,
         modifier = modifier,
     ) {
         authFeature(

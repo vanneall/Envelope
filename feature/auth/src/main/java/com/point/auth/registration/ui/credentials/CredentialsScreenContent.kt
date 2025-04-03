@@ -10,10 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -23,6 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.point.auth.R
 import com.point.auth.registration.presenter.credentials.CredentialsAction
+import com.point.auth.registration.presenter.credentials.CredentialsAction.Action
 import com.point.auth.registration.presenter.credentials.CredentialsState
 import com.point.ui.Theme
 import com.point.ui.textfields.EnvelopeOutlinedTextField
@@ -50,7 +47,7 @@ fun CredentialsScreenContent(
 
         EnvelopeOutlinedTextField(
             value = state.login,
-            onValueChange = { onAction(CredentialsAction.OnLoginInput(it)) },
+            onValueChange = { onAction(Action.OnLoginInput(it)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrectEnabled = false,
@@ -71,7 +68,7 @@ fun CredentialsScreenContent(
 
         EnvelopeOutlinedTextField(
             value = state.password,
-            onValueChange = { onAction(CredentialsAction.OnPasswordInput(it)) },
+            onValueChange = { onAction(Action.OnPasswordInput(it)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrectEnabled = false,
@@ -92,8 +89,8 @@ fun CredentialsScreenContent(
         Spacer(modifier = Modifier.height(12.dp))
 
         EnvelopeOutlinedTextField(
-            value = state.repassword,
-            onValueChange = { onAction(CredentialsAction.OnRepasswordInput(it)) },
+            value = state.passwordSecondInput,
+            onValueChange = { onAction(Action.OnPasswordSecondInput(it)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrectEnabled = false,

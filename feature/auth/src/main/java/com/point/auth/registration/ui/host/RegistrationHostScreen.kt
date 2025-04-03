@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.point.auth.registration.presenter.credentials.CredentialsAction
 import com.point.auth.registration.presenter.credentials.CredentialsState
-import com.point.auth.registration.presenter.mvi.RegAction
-import com.point.auth.registration.presenter.mvi.RegEvent
+import com.point.auth.registration.presenter.host.HostAction
+import com.point.auth.registration.presenter.host.HostEvent
 import com.point.auth.registration.presenter.profile.RegProfileAction
 import com.point.auth.registration.presenter.profile.RegProfileState
 import com.point.auth.registration.ui.credentials.CredentialsScreen
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun RegistrationHostScreen(
-    onAction: (RegAction) -> Unit,
-    events: Flow<RegEvent>,
+    onAction: (HostAction) -> Unit,
+    events: Flow<HostEvent>,
     onNavigate: (Route) -> Unit,
     regProfileState: RegProfileState,
     regProfileAction: (RegProfileAction) -> Unit,

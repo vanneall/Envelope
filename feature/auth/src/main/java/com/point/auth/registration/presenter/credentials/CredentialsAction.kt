@@ -2,12 +2,18 @@ package com.point.auth.registration.presenter.credentials
 
 sealed interface CredentialsAction {
 
-    data class OnLoginInput(val value: String) : CredentialsAction
+    sealed interface Action : CredentialsAction {
 
-    data class OnPasswordInput(val value: String) : CredentialsAction
+        @JvmInline
+        value class OnLoginInput(val value: String) : Action
 
-    data class OnRepasswordInput(val value: String) : CredentialsAction
+        @JvmInline
+        value class OnPasswordInput(val value: String) : Action
 
-    data object OnRegistration : CredentialsAction
+        @JvmInline
+        value class OnPasswordSecondInput(val value: String) : Action
 
+        data object OnRegistration : Action
+
+    }
 }

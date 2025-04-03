@@ -41,6 +41,13 @@ internal fun NavGraphBuilder.settingsFeature(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
             onNavigate = { route -> navController.navigate(route.asComposeRoute) },
+            events = viewModel.events,
+            onLeftFromAccount = {
+                navController.navigate(SubRoute.Authorization) {
+                    popUpTo<EntryRoute.Settings> { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
             modifier = Modifier.fillMaxSize(),
         )
     }

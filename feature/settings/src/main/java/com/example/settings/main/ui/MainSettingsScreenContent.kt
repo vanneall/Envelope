@@ -26,6 +26,7 @@ import com.example.settings.main.viewmodel.AppSettings
 import com.example.settings.main.viewmodel.ExitSettings
 import com.example.settings.main.viewmodel.MainSettingsState
 import com.example.settings.main.viewmodel.Settings
+import com.example.settings.main.viewmodel.SettingsAction
 import com.example.settings.main.viewmodel.SettingsSection
 import com.example.settings.main.viewmodel.UserData
 import com.example.settings.main.viewmodel.UserSettings
@@ -37,6 +38,7 @@ import com.point.ui.Theme
 internal fun MainSettingsScreenContent(
     state: MainSettingsState,
     onNavigate: (Route) -> Unit,
+    onAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -83,7 +85,11 @@ internal fun MainSettingsScreenContent(
 
                 when (item) {
                     is AppSettings -> AppSettings(appSettings = item, modifier)
-                    is ExitSettings -> ExitSettings(exitSettings = item, modifier)
+                    is ExitSettings -> ExitSettings(
+                        exitSettings = item,
+                        onClick = onAction,
+                        modifier = modifier,
+                    )
                     is UserSettings -> UserSettings(
                         userSettings = item,
                         onClick = { item.route?.let { onNavigate(it) } },
@@ -150,6 +156,7 @@ private fun MainSettingsScreenContentPreview() {
                 )
             ),
             onNavigate = { },
+            onAction = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color.White)

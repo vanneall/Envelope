@@ -20,13 +20,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.point.auth.registration.presenter.mvi.RegAction
+import com.point.auth.registration.presenter.host.HostAction
+import com.point.auth.registration.presenter.host.HostAction.Action
 import com.point.ui.Theme
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationButtons(
-    onAction: (RegAction) -> Unit,
+    onAction: (HostAction) -> Unit,
     currentPage: Int,
     isLastPage: Boolean,
     modifier: Modifier = Modifier,
@@ -45,7 +46,7 @@ fun NavigationButtons(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        if (currentPage > 0) onAction(RegAction.OnNewPage(currentPage, currentPage - 1))
+                        if (currentPage > 0) onAction(Action.OnNewPage(currentPage, currentPage - 1))
                     }
                 },
                 modifier = Modifier
@@ -76,9 +77,9 @@ fun NavigationButtons(
                 onClick = {
                     coroutineScope.launch {
                         if (!isLastPage) {
-                            onAction(RegAction.OnNewPage(currentPage, currentPage + 1))
+                            onAction(Action.OnNewPage(currentPage, currentPage + 1))
                         } else {
-                            onAction(RegAction.OnRegistration)
+                            onAction(Action.OnRegistration)
                         }
                     }
                 },

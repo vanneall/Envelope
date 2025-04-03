@@ -1,40 +1,17 @@
 package com.point.auth.authorization.domain
 
-import com.point.auth.authorization.data.AuthRequest
-import com.point.auth.authorization.data.AuthorizationRepository
-import com.point.auth.authorization.data.UserRegistrationRequest
-import com.point.auth.registration.presenter.mvi.UserRegistrationData
+import com.point.auth.common.data.AuthRequest
+import com.point.auth.common.data.AuthorizationRepository
+import com.point.kutils.extensions.ignoreValue
 import com.point.user.storage.UserStorage
-import com.skydoves.retrofit.adapters.result.foldSuspend
 
 class AuthorizeUseCase(
     private val authorizationRepository: AuthorizationRepository,
-    private val userStorage: UserStorage
+    private val userStorage: UserStorage,
 ) {
 
-    suspend fun execute(authRequest: AuthRequest): Result<Unit> {
-        return authorizationRepository.tryToAuthorize(authRequest = authRequest)
-            .foldSuspend(
-                onSuccess = { token ->
-                    userStorage.token = token.token
-                    Result.success(Unit)
-                },
-                onFailure = {
-                    Result.failure(it)
-                }
-            )
-    }
-
-    suspend fun execute2(registrationRequest: UserRegistrationData): Result<Unit> {
-        return authorizationRepository.registration(dto = registrationRequest)
-            .foldSuspend(
-                onSuccess = { token ->
-                    userStorage.token = token.token
-                    Result.success(Unit)
-                },
-                onFailure = {
-                    Result.failure(it)
-                }
-            )
-    }
+    suspend operator fun invoke(authRequest: AuthRequest): Result<Unit> =
+        authorizationRepository.tryToAuthorize(authRequest = authRequest)
+            .onSuccess { userStorage.updateToken(it.token) }
+            .ignoreValue()
 }

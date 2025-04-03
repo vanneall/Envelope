@@ -11,18 +11,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import com.point.auth.authorization.presenter.mvi.AuthorizationViewModel
+import androidx.navigation.compose.composable
 import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.auth.authorization.presenter.viewmodel.AuthorizationViewModel
 import com.point.auth.registration.presenter.credentials.CredentialsViewModel
-import com.point.auth.registration.presenter.mvi.RegistrationViewModel
+import com.point.auth.registration.presenter.host.HostViewModel
 import com.point.auth.registration.presenter.profile.RegistrationProfileViewModel
 import com.point.auth.registration.ui.host.RegistrationHostScreen
 import com.point.chats.R
 import com.point.envelope.BottomBarState
 import com.point.envelope.TopAppBarState2
+import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
-import com.point.envelope.navigation.extensions.subComposable
 
 internal fun NavGraphBuilder.authFeature(
     navController: NavController,
@@ -30,7 +31,7 @@ internal fun NavGraphBuilder.authFeature(
     bottomBarState: MutableState<BottomBarState>,
 ) {
 
-    subComposable<SubRoute.Authorization> {
+    composable<SubRoute.Authorization> {
         val focusManager = LocalFocusManager.current
         LaunchedEffect(Unit) {
             focusManager.clearFocus()
@@ -43,7 +44,10 @@ internal fun NavGraphBuilder.authFeature(
 
         AuthorizationScreen(
             state = viewModel.composableState.value,
-            onNavigate = { route -> navController.navigate(route.asComposeRoute) },
+            onNavigate = { route -> navController.navigate(route.asComposeRoute){
+                popUpTo(SubRoute.Authorization) { inclusive = true }
+                launchSingleTop = true
+            } },
             onAction = viewModel::emitAction,
             events = viewModel.events,
             modifier = Modifier
@@ -65,14 +69,19 @@ internal fun NavGraphBuilder.authFeature(
         )
         bottomBarState.value = BottomBarState(false)
 
-        val viewModel = hiltViewModel<RegistrationViewModel>()
+        val viewModel = hiltViewModel<HostViewModel>()
         viewModel.regProfileViewModel = hiltViewModel<RegistrationProfileViewModel>()
         viewModel.credentialsViewModel = hiltViewModel<CredentialsViewModel>()
 
         RegistrationHostScreen(
             onAction = viewModel::emitAction,
             events = viewModel.events,
-            onNavigate = { route -> navController.navigate(route.asComposeRoute) },
+            onNavigate = { route ->
+                navController.navigate(route.asComposeRoute) {
+                    popUpTo(SubRoute.Authorization) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
             regProfileState = viewModel.regProfileViewModel.composableState.value,
             regProfileAction = viewModel.regProfileViewModel::emitAction,
             credentialsState = viewModel.credentialsViewModel.composableState.value,

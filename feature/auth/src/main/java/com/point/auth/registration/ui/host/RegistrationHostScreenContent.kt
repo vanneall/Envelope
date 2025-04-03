@@ -10,17 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import com.point.auth.registration.presenter.mvi.RegAction
-import com.point.auth.registration.presenter.mvi.RegEvent
+import com.point.auth.registration.presenter.host.HostAction
+import com.point.auth.registration.presenter.host.HostEvent
 import com.point.navigation.Route
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Composable
 fun RegistrationHostScreenContent(
-    onAction: (RegAction) -> Unit,
+    onAction: (HostAction) -> Unit,
     onNavigate: (Route) -> Unit,
-    events: Flow<RegEvent>,
+    events: Flow<HostEvent>,
     pages: ImmutableList<@Composable () -> Unit>,
     modifier: Modifier = Modifier,
 ) {
@@ -47,8 +47,8 @@ fun RegistrationHostScreenContent(
             launch {
                 events.collect {
                     when (it) {
-                        is RegEvent.SwitchPage -> pagerState.animateScrollToPage(it.new)
-                        is RegEvent.NavigateToMainScreen -> onNavigate(Route.ChatsFeature.Chats)
+                        is HostEvent.SwitchPage -> pagerState.animateScrollToPage(it.new)
+                        is HostEvent.NavigateToMainScreen -> onNavigate(Route.ChatsFeature.Chats)
                     }
                 }
             }

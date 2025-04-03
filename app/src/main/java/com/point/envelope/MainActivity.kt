@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -50,6 +51,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<MainViewModel>()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,11 +169,16 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     EnvelopeNavHost(
                         navHostController = navController,
+                        startDestination = if (viewModel.token != null) {
+                            ComposeNavigationRoute.EntryRoute.Chats
+                        } else {
+                            ComposeNavigationRoute.SubRoute.Authorization
+                        },
+                        topAppBarState = appBarState,
+                        bottomBarState = bottomBarState,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(innerPadding),
-                        topAppBarState = appBarState,
-                        bottomBarState = bottomBarState,
                     )
                 }
             }
