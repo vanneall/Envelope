@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(
                                     text = appBarState.value.text,
-                                    style = Theme.typography.headlineM,
+                                    style = Theme.typography.titleL,
                                     color = Theme.colorScheme.textPrimary,
                                     modifier = Modifier.padding(start = 12.dp)
                                 )

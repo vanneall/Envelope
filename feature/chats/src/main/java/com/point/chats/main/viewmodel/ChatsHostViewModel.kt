@@ -3,6 +3,7 @@ package com.point.chats.main.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.example.utils.Real
 import com.point.chats.main.data.entity.response.ChatInfoShort
+import com.point.chats.main.data.entity.response.MessageInfoShort
 import com.point.chats.main.data.reporitory.ChatRepository
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,6 +59,13 @@ private fun List<ChatInfoShort>.toChat() = map {
     Chat(
         id = it.id,
         name = it.name,
-        lastMessage = it.lastMessage.orEmpty()
+        photoId = it.photoId,
+        lastMessage = it.lastMessage?.toMessageInfo(),
     )
 }
+
+fun MessageInfoShort.toMessageInfo() = MessageShort(
+    id = id,
+    text = text,
+    timestamp = timestamp,
+)

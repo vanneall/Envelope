@@ -3,9 +3,14 @@ package com.point.chats.main.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.point.chats.main.viewmodel.ChatAction
@@ -22,22 +27,28 @@ fun ChatsScreenContent(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
-        items(
-            count = state.chats.size,
-            key = { index -> state.chats[index].id },
-        ) {
+        itemsIndexed(
+            items = state.chats,
+            key = { _, chat -> chat.id },
+        ) { index, chat ->
             val interactionSource = remember { MutableInteractionSource() }
 
             ChatComposable(
-                chat = state.chats[it],
+                chat = chat,
                 modifier = Modifier
                     .combinedClickable(
                         interactionSource = interactionSource,
                         indication = rememberRipple(color = Theme.colorScheme.overlay),
-                        onClick = { onNavigate(Route.ChatsFeature.Messaging(state.chats[it].id)) },
-                        onLongClick = { onAction(ChatAction.Action.DeleteDialog(state.chats[it].id)) },
+                        onClick = { onNavigate(Route.ChatsFeature.Messaging(chat.id)) },
+                        onLongClick = { onAction(ChatAction.Action.DeleteDialog(chat.id)) },
                     ),
             )
+
+            val isLast by remember { derivedStateOf { index != state.chats.lastIndex } }
+
+            if (isLast) {
+                HorizontalDivider(modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }

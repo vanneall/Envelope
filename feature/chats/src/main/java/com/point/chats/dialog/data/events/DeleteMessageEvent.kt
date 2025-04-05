@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 import java.time.Instant
 
 @Serializable
-@SerialName("message")
+@SerialName("message_delete")
 data class DeleteMessageEvent(
     @SerialName("id")
     override val id: String,
     @Serializable(with = InstantSerializer::class)
     @SerialName("timestamp")
     override val timestamp: Instant,
-    @SerialName("messageId")
+    @SerialName("message_id")
     val messageId: String,
 ) : BaseEvent

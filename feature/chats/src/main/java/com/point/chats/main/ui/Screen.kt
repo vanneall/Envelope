@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +26,8 @@ import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.chats.main.viewmodel.Chat
 import com.point.ui.Theme
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ChatComposable(chat: Chat, modifier: Modifier = Modifier) {
@@ -42,21 +47,58 @@ fun ChatComposable(chat: Chat, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .fillMaxHeight(),
         ) {
-            Text(
-                text = chat.name,
-                style = Theme.typography.titleM,
-                color = Theme.colorScheme.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = chat.name,
+                    style = Theme.typography.titleM,
+                    color = Theme.colorScheme.textPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
 
-            Text(
-                text = chat.lastMessage,
-                style = Theme.typography.bodyM,
-                color = Theme.colorScheme.textSecondary,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-            )
+                if (chat.lastMessage != null) {
+                    val formattedTime = remember(chat.lastMessage.timestamp) {
+                        DateTimeFormatter.ofPattern("HH:mm")
+                            .withZone(ZoneId.systemDefault())
+                            .format(chat.lastMessage.timestamp)
+                    }
+
+                    Text(
+                        text = formattedTime,
+                        style = Theme.typography.bodyS,
+                        color = Theme.colorScheme.textSecondary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                } else {
+                    Text(
+                        text = "новый",
+                        style = Theme.typography.labelL,
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(
+                                color = Theme.colorScheme.accent,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(4.dp)
+                    )
+                }
+            }
+
+
+            if (chat.lastMessage != null) {
+                Text(
+                    text = chat.lastMessage.text,
+                    style = Theme.typography.bodyM,
+                    color = Theme.colorScheme.textSecondary,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }
