@@ -9,6 +9,12 @@ import java.time.Instant
 data class ChatDialogState(
     val message: String = "",
     val events: List<BaseEvent> = emptyList(),
+    val isInEditMode: EditMode? = null,
+)
+
+data class EditMode(
+    val messageId: String,
+    val text: String,
 )
 
 @Serializable

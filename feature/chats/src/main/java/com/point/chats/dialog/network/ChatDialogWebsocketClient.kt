@@ -129,6 +129,22 @@ class ChatDialogWebsocketClient @Inject constructor(
         webSocket?.send(stompMessage)
     }
 
+    fun editMessage(editMessage: EditMessage) {
+        editMessage(chatId, Json.encodeToString(editMessage))
+    }
+
+    private fun editMessage(chatId: String, json: String) {
+        val stompMessage = """
+        SEND
+        destination:/app/chat/$chatId/editMessage
+        
+        $json
+        ${"\u0000"}
+        """.trimIndent()
+
+        webSocket?.send(stompMessage)
+    }
+
 
     fun disconnect() {
         webSocket?.close(1000, "Goodbye")
@@ -155,4 +171,12 @@ data class CreateMessageRequest(
 data class DeleteMessage(
     @SerialName("message_id")
     val messageId: String
+)
+
+@Serializable
+data class EditMessage(
+    @SerialName("message_id")
+    val messageId: String,
+    @SerialName("content")
+    val content: String,
 )

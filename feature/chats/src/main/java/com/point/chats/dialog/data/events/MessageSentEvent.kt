@@ -23,4 +23,8 @@ data class MessageSentEvent(
     val text: String,
     @SerialName("attachments")
     val attachments: List<Long> = emptyList(),
+    @SerialName("is_pinned")
+    val isPinned: Boolean,
+    @SerialName("is_edited")
+    val isEdited: Boolean,
 ) : BaseEvent

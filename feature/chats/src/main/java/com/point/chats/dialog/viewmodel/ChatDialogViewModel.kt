@@ -3,6 +3,8 @@ package com.point.chats.dialog.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.point.chats.dialog.data.ChatDialogRepository
 import com.point.chats.dialog.data.events.DeleteMessageEvent
+import com.point.chats.dialog.data.events.MessageEditedEvent
+import com.point.chats.dialog.data.events.MessageSentEvent
 import com.point.viewmodel.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -15,7 +17,7 @@ class ChatDialogViewModel @AssistedInject constructor(
     @Assisted(FACTORY_CHAT_ID)
     private val chatId: String,
     private val chatDialogRepository: ChatDialogRepository,
-) : MviViewModel<ChatDialogState, ChatDialogAction, Any>(
+) : MviViewModel<ChatDialogState, ChatDialogAction, ChatDialogEvent>(
     initialValue = ChatDialogState()
 ) {
 
@@ -34,6 +36,7 @@ class ChatDialogViewModel @AssistedInject constructor(
 
         onSendMessage()
         onDeleteMessage()
+        onEditMessage()
     }
 
     override fun reduce(action: ChatDialogAction, state: ChatDialogState) = when (action) {
@@ -42,6 +45,26 @@ class ChatDialogViewModel @AssistedInject constructor(
         is ChatDialogAction.UpdateList -> state.copy(events = listOf(action.text) + state.events)
         is ChatDialogAction.EventsLoaded -> state.copy(
             events = action.list
+        )
+
+        is ChatDialogAction.Edit -> state.copy(
+            message = action.text,
+            isInEditMode = EditMode(
+                messageId = action.id,
+                text = action.text,
+            )
+        )
+
+        is ChatDialogAction.EditSuccess -> state.copy(
+            message = "",
+            isInEditMode = null,
+            events = state.events.map {
+                if (it.id == action.id && it is MessageSentEvent) {
+                    it.copy(text = action.text, isEdited = true)
+                } else {
+                    it
+                }
+            }
         )
 
         is ChatDialogAction.DeleteSuccess -> state.copy(events = state.events.filter { it.id != action.id })
@@ -53,6 +76,13 @@ class ChatDialogViewModel @AssistedInject constructor(
         chatDialogRepository.connectToChat(chatId = chatId).collect { event ->
             when (event) {
                 is DeleteMessageEvent -> emitAction(ChatDialogAction.DeleteSuccess(event.messageId))
+                is MessageEditedEvent -> emitAction(
+                    ChatDialogAction.EditSuccess(
+                        event.editedMessageId,
+                        text = event.newContent
+                    )
+                )
+
                 else -> {
                     emitAction(ChatDialogAction.UpdateList(event))
                     emitAction(ChatDialogAction.ClearField)
@@ -63,13 +93,26 @@ class ChatDialogViewModel @AssistedInject constructor(
 
     private fun onSendMessage() {
         handleAction<ChatDialogAction.Send> {
-            chatDialogRepository.sendMessage(text = state.message)
+            val state = state
+            if (state.isInEditMode != null) {
+                if (state.message.isNotEmpty() && state.message != state.isInEditMode.text) {
+                    chatDialogRepository.editMessage(state.isInEditMode.messageId, state.message)
+                }
+            } else {
+                chatDialogRepository.sendMessage(text = state.message)
+            }
         }
     }
 
     private fun onDeleteMessage() {
         handleAction<ChatDialogAction.Delete> {
             chatDialogRepository.deleteMessage(id = it.id)
+        }
+    }
+
+    private fun onEditMessage() {
+        handleAction<ChatDialogAction.Edit> { action ->
+            emitEvent(ChatDialogEvent.OnEditMessage(action.text))
         }
     }
 

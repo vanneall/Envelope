@@ -14,6 +14,7 @@ object BaseEventSerializer : JsonContentPolymorphicSerializer<BaseEvent>(BaseEve
             "message" -> MessageSentEvent.serializer()
             "notification" -> UserJoinedEvent.serializer()
             "message_delete" -> DeleteMessageEvent.serializer()
+            "message_edit" -> MessageEditedEvent.serializer()
             else -> throw IllegalArgumentException("Unknown _class type: $type")
         }
     }

@@ -163,6 +163,15 @@ fun Message(
                 modifier = Modifier.weight(1f, false)
             )
 
+            if (message.isEdited) {
+                Text(
+                    text = "изменено",
+                    color = Theme.colorScheme.textSecondary,
+                    style = Theme.typography.labelM,
+                    modifier = Modifier.weight(1f, false),
+                )
+            }
+
             Text(
                 text = formattedTime,
                 color = Theme.colorScheme.textSecondary,
@@ -188,6 +197,7 @@ fun Message(
                 },
                 text = { Text("Редактировать") },
                 onClick = {
+                    onAction(ChatDialogAction.Edit(message.id, message.text))
                     showMenu = false
                 }
             )
@@ -203,8 +213,8 @@ fun Message(
                 },
                 text = { Text("Удалить") },
                 onClick = {
-                    showMenu = false
                     onAction(ChatDialogAction.Delete(message.id))
+                    showMenu = false
                 }
             )
         }

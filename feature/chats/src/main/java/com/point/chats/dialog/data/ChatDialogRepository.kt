@@ -4,6 +4,7 @@ import com.point.chats.dialog.data.events.BaseEvent
 import com.point.chats.dialog.network.ChatDialogWebsocketClient
 import com.point.chats.dialog.network.CreateMessageRequest
 import com.point.chats.dialog.network.DeleteMessage
+import com.point.chats.dialog.network.EditMessage
 import com.point.chats.main.data.reporitory.ChatsService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,8 @@ class ChatDialogRepository @Inject constructor(
             photos = null,
         )
     )
+
+    fun editMessage(messageId: String, text: String) = webSocketClient.editMessage(EditMessage(messageId, text))
 
     fun disconnect() = webSocketClient.disconnect()
 

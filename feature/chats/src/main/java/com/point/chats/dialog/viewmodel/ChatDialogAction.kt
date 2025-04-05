@@ -8,6 +8,10 @@ sealed interface ChatDialogAction {
     data class Delete(val id: String) : ChatDialogAction
     data class DeleteSuccess(val id: String) : ChatDialogAction
 
+
+    data class Edit(val id: String, val text: String): ChatDialogAction
+    data class EditSuccess(val id: String, val text: String): ChatDialogAction
+
     data class TypeMessage(val value: String) : ChatDialogAction
 
 
