@@ -52,7 +52,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ChatDialog(
+fun ChatDialogScreenContent(
     state: ChatDialogState,
     onAction: (ChatDialogAction) -> Unit,
     modifier: Modifier = Modifier

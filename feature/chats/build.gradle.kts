@@ -47,6 +47,12 @@ dependencies {
     implementation(project(":core:utils"))
     api(project(":core:network"))
 
+    // Swipe && refresh
+    implementation(libs.accompanist.swiperefresh)
+
+    // Compose Shimmer
+    implementation(libs.compose.shimmer)
+
     // Coil
     implementation(libs.coil.compose)
     

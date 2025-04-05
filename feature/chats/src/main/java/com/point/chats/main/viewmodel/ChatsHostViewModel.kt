@@ -27,19 +27,41 @@ class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: C
                     emitEvent(ChatEvents.ShowSomethingWentWrong)
                 }
             )
+
         }
 
         handleDeleteDialog()
+        handleRefresh()
     }
 
     override fun reduce(action: ChatAction, state: ChatsState): ChatsState = when (action) {
-        is ChatAction.Action.OnChatsLoadSuccess -> state.copy(chats = action.chats.toChat())
+        is ChatAction.Action.OnChatsLoadSuccess -> state.copy(
+            chats = action.chats.toChat(),
+            isRefreshing = false,
+            isInitialLoading = false
+        )
 
         is ChatAction.Event.DialogDeleted -> state.copy(
             chats = state.chats.filter { it.id != action.id }
         )
 
+        ChatAction.Action.Refresh -> state.copy(isRefreshing = true)
+
         is ChatAction.Action.DeleteDialog -> state
+    }
+
+    private fun handleRefresh() {
+        handleAction<ChatAction.Action.Refresh> {
+            chatRepository.fetchChats().fold(
+                onSuccess = {
+                    emitAction(ChatAction.Action.OnChatsLoadSuccess(it))
+                },
+                onFailure = {
+                    it.printStackTrace()
+                    emitEvent(ChatEvents.ShowSomethingWentWrong)
+                }
+            )
+        }
     }
 
     private fun handleDeleteDialog() {

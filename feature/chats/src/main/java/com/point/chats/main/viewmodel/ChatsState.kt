@@ -3,6 +3,8 @@ package com.point.chats.main.viewmodel
 import java.time.Instant
 
 data class ChatsState(
+    val isInitialLoading: Boolean = true,
+    val isRefreshing: Boolean = false,
     val chats: List<Chat> = emptyList(),
 )
 

@@ -43,8 +43,10 @@ class ChatDialogViewModel @AssistedInject constructor(
         is ChatDialogAction.TypeMessage -> state.copy(message = action.value)
         ChatDialogAction.Send -> state
         is ChatDialogAction.UpdateList -> state.copy(events = listOf(action.text) + state.events)
+
         is ChatDialogAction.EventsLoaded -> state.copy(
-            events = action.list
+            events = action.list,
+            isInitialLoading = false,
         )
 
         is ChatDialogAction.Edit -> state.copy(

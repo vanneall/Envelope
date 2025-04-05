@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.point.chats.R
-import com.point.chats.dialog.ui.ChatDialog
+import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
@@ -59,12 +59,11 @@ internal fun NavGraphBuilder.chatsFeature(
 
         val args = it.toRoute<SubRoute.Messaging>()
 
-        val viewModel: ChatDialogViewModel =
-            hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
-                creationCallback = { factory -> factory.create(args.chatId) }
-            )
+        val viewModel: ChatDialogViewModel = hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
+            creationCallback = { factory -> factory.create(args.chatId) }
+        )
 
-        ChatDialog(
+        ChatDialogScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
             modifier = Modifier.fillMaxSize()

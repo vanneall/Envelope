@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import java.time.Instant
 
 data class ChatDialogState(
+    val isInitialLoading: Boolean = true,
     val message: String = "",
     val events: List<BaseEvent> = emptyList(),
     val isInEditMode: EditMode? = null,
