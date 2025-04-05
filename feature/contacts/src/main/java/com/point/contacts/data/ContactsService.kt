@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 interface ContactsService {
 
-    @GET("/users/api-v2/friends")
+    @GET("/users/api-v2/contacts")
     suspend fun fetchFriends(): Result<List<UserInfoShort>>
 
     @GET("/users/api-v2/all")
@@ -34,7 +34,7 @@ interface ContactsService {
     @GET("/users/api-v2/{id}")
     suspend fun fetchUserInfoShort(@Path("id") username: String): Result<UserInfoShortResponse>
 
-    @DELETE("/users/api-v2/friends/{username}")
+    @DELETE("/users/api-v2/contacts/{username}")
     suspend fun deleteUserFromFriends(@Path("username") username: String): Result<Unit>
 
     @POST("/chats/api-v2")

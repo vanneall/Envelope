@@ -3,7 +3,7 @@ package com.point.contacts.main.presenter.viewmodel
 import androidx.compose.ui.graphics.Color
 
 data class ContactState(
-    val contacts: List<Contact> = emptyList(),
+    val contacts: Map<Char, List<Contact>> = emptyMap(),
     val isRefreshing: Boolean = false,
     val isRefreshingEnabled: Boolean = false,
     val isInitialLoading: Boolean = true,

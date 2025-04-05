@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -149,7 +148,7 @@ private fun ActionsRow(
                 icon = Icons.Default.Message,
                 onClick = { onAction(ProfileAction.ToChat) },
                 modifier = Modifier
-                    .defaultMinSize(minHeight = 60.dp)
+                    .weight(1f)
                     .background(
                         color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
@@ -164,7 +163,7 @@ private fun ActionsRow(
                 icon = Icons.Default.PersonOff,
                 onClick = { onAction(ProfileAction.DeleteFromContacts) },
                 modifier = Modifier
-                    .defaultMinSize(minHeight = 60.dp)
+                    .weight(1f)
                     .background(
                         color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
@@ -179,7 +178,7 @@ private fun ActionsRow(
                 icon = Icons.Default.PersonAdd,
                 onClick = { onAction(ProfileAction.AddContact) },
                 modifier = Modifier
-                    .defaultMinSize(minHeight = 60.dp)
+                    .weight(1f)
                     .background(
                         color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
@@ -192,7 +191,7 @@ private fun ActionsRow(
                 icon = Icons.Default.MarkEmailRead,
                 onClick = {},
                 modifier = Modifier
-                    .defaultMinSize(minHeight = 60.dp)
+                    .weight(1f)
                     .background(
                         color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
                     )
@@ -206,8 +205,10 @@ private fun ActionsRow(
             icon = Icons.Default.Block,
             onClick = {},
             modifier = Modifier
+                .weight(1f)
                 .background(
-                    color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp)
+                    color = Theme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp),
                 )
                 .clip(RoundedCornerShape(12.dp))
                 .padding(8.dp)
