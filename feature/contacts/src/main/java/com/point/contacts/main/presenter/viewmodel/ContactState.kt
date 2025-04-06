@@ -1,7 +1,5 @@
 package com.point.contacts.main.presenter.viewmodel
 
-import androidx.compose.ui.graphics.Color
-
 data class ContactState(
     val contacts: Map<Char, List<Contact>> = emptyMap(),
     val isRefreshing: Boolean = false,
@@ -15,7 +13,7 @@ data class Contact(
     val username: String = "",
     val name: String = "",
     val status: String = "",
-    val image: Color = Color.Gray,
+    val photoUrl: String? = null,
     val inContacts: Boolean = false,
     val isSentRequest: Boolean = false,
 )

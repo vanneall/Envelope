@@ -81,7 +81,7 @@ private fun List<ChatInfoShort>.toChat() = map {
     Chat(
         id = it.id,
         name = it.name,
-        photoId = it.photoId,
+        photoUrl = it.photoId?.let { uri -> "http://192.168.0.192:8084/photos/$uri" },
         lastMessage = it.lastMessage?.toMessageInfo(),
     )
 }

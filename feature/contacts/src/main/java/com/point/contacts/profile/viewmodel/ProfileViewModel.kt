@@ -42,6 +42,7 @@ class ProfileViewModel @AssistedInject constructor(
             name = action.data.name,
             status = action.data.status,
             about = action.data.about,
+            photos = action.data.photos,
             isRefreshing = false,
             isInitialLoading = false,
             isRefreshingEnable = true,

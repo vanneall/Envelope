@@ -38,7 +38,7 @@ fun ChatComposable(chat: Chat, modifier: Modifier = Modifier) {
             .background(color = Color.White)
             .padding(all = 8.dp),
     ) {
-        UserPhoto(modifier = Modifier.size(54.dp))
+        UserPhoto(chat.photoUrl, modifier = Modifier.size(54.dp))
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -104,9 +104,9 @@ fun ChatComposable(chat: Chat, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun UserPhoto(modifier: Modifier = Modifier) {
+fun UserPhoto(url: String?, modifier: Modifier = Modifier) {
     AsyncImage(
-        model = DEFAULT_IMAGE_URL,
+        model = url ?: DEFAULT_IMAGE_URL,
         contentDescription = null,
         contentScale = ContentScale.Crop,
         placeholder = painterResource(R.drawable.ic_person_default_24),
@@ -118,7 +118,7 @@ fun UserPhoto(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun UserPhotoPreview() {
-    UserPhoto(modifier = Modifier.size(54.dp))
+    UserPhoto(null, modifier = Modifier.size(54.dp))
 }
 
 const val DEFAULT_IMAGE_URL = "https://i.pinimg.com/originals/32/b0/ad/32b0adaf073e4e17c4d36301047edb75.jpg"

@@ -1,18 +1,30 @@
 package com.example.settings.profile.ui
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.settings.profile.viewmodel.ProfileEditAction
 import com.example.settings.profile.viewmodel.ProfileEditState
 import com.point.ui.Theme
@@ -23,7 +35,38 @@ internal fun ProfileEditScreenContent(
     onAction: (ProfileEditAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        val imagePickerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+        ) { uri ->
+            uri?.let { onAction(ProfileEditAction.PickPhoto(it)) }
+        }
+
+        val context = LocalContext.current
+
+        AsyncImage(
+            model = if (state.photoUri != null) {
+                ImageRequest.Builder(context)
+                    .data(state.photoUri)
+                    .crossfade(true)
+                    .build()
+            } else {
+                state.initialPhotoUrl
+            },
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(size = 128.dp)
+                .clip(CircleShape)
+                .clickable {
+                    imagePickerLauncher.launch(
+                        PickVisualMediaRequest(
+                            mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
+                        )
+                    )
+                }
+        )
+
         Text(
             text = "Ваше имя",
             style = Theme.typography.bodyL,

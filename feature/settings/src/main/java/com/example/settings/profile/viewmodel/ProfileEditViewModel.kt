@@ -34,11 +34,14 @@ class ProfileEditViewModel @Inject constructor(
             name = action.data.name,
             status = action.data.status.orEmpty(),
             about = action.data.about.orEmpty(),
+            initialPhotoUrl = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
         )
 
         is ProfileEditAction.OnNameEntered -> state.copy(name = action.value)
         is ProfileEditAction.OnStatusEntered -> state.copy(status = action.value)
         is ProfileEditAction.OnAboutEntered -> state.copy(about = action.value)
+
+        is ProfileEditAction.PickPhoto -> state.copy(photoUri = action.uri)
 
         ProfileEditAction.OnSavePressed,
         ProfileEditAction.OnSaveSuccessfully -> state
@@ -53,7 +56,8 @@ class ProfileEditViewModel @Inject constructor(
                     name = state.name,
                     status = state.status,
                     about = state.about,
-                )
+                ),
+                photoUri = state.photoUri
             ).fold(
                 onSuccess = { emitEvent(ProfileEditEvent.OnBack) },
                 onFailure = { it.printStackTrace() }

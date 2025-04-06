@@ -39,6 +39,7 @@ class SearchContactsViewModel @Inject constructor(
                     status = it.status.orEmpty(),
                     inContacts = it.inContacts,
                     isSentRequest = it.inSentRequests,
+                    photoUrl = it.photo?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
                 )
             },
         )

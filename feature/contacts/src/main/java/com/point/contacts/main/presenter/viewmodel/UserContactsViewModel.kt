@@ -40,6 +40,7 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
                         username = it.username,
                         name = it.name,
                         status = it.status.orEmpty(),
+                        photoUrl = it.photo?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
                     )
                 }
             ),

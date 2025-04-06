@@ -11,7 +11,7 @@ data class ChatsState(
 data class Chat(
     val id: String = "",
     val name: String = "",
-    val photoId: Long? = null,
+    val photoUrl: String? = null,
     val lastMessage: MessageShort? = null,
 )
 

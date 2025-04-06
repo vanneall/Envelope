@@ -2,6 +2,7 @@ package com.example.settings.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PUT
@@ -15,6 +16,7 @@ interface ContactsService {
     @PUT("/users/api-v2")
     suspend fun putUserData(
         @Part("data") data: UserProfileUpdateRequest,
+        @Part photo: MultipartBody.Part?,
     ): Result<UserProfileDetailedResponse>
 }
 
@@ -28,6 +30,8 @@ data class UserProfileDetailedResponse(
     val status: String?,
     @SerialName("about")
     val about: String?,
+    @SerialName("photos")
+    val photos: List<Long>,
 )
 
 @Serializable

@@ -66,7 +66,7 @@ internal fun ProfileScreenContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            UserAvatar(null, modifier = Modifier.size(120.dp))
+            UserAvatar(state.lastPhoto, modifier = Modifier.size(120.dp))
 
             Spacer(modifier = Modifier.height(18.dp))
 
