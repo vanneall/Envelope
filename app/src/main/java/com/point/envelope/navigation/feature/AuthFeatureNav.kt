@@ -6,7 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -20,14 +19,15 @@ import com.point.auth.registration.presenter.profile.RegistrationProfileViewMode
 import com.point.auth.registration.ui.host.RegistrationHostScreen
 import com.point.chats.R
 import com.point.envelope.BottomBarState
-import com.point.envelope.TopAppBarState2
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.envelope.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.authFeature(
     navController: NavController,
-    topAppBarState: MutableState<TopAppBarState2>,
+    topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
 ) {
 
@@ -37,7 +37,12 @@ internal fun NavGraphBuilder.authFeature(
             focusManager.clearFocus()
         }
 
-        topAppBarState.value = TopAppBarState2(text = stringResource(R.string.settings_authorization_title))
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = R.string.settings_authorization_title
+            )
+        )
+
         bottomBarState.value = BottomBarState(false)
 
         val viewModel = hiltViewModel<AuthorizationViewModel>()
@@ -62,11 +67,13 @@ internal fun NavGraphBuilder.authFeature(
             focusManager.clearFocus()
         }
 
-        topAppBarState.value = TopAppBarState2(
-            text = stringResource(R.string.registration_screen_title),
-            isBackVisible = true,
-            onBackClick = { navController.popBackStack() },
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = R.string.registration_screen_title,
+            ),
+            onBack = { navController.popBackStack() }
         )
+
         bottomBarState.value = BottomBarState(false)
 
         val viewModel = hiltViewModel<HostViewModel>()

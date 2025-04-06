@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,24 +15,28 @@ import com.example.settings.profile.viewmodel.ProfileEditAction
 import com.example.settings.profile.viewmodel.ProfileEditViewModel
 import com.point.chats.R
 import com.point.envelope.BottomBarState
-import com.point.envelope.TopAppBarState2
-import com.point.envelope.TopBarAction
 import com.point.envelope.navigation.extensions.entryComposable
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.topappbar.state.TopAppBarAction
+import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.envelope.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.settingsFeature(
     navController: NavController,
-    topAppBarState: MutableState<TopAppBarState2>,
+    topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
 ) {
     entryComposable<EntryRoute.Settings> {
-        bottomBarState.value = BottomBarState(true)
-        topAppBarState.value = TopAppBarState2(
-            text = stringResource(R.string.settings_screen_title)
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = R.string.settings_screen_title
+            ),
         )
+        bottomBarState.value = BottomBarState(true)
 
         val viewModel = hiltViewModel<SettingsViewModel>()
 
@@ -56,12 +59,13 @@ internal fun NavGraphBuilder.settingsFeature(
 
         val viewModel = hiltViewModel<ProfileEditViewModel>()
 
-        topAppBarState.value = TopAppBarState2(
-            text = stringResource(R.string.profile_edit_screen_title),
-            isBackVisible = true,
-            onBackClick = { navController.popBackStack() },
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = R.string.profile_edit_screen_title
+            ),
+            onBack = { navController.popBackStack() },
             actions = listOf(
-                TopBarAction(
+                TopAppBarAction(
                     icon = Icons.Default.Check,
                     action = { viewModel.emitAction(ProfileEditAction.OnSavePressed) }
                 )

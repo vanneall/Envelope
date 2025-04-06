@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,16 +15,17 @@ import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.envelope.BottomBarState
-import com.point.envelope.TopAppBarState2
 import com.point.envelope.navigation.extensions.entryComposable
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.envelope.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
-    topAppBarState: MutableState<TopAppBarState2>,
+    topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
 ) {
     entryComposable<EntryRoute.Chats> {
@@ -37,8 +37,11 @@ internal fun NavGraphBuilder.chatsFeature(
         bottomBarState.value = BottomBarState(true)
         val viewModel = hiltViewModel<ChatsHostViewModel>()
 
-        topAppBarState.value =
-            TopAppBarState2(text = stringResource(R.string.chats_host_screen_title))
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = R.string.chats_host_screen_title,
+            ),
+        )
 
         ChatsScreen(
             state = viewModel.composableState.value,
@@ -50,12 +53,15 @@ internal fun NavGraphBuilder.chatsFeature(
     }
 
     subComposable<SubRoute.Messaging> {
-        bottomBarState.value = BottomBarState(false)
-        topAppBarState.value = TopAppBarState2(
-            text = "Конкретный чат",
-            isBackVisible = true,
-            onBackClick = { navController.popBackStack() }
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                header = "Конкретный чат",
+            ),
+            onBack = { navController.popBackStack() }
         )
+
+        bottomBarState.value = BottomBarState(false)
 
         val args = it.toRoute<SubRoute.Messaging>()
 

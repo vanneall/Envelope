@@ -53,6 +53,9 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:settings"))
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.okhttp)
