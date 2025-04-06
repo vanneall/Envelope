@@ -8,8 +8,9 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
+import androidx.lifecycle.viewModelScope
 import com.example.settings.R
-import com.example.settings.main.ui.DEFAULT_IMAGE_URL
+import com.example.settings.data.ContactsRepository
 import com.point.navigation.Route
 import com.point.ui.colors.BlueContainerLight
 import com.point.ui.colors.BlueContentLight
@@ -28,17 +29,56 @@ import com.point.ui.colors.RedContent
 import com.point.user.storage.UserStorage
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val userStorage: UserStorage
+    private val userStorage: UserStorage,
+    private val contactsRepository: ContactsRepository,
 ) : MviViewModel<MainSettingsState, SettingsAction, SettingsEvent>(
     initialValue = state,
 ) {
 
     init {
+        viewModelScope.launch {
+            contactsRepository.fetchUserData().fold(
+                onSuccess = {
+                    emitAction(SettingsAction.Event.UserDataFetched(it))
+                },
+                onFailure = { it.printStackTrace() }
+            )
+        }
         onLeftFromAccount()
+        handleOnRefresh()
+    }
+
+    override fun reduce(action: SettingsAction, state: MainSettingsState) = when(action) {
+        SettingsAction.Action.Refresh -> state.copy(isRefreshing = true)
+
+        is SettingsAction.Event.UserDataFetched -> state.copy(
+            isRefreshing = false,
+            userData = UserData(
+                name = action.data.name,
+                username = "@${action.data.username}",
+                requests = 0,
+                contacts = 0,
+                photoId = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
+            )
+        )
+        SettingsAction.Action.LeftFromAccount -> state
+
+    }
+
+    private fun handleOnRefresh() {
+        handleAction<SettingsAction.Action.Refresh> {
+            contactsRepository.fetchUserData().fold(
+                onSuccess = {
+                    emitAction(SettingsAction.Event.UserDataFetched(it))
+                },
+                onFailure = { it.printStackTrace() }
+            )
+        }
     }
 
     private fun onLeftFromAccount() {
@@ -48,12 +88,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 }
-
-val userData = UserData(
-    name = "Daniil",
-    username = "@skylejke",
-    url = DEFAULT_IMAGE_URL,
-)
 
 val settings = listOf(
     AppSettings(
@@ -113,8 +147,8 @@ val userSettings = listOf(
 )
 
 val state = MainSettingsState(
-    isLoading = false,
-    userData = userData,
+    isRefreshing = false,
+    userData = UserData(),
     settings = listOf(
         SettingsSection(
             settings = userSettings,

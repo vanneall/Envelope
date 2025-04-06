@@ -28,12 +28,13 @@ fun UserAvatar(userData: UserData, modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         AsyncImage(
-            model = userData.url,
+            model = userData.photoId,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(R.drawable.ic_person_default_24),
             error = painterResource(R.drawable.ic_person_error_24),
             modifier = Modifier.size(120.dp).clip(CircleShape).background(color = Theme.colorScheme.accent),
+
         )
         
         Spacer(modifier = Modifier.height(12.dp))
@@ -60,7 +61,6 @@ private fun UserAvatarPreview() {
     val userData = UserData(
         name = "Daniil",
         username = "@skylejke",
-        url = DEFAULT_IMAGE_URL,
     )
     UserAvatar(userData, modifier = Modifier.background(Color.White))
 }

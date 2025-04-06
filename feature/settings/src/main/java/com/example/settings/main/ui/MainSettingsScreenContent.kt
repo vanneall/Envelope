@@ -119,7 +119,7 @@ private fun MainSettingsScreenContentPreview() {
     val userData = UserData(
         name = "Daniil",
         username = "@skylejke",
-        url = DEFAULT_IMAGE_URL,
+//        url = DEFAULT_IMAGE_URL,
     )
 
     val settings = listOf(
@@ -146,7 +146,7 @@ private fun MainSettingsScreenContentPreview() {
     EnvelopeTheme {
         MainSettingsScreenContent(
             state = MainSettingsState(
-                isLoading = true,
+                isRefreshing = true,
                 userData = userData,
                 settings = listOf(
                     SettingsSection(

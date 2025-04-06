@@ -24,7 +24,7 @@ fun MainSettingsScreen(
     modifier: Modifier = Modifier,
 ) {
     SwipeRefresh(
-        state = rememberSwipeRefreshState(state.isLoading),
+        state = rememberSwipeRefreshState(state.isRefreshing),
         onRefresh = { onAction(SettingsAction.Action.Refresh) },
         modifier = modifier,
     ) {
