@@ -3,9 +3,16 @@
     <string name="authorization_title">Авторизация</string>
     <string name="login_label">Логин</string>
     <string name="password_label">Пароль</string>
-    <string name="forget_password">Забыл пароль</string>
+    <string name="forget_password">забыл пароль</string>
     <string name="authorize_button">Авторизоваться</string>
     <string name="registration_button">Зарегистрироваться</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="sign_in">Войти</string>
+
+    <!-- Authorization screen -->
+    <string name="greetings_title">Привет 👋</string>
+    <string name="greetings_subtitle">Войдите, чтобы получить доступ к возможностям мессенджера.</string>
+    <string name="field_cant_be_empty">Поле не может быть пустым</string>
 
     <string name="registration_title">Регистрация</string>
     <string name="name_label">Имя</string>

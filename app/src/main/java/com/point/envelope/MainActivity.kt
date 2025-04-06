@@ -21,6 +21,7 @@ import com.point.envelope.scaffold.bottombar.EnvelopeNavBar
 import com.point.envelope.scaffold.bottombar.entryPoints
 import com.point.envelope.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.envelope.scaffold.topappbar.type.AppBarType
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,10 +42,12 @@ class MainActivity : ComponentActivity() {
             EnvelopeTheme {
                 Scaffold(
                     topBar = {
-                        EnvelopeTopAppBar(
-                            appBarState = appBarState.value,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        if (appBarState.value.appBarType != AppBarType.EmptyAppBar) {
+                            EnvelopeTopAppBar(
+                                appBarState = appBarState.value,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     },
                     bottomBar = {
                         if (bottomBarState.value.isVisible) {

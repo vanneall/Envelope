@@ -6,6 +6,13 @@
     <string name="forget_password">Forget password</string>
     <string name="authorize_button">Authorize</string>
     <string name="registration_button">Registration</string>
+    <string name="continue_text">Continue</string>
+    <string name="sign_in">Sign in</string>
+
+    <!-- Authorization screen -->
+    <string name="greetings_title">Hello 👋</string>
+    <string name="greetings_subtitle">Log in to access the messenger features.</string>
+    <string name="field_cant_be_empty">The field can\'t be empty</string>
 
     <string name="registration_title">Registration</string>
     <string name="name_label">Name</string>

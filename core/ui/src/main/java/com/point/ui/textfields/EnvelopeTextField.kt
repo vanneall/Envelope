@@ -1,22 +1,20 @@
 package com.point.ui.textfields
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,106 +22,82 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.point.ui.R
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.debounce
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun EnvelopeOutlinedTextField(
+fun EnvelopeTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: (@Composable () -> Unit)? = null,
-    enabled: Boolean = true,
-    error: Boolean = false,
-    @StringRes errorTextRes: Int? = null,
-    minLines: Int = 1,
-    maxLines: Int = 1,
-    maxSymbols: Int = 100,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    isError: Boolean = false,
+    debounce: Duration = 200.milliseconds,
+    maxLines: Int = 3,
+    singleLine: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    supportingText: String? = null,
+    labelText: String? = null,
 ) {
-    var cachedText by remember { mutableStateOf(value) }
-    val isTextVisible by remember { derivedStateOf { cachedText.isNotEmpty() } }
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        if (labelText != null) {
+            Text(
+                text = labelText,
+                style = Theme.typography.bodyM,
+                color = if (isError) Theme.colorScheme.error else Theme.colorScheme.textSecondary,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
-    OutlinedTextField(
-        value = cachedText,
-        onValueChange = { if (it.length <= maxSymbols) cachedText = it },
-        minLines = minLines,
-        maxLines = maxLines,
-        placeholder = placeholder,
-        trailingIcon = {
-            if (isTextVisible) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .clickable { cachedText = "" }
-                        .size(16.dp),
-                )
-            }
-        },
-        visualTransformation = visualTransformation,
-        textStyle = Theme.typography.bodyM,
-        keyboardOptions = keyboardOptions,
-        enabled = enabled,
-        isError = error,
-        modifier = modifier,
-        supportingText = {
-            if (error && errorTextRes != null) {
-                Text(
-                    text = stringResource(errorTextRes),
-                    style = Theme.typography.labelM,
-                    color = Theme.colorScheme.error,
-                )
-            } else if (maxSymbols - cachedText.length <= maxSymbols * 0.3f) {
-                Text(
-                    text = stringResource(R.string.keep_symbols, maxSymbols - cachedText.length),
-                    style = Theme.typography.labelM,
-                    color = Theme.colorScheme.textSecondary,
-                )
-            }
-        },
-        shape = RoundedCornerShape(20.dp),
-        colors = OutlinedTextFieldDefaults.colors().copy(
-            focusedContainerColor = Theme.colorScheme.surface,
-            unfocusedContainerColor = Theme.colorScheme.surface,
-            errorContainerColor = Theme.colorScheme.surface,
-            disabledContainerColor = Theme.colorScheme.surface,
-            focusedIndicatorColor = Theme.colorScheme.accent,
-            errorIndicatorColor = Theme.colorScheme.error,
-            disabledIndicatorColor = Theme.colorScheme.accent,
-            unfocusedIndicatorColor = Theme.colorScheme.accent,
-            unfocusedLabelColor = Theme.colorScheme.accent,
-            focusedLabelColor = Theme.colorScheme.accent,
-            errorLabelColor = Theme.colorScheme.error,
-            errorTrailingIconColor = Theme.colorScheme.error,
-            errorCursorColor = Theme.colorScheme.error,
-            cursorColor = Theme.colorScheme.accent,
-        ),
-    )
+        var text by remember { mutableStateOf(value) }
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            maxLines = maxLines,
+            singleLine = singleLine,
+            keyboardOptions = keyboardOptions,
+            colors = Theme.colorScheme.defaultTextFieldColors,
+            modifier = modifier,
+            visualTransformation = visualTransformation,
+            trailingIcon = {
+                when {
+                    trailingIcon != null -> {
+                        trailingIcon()
+                    }
+                    text.isNotEmpty() -> {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .clickable { text = "" }
+                                .padding(4.dp))
+                    }
+                }
+            },
+        )
+        if (supportingText != null) {
+            Text(
+                text = supportingText,
+                style = Theme.typography.labelM,
+                color = Theme.colorScheme.error,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
 
     LaunchedEffect(Unit) {
-        snapshotFlow { cachedText }
-            .debounce(150)
+        snapshotFlow { value }
+            .debounce(timeout = { debounce })
             .collect { text -> onValueChange(text) }
-    }
-}
-
-
-@Preview
-@Composable
-private fun EnvelopeOutlinedTextFieldPreview() {
-    Box(
-        modifier = Modifier.background(color = Color.White)
-    ) {
-
     }
 }

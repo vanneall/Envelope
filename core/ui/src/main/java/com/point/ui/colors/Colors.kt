@@ -1,6 +1,10 @@
 package com.point.ui.colors
 
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.point.ui.Theme
 
 val Black = Color(0xFF000000)
 val Black50 = Color(0x80000000)
@@ -53,4 +57,23 @@ class EnvelopeColors(
     val textPrimary: Color,
     val textSecondary: Color,
     val overlay: Color,
-)
+) {
+
+    internal val defaultTextFieldColors: TextFieldColors
+        @Composable
+        get() = Theme.envelopeDefaultTextFieldColors ?: TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedContainerColor = Theme.colorScheme.surface,
+            errorContainerColor = Theme.colorScheme.surface,
+            disabledContainerColor = Theme.colorScheme.surface,
+            unfocusedContainerColor = Theme.colorScheme.surface,
+            cursorColor = Theme.colorScheme.accent,
+            errorTrailingIconColor = Theme.colorScheme.error,
+            errorCursorColor = Theme.colorScheme.error,
+        ).also {
+            Theme.envelopeDefaultTextFieldColors = it
+        }
+}

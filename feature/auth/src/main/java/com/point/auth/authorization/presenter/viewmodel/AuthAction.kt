@@ -1,5 +1,7 @@
 package com.point.auth.authorization.presenter.viewmodel
 
+import androidx.annotation.StringRes
+
 sealed interface AuthAction {
 
     sealed interface Action : AuthAction {
@@ -12,11 +14,18 @@ sealed interface AuthAction {
         data object Authorization : Action
     }
 
-    sealed interface Event : AuthAction {
+    sealed interface SideEffect : AuthAction {
 
-        data object OnAuthorizationSuccess : Event
-        data object OnAuthorizationFailed : Event
+        data object OnAuthorizationSuccess : SideEffect
+        data object OnAuthorizationFailed : SideEffect
 
-        data object OnFieldsEmpty : Event
+        @JvmInline
+        value class OnLoginFieldInvalid(@StringRes val reason: Int) : SideEffect
+
+        @JvmInline
+        value class OnPasswordFieldInvalid(@StringRes val reason: Int) : SideEffect
+
+        @JvmInline
+        value class BothFieldInvalid(@StringRes val reason: Int) : SideEffect
     }
 }

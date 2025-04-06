@@ -1,4 +1,4 @@
-package com.point.auth.authorization.presenter.ui
+package com.point.auth.authorization.presenter.ui.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

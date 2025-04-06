@@ -1,8 +1,9 @@
 package com.point.auth.authorization.presenter.viewmodel
 
+import com.point.auth.R
 import com.point.auth.authorization.domain.AuthorizeUseCase
 import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action
-import com.point.auth.authorization.presenter.viewmodel.AuthAction.Event
+import com.point.auth.authorization.presenter.viewmodel.AuthAction.SideEffect
 import com.point.auth.common.data.AuthRequest
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,10 +24,26 @@ class AuthorizationViewModel @Inject constructor(
         is Action.OnLoginInput -> state.copy(login = action.value)
         is Action.OnPasswordInput -> state.copy(password = action.value)
 
-        Event.OnFieldsEmpty -> state.copy(isInvalidCredentials = true)
-        Event.OnAuthorizationFailed -> state.copy(isInvalidCredentials = true)
+        is SideEffect.BothFieldInvalid -> state.copy(
+            isLoginInvalid = true,
+            loginInvalidReason = action.reason,
+            isPasswordInvalid = true,
+            passwordInvalidReason = action.reason,
+        )
 
-        Event.OnAuthorizationSuccess -> state.copy(isInvalidCredentials = false)
+        is SideEffect.OnLoginFieldInvalid -> state.copy(
+            isLoginInvalid = true,
+            loginInvalidReason = action.reason,
+        )
+
+        is SideEffect.OnPasswordFieldInvalid -> state.copy(
+            isPasswordInvalid = true,
+            loginInvalidReason = action.reason,
+        )
+
+        SideEffect.OnAuthorizationFailed -> state.copy()
+
+        SideEffect.OnAuthorizationSuccess -> state.copy()
 
         Action.Authorization -> state
     }
@@ -36,9 +53,14 @@ class AuthorizationViewModel @Inject constructor(
             val login = state.login
             val password = state.password
 
-            if (login.isEmpty() || password.isEmpty()) {
-                return@mapAction Event.OnFieldsEmpty
+            val sideEffect = when {
+                login.isEmpty() && password.isEmpty() -> SideEffect.BothFieldInvalid(R.string.field_cant_be_empty)
+                login.isEmpty() -> SideEffect.OnLoginFieldInvalid(R.string.field_cant_be_empty)
+                password.isEmpty() -> SideEffect.OnLoginFieldInvalid(R.string.field_cant_be_empty)
+                else -> null
             }
+
+            if (sideEffect != null) return@mapAction sideEffect
 
             authorizeUseCase(
                 authRequest = AuthRequest(
@@ -48,11 +70,11 @@ class AuthorizationViewModel @Inject constructor(
             ).fold(
                 onSuccess = {
                     emitEvent(AuthEvent.NavigateAllChats)
-                    Event.OnAuthorizationSuccess
+                    SideEffect.OnAuthorizationSuccess
                 },
                 onFailure = {
                     it.printStackTrace()
-                    Event.OnAuthorizationFailed
+                    SideEffect.OnAuthorizationFailed
                 }
             )
         }

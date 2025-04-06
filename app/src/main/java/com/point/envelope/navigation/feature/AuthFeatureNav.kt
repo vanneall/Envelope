@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.point.auth.authorization.presenter.ui.AuthorizationScreen
+import com.point.auth.authorization.presenter.ui.screen.AuthorizationScreen
 import com.point.auth.authorization.presenter.viewmodel.AuthorizationViewModel
 import com.point.auth.registration.presenter.credentials.CredentialsViewModel
 import com.point.auth.registration.presenter.host.HostViewModel
@@ -38,9 +38,7 @@ internal fun NavGraphBuilder.authFeature(
         }
 
         topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.HeaderAppBar(
-                headerRes = R.string.settings_authorization_title
-            )
+            appBarType = AppBarType.EmptyAppBar
         )
 
         bottomBarState.value = BottomBarState(false)
