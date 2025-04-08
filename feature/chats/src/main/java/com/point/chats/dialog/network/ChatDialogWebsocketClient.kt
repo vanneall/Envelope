@@ -48,7 +48,6 @@ class ChatDialogWebsocketClient @Inject constructor(
                 try {
                     val json = parseStompResponse(text)
                     val event = globalJson.decodeFromString<BaseEvent>(json)
-
                     trySend(event)
                 } catch (e: Exception) {
                     Timber.tag(WEBSOCKET_TAG).e("onMessage error: ${e.message}")
@@ -164,7 +163,7 @@ data class CreateMessageRequest(
     @SerialName("content")
     val content: String,
     @SerialName("photos")
-    val photos: MutableList<Long>? = null,
+    val photos: List<Long>,
 )
 
 @Serializable

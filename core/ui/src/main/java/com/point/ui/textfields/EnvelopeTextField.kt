@@ -93,11 +93,11 @@ fun EnvelopeTextField(
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
-    }
 
-    LaunchedEffect(Unit) {
-        snapshotFlow { value }
-            .debounce(timeout = { debounce })
-            .collect { text -> onValueChange(text) }
+        LaunchedEffect(Unit) {
+            snapshotFlow { text }
+                .debounce(timeout = { debounce })
+                .collect { text -> onValueChange(text) }
+        }
     }
 }

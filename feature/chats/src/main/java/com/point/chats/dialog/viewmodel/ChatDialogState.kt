@@ -1,5 +1,6 @@
 package com.point.chats.dialog.viewmodel
 
+import android.net.Uri
 import com.point.chats.dialog.data.events.BaseEvent
 import com.point.network.di.InstantSerializer
 import kotlinx.serialization.SerialName
@@ -11,6 +12,7 @@ data class ChatDialogState(
     val message: String = "",
     val events: List<BaseEvent> = emptyList(),
     val isInEditMode: EditMode? = null,
+    val photos: List<Uri> = emptyList(),
 )
 
 data class EditMode(

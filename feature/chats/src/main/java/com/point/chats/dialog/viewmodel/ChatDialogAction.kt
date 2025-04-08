@@ -1,8 +1,16 @@
 package com.point.chats.dialog.viewmodel
 
+import android.net.Uri
 import com.point.chats.dialog.data.events.BaseEvent
 
 sealed interface ChatDialogAction {
+
+    sealed interface UiAction : ChatDialogAction {
+
+        data class OnPhotoPicked(val photos: List<Uri>) : UiAction
+
+        data class OnPhotoDeletedFromMessage(val uri: Uri) : UiAction
+    }
 
     data object Send : ChatDialogAction
     data class Delete(val id: String) : ChatDialogAction

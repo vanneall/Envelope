@@ -1,7 +1,9 @@
 package com.point.chats.dialog.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.point.chats.dialog.data.ChatDialogRepository
+import com.point.chats.dialog.data.MediaContentRepository
 import com.point.chats.dialog.data.events.DeleteMessageEvent
 import com.point.chats.dialog.data.events.MessageEditedEvent
 import com.point.chats.dialog.data.events.MessageSentEvent
@@ -11,12 +13,14 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel(assistedFactory = ChatDialogViewModel.Factory::class)
 class ChatDialogViewModel @AssistedInject constructor(
     @Assisted(FACTORY_CHAT_ID)
     private val chatId: String,
     private val chatDialogRepository: ChatDialogRepository,
+    private val mediaContentRepository: MediaContentRepository,
 ) : MviViewModel<ChatDialogState, ChatDialogAction, ChatDialogEvent>(
     initialValue = ChatDialogState()
 ) {
@@ -42,12 +46,27 @@ class ChatDialogViewModel @AssistedInject constructor(
     override fun reduce(action: ChatDialogAction, state: ChatDialogState) = when (action) {
         is ChatDialogAction.TypeMessage -> state.copy(message = action.value)
         ChatDialogAction.Send -> state
-        is ChatDialogAction.UpdateList -> state.copy(events = listOf(action.text) + state.events)
+        is ChatDialogAction.UpdateList -> {
+            if (action.text is MessageSentEvent) {
+                Timber.tag("mong").d("${action.text.attachments}")
+            }
 
-        is ChatDialogAction.EventsLoaded -> state.copy(
-            events = action.list,
-            isInitialLoading = false,
-        )
+            state.copy(
+                events = listOf(action.text) + state.events,
+                photos = emptyList(),
+            )
+        }
+
+        is ChatDialogAction.UiAction.OnPhotoPicked -> state.copy(photos = action.photos)
+
+        is ChatDialogAction.EventsLoaded -> {
+            state.copy(
+                events = action.list,
+                isInitialLoading = false,
+            )
+        }
+
+        is ChatDialogAction.UiAction.OnPhotoDeletedFromMessage -> state.copy(photos = state.photos.filter { uri -> uri != action.uri })
 
         is ChatDialogAction.Edit -> state.copy(
             message = action.text,
@@ -101,9 +120,17 @@ class ChatDialogViewModel @AssistedInject constructor(
                     chatDialogRepository.editMessage(state.isInEditMode.messageId, state.message)
                 }
             } else {
-                chatDialogRepository.sendMessage(text = state.message)
+                sendMessage(message = state.message, state.photos)
             }
         }
+    }
+
+    private suspend fun sendMessage(message: String, photos: List<Uri>) {
+
+        val photoIds = photos.mapNotNull { uri ->
+            mediaContentRepository.uploadPhoto(uri).onFailure { it.printStackTrace() }.getOrThrow().id
+        }
+        chatDialogRepository.sendMessage(text = message, photoIds = photoIds)
     }
 
     private fun onDeleteMessage() {

@@ -18,10 +18,10 @@ class ChatDialogRepository @Inject constructor(
 
     fun connectToChat(chatId: String): Flow<BaseEvent> = webSocketClient.connect(chatId = chatId)
 
-    fun sendMessage(text: String) = webSocketClient.sendMessage(
+    fun sendMessage(text: String, photoIds: List<Long>) = webSocketClient.sendMessage(
         CreateMessageRequest(
             content = text,
-            photos = null,
+            photos = photoIds,
         )
     )
 
