@@ -1,9 +1,12 @@
 package com.point.contacts.requests.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,11 +18,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.point.contacts.main.presenter.ui.ContactComposable
+import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.requests.viewModel.RequestsAction
 import com.point.contacts.requests.viewModel.RequestsState
 import com.point.navigation.Route
+import com.point.ui.EnvelopeTheme
 
 @Composable
 fun UserRequestsScreenContent(
@@ -67,5 +74,28 @@ fun UserRequestsScreenContent(
                 )
             }
         }
+    }
+}
+
+@Preview(locale = "ru")
+@Composable
+private fun ContentPreview() {
+    EnvelopeTheme {
+        UserRequestsScreenContent(
+            state = RequestsState(
+                query = "Query",
+                contacts = buildList {
+                    repeat(5) {
+                        add(Contact(username = "$it", name = "User#$it"))
+                    }
+                }
+            ),
+            onAction = {},
+            onNavigation = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(end = 10.dp)
+        )
     }
 }

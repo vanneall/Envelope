@@ -2,11 +2,11 @@ package com.point.auth.registration.presenter.host
 
 sealed interface HostAction {
 
-    sealed interface Action : HostAction {
+    sealed interface UiAction : HostAction {
 
-        data class OnNewPage(val old: Int, val new: Int) : Action
+        data class OnNewPage(val old: Int, val new: Int) : UiAction
 
-        data object OnRegistration : Action
+        data object OnRegistration : UiAction
 
     }
 }

@@ -17,13 +17,13 @@ import com.point.auth.registration.presenter.credentials.CredentialsViewModel
 import com.point.auth.registration.presenter.host.HostViewModel
 import com.point.auth.registration.presenter.profile.RegistrationProfileViewModel
 import com.point.auth.registration.ui.host.RegistrationHostScreen
-import com.point.chats.R
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
+import com.point.navigation.Route
 
 internal fun NavGraphBuilder.authFeature(
     navController: NavController,
@@ -47,10 +47,16 @@ internal fun NavGraphBuilder.authFeature(
 
         AuthorizationScreen(
             state = viewModel.composableState.value,
-            onNavigate = { route -> navController.navigate(route.asComposeRoute){
-                popUpTo(SubRoute.Authorization) { inclusive = true }
-                launchSingleTop = true
-            } },
+            onNavigate = { route ->
+                if (route is Route.AuthFeature) {
+                    navController.navigate(route.asComposeRoute)
+                } else {
+                    navController.navigate(route.asComposeRoute) {
+                        popUpTo(SubRoute.Authorization) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            },
             onAction = viewModel::emitAction,
             events = viewModel.events,
             modifier = Modifier
@@ -66,9 +72,7 @@ internal fun NavGraphBuilder.authFeature(
         }
 
         topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.HeaderAppBar(
-                headerRes = R.string.registration_screen_title,
-            ),
+            appBarType = AppBarType.EmptyAppBar,
             onBack = { navController.popBackStack() }
         )
 

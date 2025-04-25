@@ -2,11 +2,13 @@ package com.point.contacts.profile.ui.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.point.contacts.R
 import com.point.ui.Theme
@@ -24,3 +26,9 @@ internal fun UserAvatar(url: String?, modifier: Modifier = Modifier) {
 }
 
 const val DEFAULT_IMAGE_URL = "https://i.pinimg.com/originals/32/b0/ad/32b0adaf073e4e17c4d36301047edb75.jpg"
+
+@Preview
+@Composable
+fun s() {
+    Text("assas")
+}

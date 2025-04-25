@@ -1,7 +1,9 @@
 package com.point.contacts.search.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,11 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.point.contacts.main.presenter.ui.ContactComposable
+import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.search.viewModel.SearchContactsAction
 import com.point.contacts.search.viewModel.SearchContactsState
 import com.point.navigation.Route
+import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 
 @Composable
@@ -144,8 +150,29 @@ fun SearchUsersScreenContent(
                     }
                 }
             }
-
-
         }
+    }
+}
+
+@Preview(locale = "ru")
+@Composable
+private fun ContentPreview() {
+    EnvelopeTheme {
+        SearchUsersScreenContent(
+            state = SearchContactsState(
+                query = "Query",
+                allContacts = buildList {
+                    repeat(5) {
+                        add(Contact(username = "$it", name = "User#$it"))
+                    }
+                }
+            ),
+            onAction = {},
+            onNavigation = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(end = 10.dp)
+        )
     }
 }

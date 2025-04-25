@@ -1,116 +1,48 @@
 package com.point.auth.registration.ui.profile
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.point.auth.R
 import com.point.auth.registration.presenter.profile.RegProfileAction
 import com.point.auth.registration.presenter.profile.RegProfileState
 import com.point.ui.Theme
-import com.point.ui.textfields.EnvelopeOutlinedTextField
 
 @Composable
-fun ProfileScreenContent(
+internal fun ProfileScreenContent(
     state: RegProfileState,
     onAction: (RegProfileAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollableState = rememberScrollState()
     Column(
         modifier = modifier
-            .verticalScroll(scrollableState)
-            .imePadding()
+            .padding(WindowInsets.ime.exclude(WindowInsets.navigationBars).asPaddingValues())
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
-        Spacer(modifier = Modifier.weight(0.1f))
 
         Text(
-            text = stringResource(R.string.name_input_invite),
-            style = Theme.typography.bodyL,
+            text = stringResource(R.string.invite_to_fill_user_info),
+            style = Theme.typography.titleL,
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        EnvelopeOutlinedTextField(
-            value = state.name,
-            onValueChange = { onAction(RegProfileAction.OnNameInput(it)) },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Words,
-                autoCorrectEnabled = false,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            placeholder = {
-                Text(text = stringResource(R.string.name_label))
-            },
-            maxSymbols = 30,
-            modifier = Modifier.fillMaxWidth(),
+        UserInfoInputBlock(
+            state = state,
+            onAction = onAction,
+            modifier = Modifier.fillMaxSize(),
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(R.string.status_input_invite),
-            style = Theme.typography.bodyL,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        EnvelopeOutlinedTextField(
-            value = state.status,
-            onValueChange = { onAction(RegProfileAction.OnStatusInput(it)) },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Sentences,
-                autoCorrectEnabled = true,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            placeholder = {
-                Text(text = stringResource(R.string.status_label))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            minLines = 2,
-            maxLines = 3,
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = stringResource(R.string.about_user_input_invite),
-            style = Theme.typography.bodyL,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        EnvelopeOutlinedTextField(
-            value = state.about,
-            onValueChange = { onAction(RegProfileAction.OnAboutInput(it)) },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Sentences,
-                autoCorrectEnabled = true,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done,
-            ),
-            placeholder = {
-                Text(text = stringResource(R.string.about_label))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            minLines = 2,
-            maxLines = 20,
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
     }
 }

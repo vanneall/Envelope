@@ -5,5 +5,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun OnboardingScreen(modifier: Modifier = Modifier) {
-    OnboardingScreenContent()
+    OnboardingScreenContent(
+        modifier = modifier,
+    )
 }

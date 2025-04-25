@@ -1,11 +1,18 @@
 package com.point.auth.registration.presenter.profile
 
+import android.net.Uri
+
 sealed interface RegProfileAction {
 
-    data class OnNameInput(val value: String) : RegProfileAction
+    sealed interface UiAction : RegProfileAction {
 
-    data class OnStatusInput(val value: String) : RegProfileAction
+        data class OnPhotoPicked(val uri: Uri?) : UiAction
 
-    data class OnAboutInput(val value: String) : RegProfileAction
+        data class OnNameInput(val value: String) : UiAction
 
+        data class OnStatusInput(val value: String) : UiAction
+
+        data class OnAboutInput(val value: String) : UiAction
+
+    }
 }
