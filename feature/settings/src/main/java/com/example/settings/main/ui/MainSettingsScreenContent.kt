@@ -10,9 +10,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BatterySaver
-import androidx.compose.material.icons.filled.DataUsage
-import androidx.compose.material.icons.filled.DesignServices
+import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +34,14 @@ import com.example.settings.main.viewmodel.UserSettings
 import com.point.navigation.Route
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
+import com.point.ui.colors.BlueContainerLight
+import com.point.ui.colors.BlueContentLight
+import com.point.ui.colors.GreenContainer
+import com.point.ui.colors.GreenContent
+import com.point.ui.colors.OrangeContainer
+import com.point.ui.colors.OrangeContent
+import com.point.ui.colors.RedContainer
+import com.point.ui.colors.RedContent
 
 @Composable
 internal fun MainSettingsScreenContent(
@@ -117,30 +126,42 @@ private const val CARD_CORNERS = 16
 @Composable
 private fun MainSettingsScreenContentPreview() {
     val userData = UserData(
-        name = "Daniil",
-        username = "@skylejke",
+        name = "User",
+        username = "@username",
 //        url = DEFAULT_IMAGE_URL,
     )
 
-    val settings = listOf(
-        AppSettings(
-            textId = R.string.storage_settings,
-            icon = Icons.Default.DataUsage,
-            iconBackground = Color.Blue,
-            iconColor = Color.Red
+    val userSettings = listOf(
+        UserSettings(
+            textId = R.string.edit_profile_settings,
+            icon = Icons.Default.Edit,
+            iconColor = BlueContentLight,
+            iconBackground = BlueContainerLight,
+            count = 0,
+            route = Route.SettingsFeature.ProfileEdit,
         ),
-        AppSettings(
-            textId = R.string.battery_settings,
-            icon = Icons.Default.BatterySaver,
-            iconBackground = Color.Green,
-            iconColor = Color.Red
+        UserSettings(
+            textId = R.string.requests_settings,
+            icon = Icons.Default.Notifications,
+            iconColor = OrangeContent,
+            iconBackground = OrangeContainer,
+            count = 15,
+            route = Route.ContactsFeature.ContactsRequests,
         ),
-        AppSettings(
-            textId = R.string.theme_settings,
-            icon = Icons.Default.DesignServices,
-            iconBackground = Color.Red,
-            iconColor = Color.Red
+        UserSettings(
+            textId = R.string.contacts_settings,
+            icon = Icons.Default.Person,
+            iconColor = GreenContent,
+            iconBackground = GreenContainer,
+            count = 228,
+            route = Route.ContactsFeature.UserContacts,
         ),
+        ExitSettings(
+            textId = R.string.exit_settings,
+            icon = Icons.AutoMirrored.Filled.Logout,
+            iconBackground = RedContainer,
+            iconColor = RedContent,
+        )
     )
 
     EnvelopeTheme {
@@ -150,7 +171,7 @@ private fun MainSettingsScreenContentPreview() {
                 userData = userData,
                 settings = listOf(
                     SettingsSection(
-                        settings = settings,
+                        settings = userSettings,
                         type = Settings.Type.APP,
                     )
                 )

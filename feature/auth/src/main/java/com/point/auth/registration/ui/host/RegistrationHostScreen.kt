@@ -1,5 +1,6 @@
 package com.point.auth.registration.ui.host
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.point.auth.registration.presenter.credentials.CredentialsAction
@@ -28,17 +29,21 @@ fun RegistrationHostScreen(
     RegistrationHostScreenContent(
         pages = ImmutableList(
             listOf(
-                { OnboardingScreen() },
+                { OnboardingScreen(
+                    modifier = Modifier.fillMaxSize(),
+                ) },
                 {
                     ProfileScreen(
                         state = regProfileState,
                         onAction = regProfileAction,
+                        modifier = Modifier.fillMaxSize(),
                     )
                 },
                 {
                     CredentialsScreen(
                         state = credentialsState,
                         onAction = credentialsAction,
+                        modifier = Modifier.fillMaxSize(),
                     )
                 },
             )

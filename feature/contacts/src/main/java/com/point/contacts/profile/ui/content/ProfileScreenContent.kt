@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,14 +34,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.point.contacts.R
 import com.point.contacts.profile.viewmodel.ProfileAction
 import com.point.contacts.profile.viewmodel.ProfileEvent
 import com.point.contacts.profile.viewmodel.ProfileState
 import com.point.navigation.Route
+import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 internal fun ProfileScreenContent(
@@ -251,3 +255,24 @@ private fun ActionButton(
     }
 }
 
+@Preview(locale = "ru")
+@Composable
+private fun ContentPreview() {
+    EnvelopeTheme {
+        ProfileScreenContent(
+            state = ProfileState(
+                name = "User",
+                username = "username",
+                status = "User status",
+                about = "User about",
+            ),
+            onAction = {},
+            onNavigation = {},
+            events = emptyFlow(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(horizontal = 20.dp, vertical = 10.dp)
+        )
+    }
+}

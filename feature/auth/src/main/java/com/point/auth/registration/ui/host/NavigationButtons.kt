@@ -20,8 +20,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.point.auth.registration.presenter.host.HostAction
-import com.point.auth.registration.presenter.host.HostAction.Action
+import com.point.auth.registration.presenter.host.HostAction.UiAction
 import com.point.ui.Theme
 import kotlinx.coroutines.launch
 
@@ -46,7 +47,7 @@ fun NavigationButtons(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        if (currentPage > 0) onAction(Action.OnNewPage(currentPage, currentPage - 1))
+                        if (currentPage > 0) onAction(UiAction.OnNewPage(currentPage, currentPage - 1))
                     }
                 },
                 modifier = Modifier
@@ -59,7 +60,7 @@ fun NavigationButtons(
                     disabledContainerColor = Theme.colorScheme.disabled,
                 )
             ) {
-                Text("Назад")
+                Text("Назад", fontSize = 16.sp)
             }
         }
 
@@ -77,9 +78,9 @@ fun NavigationButtons(
                 onClick = {
                     coroutineScope.launch {
                         if (!isLastPage) {
-                            onAction(Action.OnNewPage(currentPage, currentPage + 1))
+                            onAction(UiAction.OnNewPage(currentPage, currentPage + 1))
                         } else {
-                            onAction(Action.OnRegistration)
+                            onAction(UiAction.OnRegistration)
                         }
                     }
                 },
@@ -93,7 +94,7 @@ fun NavigationButtons(
                     disabledContainerColor = Theme.colorScheme.disabled,
                 )
             ) {
-                Text(text = if (isLastPage) "Создать аккаунт" else "Вперед")
+                Text(text = if (isLastPage) "Создать аккаунт" else "Вперед", fontSize = 16.sp)
             }
         }
     }

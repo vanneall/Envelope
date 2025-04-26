@@ -2,7 +2,7 @@ package com.point.auth.registration.presenter.host
 
 import com.point.auth.registration.domain.usecase.RegistrationUseCase
 import com.point.auth.registration.presenter.credentials.CredentialsViewModel
-import com.point.auth.registration.presenter.host.HostAction.Action
+import com.point.auth.registration.presenter.host.HostAction.UiAction
 import com.point.auth.registration.presenter.profile.RegistrationProfileViewModel
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,7 @@ class HostViewModel @Inject constructor(
     }
 
     private fun onNewPage() {
-        handleAction<Action.OnNewPage> { action ->
+        handleAction<UiAction.OnNewPage> { action ->
             when {
                 action.old == 0 -> HostEvent.SwitchPage(0, action.new)
                 action.old > action.new -> HostEvent.SwitchPage(action.old, action.new)
@@ -36,7 +36,7 @@ class HostViewModel @Inject constructor(
     }
 
     private fun onRegistration() {
-        handleAction<Action.OnRegistration> {
+        handleAction<UiAction.OnRegistration> {
             if (!credentialsViewModel.isRegistrationValid()) return@handleAction
 
             val userCredentials = credentialsViewModel.userCredentials
@@ -49,6 +49,7 @@ class HostViewModel @Inject constructor(
                     name = userData.name,
                     status = userData.status,
                     about = userData.about,
+                    uri = userData.uri,
                 )
             ).fold(
                 onSuccess = { emitEvent(HostEvent.NavigateToMainScreen) },

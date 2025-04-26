@@ -26,4 +26,14 @@
     <string name="login_input_invite">Create your own login in Envelope</string>
     <string name="password_input_invite">Come up with a strong password</string>
     <string name="repassword_input_invite">And also repeat it so that we can make sure that you haven\'t forgotten it.</string>
+
+    <!-- Registration screen -->
+    <string name="welcome_to_envelope">Welcome to envelope</string>
+    <string name="welcome_to_envelope_description">Communicate easily, share moments and stay in touch.
+Messages and media are all you need in one place.
+Create chats with friends, send photos without losing anything important.
+Stay connected wherever you are — simple and convenient.</string>
+    <string name="invite_to_fill_user_info">Tell us a little bit about yourself — add your name, status and photo. Let others get to know you better.</string>
+    <string name="invite_to_fill_user_credentials">It\'s almost done — all that remains is to protect your account. Come up with a username and password.</string>
+
 </resources>

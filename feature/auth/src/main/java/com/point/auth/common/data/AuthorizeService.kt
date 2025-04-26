@@ -16,7 +16,7 @@ interface AuthorizeService {
     @POST("/auth/api-v2/registration")
     suspend fun registration(
         @Part("user") userJson: RequestBody,
-        @Part("photo") photo: MultipartBody.Part? = null
+        @Part photo: MultipartBody.Part? = null
     ): Result<TokenPayload>
 
 }

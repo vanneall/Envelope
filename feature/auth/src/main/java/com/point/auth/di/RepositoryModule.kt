@@ -1,5 +1,6 @@
 package com.point.auth.di
 
+import android.content.Context
 import com.point.auth.common.data.AuthorizationRepositoryImpl
 import com.point.auth.common.data.AuthorizeService
 import dagger.Module
@@ -14,7 +15,7 @@ class RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideAuthorizationRepository(authorizeService: AuthorizeService) =
-        AuthorizationRepositoryImpl(authorizeService = authorizeService)
+    fun provideAuthorizationRepository(context: Context, authorizeService: AuthorizeService) =
+        AuthorizationRepositoryImpl(context = context, authorizeService = authorizeService)
 
 }

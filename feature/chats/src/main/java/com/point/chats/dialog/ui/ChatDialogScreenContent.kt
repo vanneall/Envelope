@@ -58,13 +58,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.point.chats.dialog.data.events.MessageSentEvent
 import com.point.chats.dialog.viewmodel.ChatDialogAction
 import com.point.chats.dialog.viewmodel.ChatDialogState
+import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
+import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -363,5 +366,39 @@ fun CompactPhotoGrid(attachments: List<Long>) {
             }
             Spacer(modifier = Modifier.height(4.dp))
         }
+    }
+}
+
+@Preview(locale = "ru")
+@Composable
+private fun ContentPreview() {
+    EnvelopeTheme {
+        ChatDialogScreenContent(
+            state = ChatDialogState(
+                isInitialLoading = false,
+                message = "",
+                events = buildList {
+                    repeat(4) {
+                        add(
+                            MessageSentEvent(
+                                id = "$it",
+                                timestamp = Instant.now(),
+                                userName = "Username",
+                                senderId = "1",
+                                text = "Message text",
+                                isPinned = false,
+                                isEdited = false,
+                                attachments = emptyList(),
+                            )
+                        )
+                    }
+                }
+            ),
+            onAction = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+
+        )
     }
 }

@@ -26,4 +26,15 @@
     <string name="login_input_invite">Создай свой логин в Envelope</string>
     <string name="password_input_invite">Придумай надежный пароль</string>
     <string name="repassword_input_invite">А также повтори его, чтобы мы убедились, что ты его не забыл</string>
+
+    <!-- Registration screen -->
+    <string name="welcome_to_envelope">Добро пожаловать в Envelope</string>
+    <string name="welcome_to_envelope_description">Общайся легко, делись моментами и будь на связи.
+Сообщения и медиа — все, что нужно, в одном месте.
+Создавай чаты с друзьями, отправляй фото, не теряя важного.
+Оставайся на связи, где бы ты ни был — просто и удобно.
+</string>
+    <string name="invite_to_fill_user_info">Расскажи немного о себе — добавь имя, статус и фото. Пусть другие узнают тебя ближе.</string>
+    <string name="invite_to_fill_user_credentials">Почти готово — осталось защитить свой аккаунт. Придумай логин и пароль.</string>
+
 </resources>
