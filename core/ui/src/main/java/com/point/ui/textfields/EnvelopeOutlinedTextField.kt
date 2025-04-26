@@ -116,14 +116,3 @@ fun EnvelopeOutlinedTextField(
             .collect { text -> onValueChange(text) }
     }
 }
-
-
-@Preview
-@Composable
-private fun EnvelopeOutlinedTextFieldPreview() {
-    Box(
-        modifier = Modifier.background(color = Color.White)
-    ) {
-
-    }
-}

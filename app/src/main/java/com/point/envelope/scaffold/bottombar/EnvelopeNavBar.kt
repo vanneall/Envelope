@@ -10,10 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.point.ui.Theme
-import com.point.ui.colors.White
+import com.point.ui.colors.new.White
 
 @Composable
 fun EnvelopeNavBar(

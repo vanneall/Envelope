@@ -41,7 +41,7 @@ val Red = Color(0xFFFF3333)
 val Green = Color(0xFF4CAF50)
 val Blue = Color(0xFF007ACC)
 
-val BackgroundWhite = White
+val BackgroundWhite = com.point.ui.colors.new.White
 val SurfaceLight = Color(0xFFF5F5F5)
 
 class EnvelopeColors(

@@ -1,15 +1,15 @@
 package com.point.ui.colors
 
-val Primary = Black
+val Primary = com.point.ui.colors.new.Black
 val Secondary = Gray
-val Error = Red
+val Error = com.point.ui.colors.new.Red
 val Success = Green
 val Accent = Blue
 val Background = BackgroundWhite
 val Surface = SurfaceLight
 val Disabled = Gray
 val Divider = GrayLight
-val TextPrimary = Black
+val TextPrimary = com.point.ui.colors.new.Black
 val TextSecondary = GrayDark
 val Overlay = Black50
 
