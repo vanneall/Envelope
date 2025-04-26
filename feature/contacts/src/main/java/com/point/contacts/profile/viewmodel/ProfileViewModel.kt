@@ -1,19 +1,19 @@
 package com.point.contacts.profile.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.point.contacts.data.ContactsRepository
 import com.point.viewmodel.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.point.user.repository.UserRepository
 
 @HiltViewModel(assistedFactory = ProfileViewModel.Factory::class)
 class ProfileViewModel @AssistedInject constructor(
     @Assisted("username")
     private val username: String,
-    private val contactsRepository: ContactsRepository,
+    private val contactsRepository: UserRepository,
 ) : MviViewModel<ProfileState, ProfileAction, ProfileEvent>(
     initialValue = ProfileState()
 ) {

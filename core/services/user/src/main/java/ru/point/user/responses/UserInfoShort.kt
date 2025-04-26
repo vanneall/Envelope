@@ -1,10 +1,10 @@
-package com.point.contacts.data.response
+package ru.point.user.responses
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserInfoShort(
+class UserInfoShort(
     @SerialName("username")
     val username: String,
     @SerialName("name")

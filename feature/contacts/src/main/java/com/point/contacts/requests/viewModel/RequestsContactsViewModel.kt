@@ -1,18 +1,18 @@
 package com.point.contacts.requests.viewModel
 
 import androidx.lifecycle.viewModelScope
-import com.point.contacts.data.ContactsRepository
 import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.point.user.repository.UserRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class RequestsContactsViewModel @Inject constructor(
-    private val contactsRepository: ContactsRepository,
+    private val contactsRepository: UserRepository,
 ) : MviViewModel<RequestsState, RequestsAction, Any>(
     initialValue = RequestsState(),
 ) {

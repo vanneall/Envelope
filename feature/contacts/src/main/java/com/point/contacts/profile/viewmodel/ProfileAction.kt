@@ -1,6 +1,6 @@
 package com.point.contacts.profile.viewmodel
 
-import com.point.contacts.data.UserInfoShortResponse
+import ru.point.user.responses.UserInfoShortResponse
 
 sealed interface ProfileAction {
 

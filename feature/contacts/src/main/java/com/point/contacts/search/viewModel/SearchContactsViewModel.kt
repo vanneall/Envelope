@@ -1,15 +1,15 @@
 package com.point.contacts.search.viewModel
 
-import com.point.contacts.data.ContactsRepository
 import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.point.user.repository.UserRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchContactsViewModel @Inject constructor(
-    private val contactsRepository: ContactsRepository,
+    private val contactsRepository: UserRepository,
 ) : MviViewModel<SearchContactsState, SearchContactsAction, Any>(
     initialValue = SearchContactsState()
 ) {

@@ -1,6 +1,6 @@
 package com.point.contacts.search.viewModel
 
-import com.point.contacts.data.UsersSearchResponse
+import ru.point.user.responses.UsersSearchResponse
 
 sealed interface SearchContactsAction {
 

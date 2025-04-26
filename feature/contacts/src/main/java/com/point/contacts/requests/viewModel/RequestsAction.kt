@@ -1,6 +1,6 @@
 package com.point.contacts.requests.viewModel
 
-import com.point.contacts.data.response.UserInfoShort
+import ru.point.user.responses.UserInfoShort
 
 sealed interface RequestsAction {
 
