@@ -1,4 +1,4 @@
-package com.point.ui.switches
+package com.point.ui.materials.switches
 
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults

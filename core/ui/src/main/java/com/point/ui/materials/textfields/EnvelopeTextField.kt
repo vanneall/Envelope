@@ -1,4 +1,4 @@
-package com.point.ui.textfields
+package com.point.ui.materials.textfields
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

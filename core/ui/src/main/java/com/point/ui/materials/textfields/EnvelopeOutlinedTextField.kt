@@ -1,4 +1,4 @@
-package com.point.ui.textfields
+package com.point.ui.materials.textfields
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background

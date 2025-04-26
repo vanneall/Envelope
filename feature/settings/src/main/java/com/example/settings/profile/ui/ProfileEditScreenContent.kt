@@ -34,7 +34,7 @@ import com.example.settings.R
 import com.example.settings.profile.viewmodel.ProfileEditAction
 import com.example.settings.profile.viewmodel.ProfileEditState
 import com.point.ui.EnvelopeTheme
-import com.point.ui.textfields.EnvelopeTextField
+import com.point.ui.materials.textfields.EnvelopeTextField
 
 @Composable
 internal fun ProfileEditScreenContent(

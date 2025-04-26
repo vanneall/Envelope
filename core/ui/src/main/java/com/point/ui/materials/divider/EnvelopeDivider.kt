@@ -1,4 +1,4 @@
-package com.point.ui.divider
+package com.point.ui.materials.divider
 
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable

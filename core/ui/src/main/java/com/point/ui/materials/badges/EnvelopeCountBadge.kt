@@ -1,4 +1,4 @@
-package com.point.ui.badges
+package com.point.ui.materials.badges
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

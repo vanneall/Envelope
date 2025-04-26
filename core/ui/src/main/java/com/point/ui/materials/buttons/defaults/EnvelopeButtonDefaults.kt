@@ -1,4 +1,4 @@
-package com.point.ui.buttons.defaults
+package com.point.ui.materials.buttons.defaults
 
 import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable

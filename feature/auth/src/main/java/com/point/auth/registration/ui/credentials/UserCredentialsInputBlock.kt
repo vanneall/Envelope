@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.point.auth.R
 import com.point.auth.registration.presenter.credentials.CredentialsAction
 import com.point.auth.registration.presenter.credentials.CredentialsState
-import com.point.ui.textfields.EnvelopeTextField
+import com.point.ui.materials.textfields.EnvelopeTextField
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable

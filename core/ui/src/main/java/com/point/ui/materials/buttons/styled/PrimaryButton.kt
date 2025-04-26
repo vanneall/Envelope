@@ -1,4 +1,4 @@
-package com.point.ui.buttons.styled
+package com.point.ui.materials.buttons.styled
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.point.ui.buttons.defaults.EnvelopeButton
-import com.point.ui.buttons.defaults.EnvelopeButtonDefaults
+import com.point.ui.materials.buttons.defaults.EnvelopeButton
+import com.point.ui.materials.buttons.defaults.EnvelopeButtonDefaults
 import com.point.ui.colors.new.NewEnvelopeTheme
 import com.point.ui.colors.new.White
 

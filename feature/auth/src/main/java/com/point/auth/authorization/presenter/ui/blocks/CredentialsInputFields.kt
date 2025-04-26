@@ -34,7 +34,7 @@ import com.point.auth.authorization.presenter.viewmodel.AuthAction
 import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action.OnPasswordInput
 import com.point.auth.authorization.presenter.viewmodel.AuthState
 import com.point.ui.Theme
-import com.point.ui.textfields.EnvelopeTextField
+import com.point.ui.materials.textfields.EnvelopeTextField
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable

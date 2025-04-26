@@ -1,37 +1,34 @@
-package com.point.ui.icons.defaults
+package com.point.ui.materials.icons.defaults
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.point.ui.colors.new.EnvelopeTheme
 import com.point.ui.colors.new.NewEnvelopeTheme
 
 @Composable
-fun EnvelopeIconButton(
+fun EnvelopeIconFilledButton(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    tint: Color = EnvelopeTheme.colorScheme.onPrimary,
     @StringRes contentDescription: Int? = null,
     enabled: Boolean = true,
 ) {
-    IconButton(
+    FilledIconButton(
         onClick = onClick ?: {},
         modifier = modifier,
         enabled = enabled,
+        colors = EnvelopeIconDefaults.TertiaryColors,
     ) {
         Icon(
             imageVector = icon,
             contentDescription = contentDescription?.let { resId -> stringResource(resId) },
-            tint = tint,
         )
     }
 }
@@ -40,9 +37,8 @@ fun EnvelopeIconButton(
 @Composable
 private fun EnvelopeFilledIconPreview() {
     NewEnvelopeTheme {
-        EnvelopeIconButton(
+        EnvelopeIconFilledButton(
             icon = Icons.Rounded.Done,
         )
     }
 }
-

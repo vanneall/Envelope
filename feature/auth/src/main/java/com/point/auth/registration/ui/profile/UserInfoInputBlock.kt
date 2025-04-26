@@ -31,7 +31,7 @@ import com.point.auth.R
 import com.point.auth.registration.presenter.profile.RegProfileAction.UiAction
 import com.point.auth.registration.presenter.profile.RegProfileState
 import com.point.ui.Theme
-import com.point.ui.textfields.EnvelopeTextField
+import com.point.ui.materials.textfields.EnvelopeTextField
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
