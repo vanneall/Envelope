@@ -20,7 +20,7 @@ class ProfileViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            contactsRepository.fetchUserDataShort(username).fold(
+            contactsRepository.getUserInfo(username).fold(
                 onSuccess = {
                     emitAction(ProfileAction.ProfileDataLoaded(it))
                 },
@@ -65,7 +65,7 @@ class ProfileViewModel @AssistedInject constructor(
 
     private fun handleRefreshing() {
         handleAction<ProfileAction.Refresh> {
-            contactsRepository.fetchUserDataShort(username).fold(
+            contactsRepository.getUserInfo(username).fold(
                 onSuccess = { emitAction(ProfileAction.ProfileDataLoaded(it)) },
                 onFailure = { it.printStackTrace() }
             )
@@ -74,7 +74,7 @@ class ProfileViewModel @AssistedInject constructor(
 
     private fun deleteContact() {
         handleAction<ProfileAction.DeleteFromContacts> {
-            contactsRepository.deleteUserFromFriends(username).fold(
+            contactsRepository.deleteFromUserContacts(username).fold(
                 onSuccess = {
                     emitAction(ProfileAction.UserDeletedSuccessfully)
                 },
@@ -96,10 +96,7 @@ class ProfileViewModel @AssistedInject constructor(
 
     private fun onNavigateToChat() {
         handleAction<ProfileAction.ToChat> {
-            contactsRepository.getChatId(username).fold(
-                onSuccess = { emitEvent(ProfileEvent.NavigateToChat(id = username)) },
-                onFailure = { it.printStackTrace() }
-            )
+
         }
     }
 

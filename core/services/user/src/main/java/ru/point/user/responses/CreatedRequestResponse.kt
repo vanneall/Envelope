@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ChatIdResponse(
+internal class CreatedRequestResponse(
     @SerialName("id")
-    val id: String,
+    val id: Long,
 )

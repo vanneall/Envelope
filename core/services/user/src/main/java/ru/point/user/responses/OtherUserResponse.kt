@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class UserInfoShort(
+internal class OtherUserResponse(
     @SerialName("username")
     val username: String,
     @SerialName("name")
@@ -12,7 +12,7 @@ class UserInfoShort(
     @SerialName("status")
     val status: String?,
     @SerialName("last_photo")
-    val photo: Long?,
+    val lastPhoto: Long?,
     @SerialName("in_contacts")
     val inContacts: Boolean,
     @SerialName("in_sent_requests")

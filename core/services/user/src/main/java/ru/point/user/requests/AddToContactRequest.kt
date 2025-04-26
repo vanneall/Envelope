@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FriendRequest(
+internal class AddToContactRequest(
     @SerialName("friend_user_id")
-    val otherId: String,
+    val username: String,
 )

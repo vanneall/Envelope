@@ -4,9 +4,9 @@ import com.point.auth.R
 import com.point.auth.authorization.domain.AuthorizeUseCase
 import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action
 import com.point.auth.authorization.presenter.viewmodel.AuthAction.SideEffect
-import com.point.auth.common.data.AuthRequest
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.point.core.services.auth.models.SigninData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,7 +63,7 @@ class AuthorizationViewModel @Inject constructor(
             if (sideEffect != null) return@mapAction sideEffect
 
             authorizeUseCase(
-                authRequest = AuthRequest(
+                signinData = SigninData(
                     username = state.login,
                     password = state.password,
                 )

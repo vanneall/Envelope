@@ -1,4 +1,4 @@
-package com.point.network.di
+package com.point.network.di.serializers
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -8,6 +8,7 @@ import kotlinx.serialization.encoding.Encoder
 import java.time.Instant
 
 object InstantSerializer : KSerializer<Instant> {
+
     override val descriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Instant) {

@@ -1,12 +1,12 @@
-package com.point.auth.common.data
+package ru.point.core.services.auth.requests
 
-import com.point.auth.registration.presenter.host.UserRegistrationData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.point.core.services.auth.models.SignupData
 import java.time.LocalDate
 
 @Serializable
-internal data class UserRegistrationRequest(
+internal data class SignUpRequest(
     @SerialName("username")
     val username: String,
     @SerialName("password")
@@ -23,7 +23,7 @@ internal data class UserRegistrationRequest(
     val isDeveloper: Boolean = false
 )
 
-internal fun UserRegistrationData.toUserRegistrationRequest() = UserRegistrationRequest(
+internal fun SignupData.toRequest() = SignUpRequest(
     username = login,
     password = password,
     name = name,

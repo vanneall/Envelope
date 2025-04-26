@@ -15,12 +15,12 @@ data class ProfileState(
     val status: String? = null,
     val about: String? = null,
     val birthDate: LocalDate? = null,
-    val photos: List<Long> = emptyList(),
+    val photos: List<String> = emptyList(),
     private val userInContacts: Boolean = false,
     private val userInSent: Boolean = false,
 ) {
     val lastPhoto: String?
-        get() = photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
+        get() = photos.firstOrNull()
 
     val showSendMessage
         get() = userInContacts

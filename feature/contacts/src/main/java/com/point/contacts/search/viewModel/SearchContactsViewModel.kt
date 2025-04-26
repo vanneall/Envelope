@@ -39,7 +39,7 @@ class SearchContactsViewModel @Inject constructor(
                     status = it.status.orEmpty(),
                     inContacts = it.inContacts,
                     isSentRequest = it.inSentRequests,
-                    photoUrl = it.photo?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
+                    photoUrl = it.lastPhoto
                 )
             },
         )
@@ -49,7 +49,7 @@ class SearchContactsViewModel @Inject constructor(
 
     private fun handleOnNameTyped() {
         handleAction<SearchContactsAction.OnNameTyped> { action ->
-            contactsRepository.fetchUsersByName(query = action.query).fold(
+            contactsRepository.fetchUsersByName(name = action.query).fold(
                 onSuccess = {
                     Timber.tag(TAG).i("fetch success")
                     emitAction(SearchContactsAction.LoadUserContacts(it))

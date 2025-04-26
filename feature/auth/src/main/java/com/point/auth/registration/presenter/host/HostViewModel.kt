@@ -6,6 +6,7 @@ import com.point.auth.registration.presenter.host.HostAction.UiAction
 import com.point.auth.registration.presenter.profile.RegistrationProfileViewModel
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.point.core.services.auth.models.SignupData
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class HostViewModel @Inject constructor(
             val userData = regProfileViewModel.userData
 
             registrationUseCase(
-                UserRegistrationData(
+                SignupData(
                     login = userCredentials.username,
                     password = userCredentials.password,
                     name = userData.name,

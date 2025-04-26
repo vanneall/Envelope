@@ -3,7 +3,7 @@ package com.point.chats.dialog.viewmodel
 import android.net.Uri
 import com.point.chats.dialog.data.events.BaseEvent
 import com.point.chats.main.data.entity.response.ChatType
-import com.point.network.di.InstantSerializer
+import com.point.network.di.serializers.InstantSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Instant

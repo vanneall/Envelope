@@ -43,6 +43,7 @@ dependencies {
 
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+    implementation(project(":core:services:auth"))
     implementation(project(":core:user"))
     implementation(project(":core:kotlin-utils"))
     api(project(":core:network"))

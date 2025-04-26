@@ -1,27 +1,32 @@
 package ru.point.user.repository
 
-import ru.point.user.responses.ChatIdResponse
-import ru.point.user.responses.UserInfoShort
-import ru.point.user.responses.UserInfoShortResponse
-import ru.point.user.responses.UsersSearchResponse
+import android.net.Uri
+import ru.point.user.models.DetailedUserProfile
+import ru.point.user.models.RequestsInfo
+import ru.point.user.models.SearchUsersResult
+import ru.point.user.models.UserContact
+import ru.point.user.models.UserInfo
+import ru.point.user.models.UserProfileUpdate
 
 interface UserRepository {
 
-    suspend fun fetchUserContacts(): Result<List<UserInfoShort>>
+    suspend fun fetchUserContacts(offset: Int = 0, limit: Int = 35): Result<List<UserContact>>
 
-    suspend fun fetchUsersByName(query: String): Result<UsersSearchResponse>
+    suspend fun deleteFromUserContacts(username: String): Result<Unit>
 
-    suspend fun fetchIncomingRequests(): Result<List<UserInfoShort>>
+    suspend fun fetchUserDetailedInfo(): Result<DetailedUserProfile>
 
-    suspend fun acceptRequest(userId: String): Result<Unit>
+    suspend fun updateUserInfo(data: UserProfileUpdate, photo: Uri?): Result<Unit>
 
-    suspend fun denyRequest(userId: String): Result<Unit>
+    suspend fun fetchUsersByName(name: String, offset: Int = 0, limit: Int = 35): Result<SearchUsersResult>
 
-    suspend fun sendRequest(userId: String): Result<Unit>
+    suspend fun fetchIncomingRequests(offset: Int = 0, limit: Int = 35): Result<List<RequestsInfo>>
 
-    suspend fun fetchUserDataShort(username: String): Result<UserInfoShortResponse>
+    suspend fun acceptRequest(id: Long): Result<Unit>
 
-    suspend fun deleteUserFromFriends(username: String): Result<Unit>
+    suspend fun denyRequest(id: Long): Result<Unit>
 
-    suspend fun getChatId(username: String): Result<ChatIdResponse>
+    suspend fun sendRequest(username: String): Result<Unit>
+
+    suspend fun getUserInfo(username: String): Result<UserInfo>
 }

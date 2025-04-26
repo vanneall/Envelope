@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UsersSearchResponse(
+internal data class UsersSearchResponse(
     @SerialName("in_contacts")
-    val inContacts: List<UserInfoShort>,
+    val inContacts: List<OtherUserResponse>,
     @SerialName("all_contacts")
-    val allContacts: List<UserInfoShort>,
+    val allContacts: List<OtherUserResponse>,
 )

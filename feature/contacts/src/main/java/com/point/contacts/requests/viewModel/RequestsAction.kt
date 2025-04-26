@@ -1,10 +1,10 @@
 package com.point.contacts.requests.viewModel
 
-import ru.point.user.responses.UserInfoShort
+import ru.point.user.models.RequestsInfo
 
 sealed interface RequestsAction {
 
-    data class LoadUserContacts(val contacts: List<UserInfoShort>) : RequestsAction
+    data class LoadUserContacts(val contacts: List<RequestsInfo>) : RequestsAction
 
     data class AcceptRequest(val userId: String) : RequestsAction
 

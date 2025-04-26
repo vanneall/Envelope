@@ -1,11 +1,11 @@
-package com.point.auth.common.data
+package ru.point.core.services.auth.repository
 
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
-import com.point.auth.registration.presenter.host.UserRegistrationData
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -13,30 +13,33 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import ru.point.core.services.auth.models.SigninData
+import ru.point.core.services.auth.models.SignupData
+import ru.point.core.services.auth.requests.toRequest
+import ru.point.core.services.auth.services.AuthorizeService
 import java.io.File
 
-class AuthorizationRepositoryImpl(
+internal class AuthorizationRepositoryImpl(
     @ApplicationContext
     private val context: Context,
-    private val authorizeService: AuthorizeService
+    private val authorizeService: AuthorizeService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : AuthorizationRepository {
 
-    override suspend fun tryToAuthorize(authRequest: AuthRequest): Result<TokenPayload> =
-        withContext(Dispatchers.IO) {
-            authorizeService.authorize(authRequest = authRequest)
-        }
+    override suspend fun signIn(signinData: SigninData) = withContext(dispatcher) {
+        authorizeService.authorize(signInRequest = signinData.toRequest()).map { response -> response.token }
+    }
 
-    override suspend fun registration(dto: UserRegistrationData): Result<TokenPayload> =
-        withContext(Dispatchers.IO) {
-            val jsonString = Json.encodeToString(dto.toUserRegistrationRequest())
-            val photo = dto.uri?.let { uriToMultipart(it, context) }
+    override suspend fun singUp(signupData: SignupData) = withContext(dispatcher) {
+        val jsonString = Json.encodeToString(signupData.toRequest())
+        val photo = signupData.uri?.let { uriToMultipart(it, context) }
 
-            val userRequestBody = jsonString.toRequestBody("application/json".toMediaTypeOrNull())
-            authorizeService.registration(
-                userJson = userRequestBody,
-                photo = photo,
-            )
-        }
+        val userRequestBody = jsonString.toRequestBody("application/json".toMediaTypeOrNull())
+        authorizeService.registration(
+            userJson = userRequestBody,
+            photo = photo,
+        ).map { response -> response.token }
+    }
 
     private fun uriToMultipart(uri: Uri, context: Context): MultipartBody.Part? {
         val contentResolver = context.contentResolver

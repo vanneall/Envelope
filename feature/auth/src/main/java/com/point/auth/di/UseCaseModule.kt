@@ -1,13 +1,13 @@
 package com.point.auth.di
 
 import com.point.auth.authorization.domain.AuthorizeUseCase
-import com.point.auth.common.data.AuthorizationRepository
 import com.point.auth.registration.domain.usecase.RegistrationUseCase
 import com.point.user.storage.UserStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import ru.point.core.services.auth.repository.AuthorizationRepository
 
 @Module
 @InstallIn(ViewModelComponent::class)

@@ -43,7 +43,7 @@ class RequestsContactsViewModel @Inject constructor(
                     username = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
-                    photoUrl = it.photo?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
+                    photoUrl = it.lastPhoto
                 )
             },
             isRefreshing = false,
@@ -75,25 +75,25 @@ class RequestsContactsViewModel @Inject constructor(
 
     private fun acceptRequest() {
         handleAction<RequestsAction.AcceptRequest> { action ->
-            contactsRepository.acceptRequest(action.userId).fold(
-                onSuccess = {
-                    Timber.tag(TAG).i("accept success")
-                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
-                },
-                onFailure = { it.printStackTrace() }
-            )
+//            contactsRepository.acceptRequest().fold(
+//                onSuccess = {
+//                    Timber.tag(TAG).i("accept success")
+//                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
+//                },
+//                onFailure = { it.printStackTrace() }
+//            )
         }
     }
 
     private fun denyRequest() {
         handleAction<RequestsAction.DenyRequest> { action ->
-            contactsRepository.denyRequest(action.userId).fold(
-                onSuccess = {
-                    Timber.tag(TAG).i("reject success")
-                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
-                },
-                onFailure = { it.printStackTrace() }
-            )
+//            contactsRepository.denyRequest(action.userId).fold(
+//                onSuccess = {
+//                    Timber.tag(TAG).i("reject success")
+//                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
+//                },
+//                onFailure = { it.printStackTrace() }
+//            )
         }
     }
 

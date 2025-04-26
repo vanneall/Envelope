@@ -10,7 +10,7 @@ import ru.point.user.services.UserService
 
 @Module
 @InstallIn(ViewModelComponent::class)
-internal class UserServiceModule {
+internal object UserServiceModule {
 
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService = retrofit.create<UserService>()

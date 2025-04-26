@@ -1,12 +1,12 @@
 package com.point.contacts.profile.viewmodel
 
-import ru.point.user.responses.UserInfoShortResponse
+import ru.point.user.models.UserInfo
 
 sealed interface ProfileAction {
 
     data object Refresh : ProfileAction
 
-    data class ProfileDataLoaded(val data: UserInfoShortResponse) : ProfileAction
+    data class ProfileDataLoaded(val data: UserInfo) : ProfileAction
 
     data object ToChat : ProfileAction
 
