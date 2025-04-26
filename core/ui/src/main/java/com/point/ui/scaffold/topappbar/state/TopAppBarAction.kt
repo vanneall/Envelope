@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.topappbar.state
+package com.point.ui.scaffold.topappbar.state
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

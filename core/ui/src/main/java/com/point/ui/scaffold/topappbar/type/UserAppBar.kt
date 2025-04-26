@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.topappbar.type
+package com.point.ui.scaffold.topappbar.type
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

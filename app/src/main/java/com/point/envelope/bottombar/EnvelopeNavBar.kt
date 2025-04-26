@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.bottombar
+package com.point.envelope.bottombar
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -15,7 +15,7 @@ import com.point.ui.colors.new.White
 
 @Composable
 fun EnvelopeNavBar(
-    entryPoints: List<BottomBarEntryPoint>,
+    entryPoints: List<com.point.envelope.BottomBarEntryPoint>,
     selectedItemIndex: Int,
     onItemSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,

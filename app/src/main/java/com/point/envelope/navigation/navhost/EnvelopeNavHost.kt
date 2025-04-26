@@ -10,8 +10,8 @@ import com.point.envelope.navigation.feature.authFeature
 import com.point.envelope.navigation.feature.chatsFeature
 import com.point.envelope.navigation.feature.contactsFeature
 import com.point.envelope.navigation.feature.settingsFeature
-import com.point.envelope.scaffold.fab.FabState
-import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.ui.scaffold.fab.FabState
+import com.point.ui.scaffold.topappbar.state.TopAppBarState
 
 @Composable
 fun EnvelopeNavHost(

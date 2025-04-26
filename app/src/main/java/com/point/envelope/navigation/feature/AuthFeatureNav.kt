@@ -21,9 +21,9 @@ import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
-import com.point.envelope.scaffold.fab.FabState
-import com.point.envelope.scaffold.topappbar.state.TopAppBarState
-import com.point.envelope.scaffold.topappbar.type.AppBarType
+import com.point.ui.scaffold.fab.FabState
+import com.point.ui.scaffold.topappbar.state.TopAppBarState
+import com.point.ui.scaffold.topappbar.type.AppBarType
 import com.point.navigation.Route
 
 internal fun NavGraphBuilder.authFeature(

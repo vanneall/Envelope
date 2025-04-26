@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.topappbar.type
+package com.point.ui.scaffold.topappbar.type
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.Text

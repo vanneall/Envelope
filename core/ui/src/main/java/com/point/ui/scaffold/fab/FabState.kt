@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.fab
+package com.point.ui.scaffold.fab
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

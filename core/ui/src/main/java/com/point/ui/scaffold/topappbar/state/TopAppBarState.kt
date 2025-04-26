@@ -1,7 +1,7 @@
-package com.point.envelope.scaffold.topappbar.state
+package com.point.ui.scaffold.topappbar.state
 
 import androidx.compose.runtime.Immutable
-import com.point.envelope.scaffold.topappbar.type.AppBarType
+import com.point.ui.scaffold.topappbar.type.AppBarType
 
 @Immutable
 data class TopAppBarState(

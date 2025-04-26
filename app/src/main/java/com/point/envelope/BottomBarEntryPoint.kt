@@ -1,13 +1,13 @@
-package com.point.envelope.scaffold.bottombar
+package com.point.envelope
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
+
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.point.envelope.R
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 
 sealed class BottomBarEntryPoint(

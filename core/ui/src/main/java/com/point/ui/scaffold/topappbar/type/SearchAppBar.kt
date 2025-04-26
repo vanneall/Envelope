@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.topappbar.type
+package com.point.ui.scaffold.topappbar.type
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.point.envelope.R
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.debounce
 
@@ -79,7 +78,6 @@ fun SearchAppBar(@StringRes placeholder: Int, onValueChange: (String) -> Unit, m
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
-            autoCorrectEnabled = false,
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done,
         ),
@@ -92,22 +90,5 @@ fun SearchAppBar(@StringRes placeholder: Int, onValueChange: (String) -> Unit, m
             .collect { newValue ->
                 onValueChange(newValue)
             }
-    }
-}
-
-@Composable
-@Preview
-fun SearchAppBarPreview() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color.Gray)
-            .padding(all = 4.dp)
-    ) {
-        SearchAppBar(
-            placeholder = R.string.app_name,
-            onValueChange = { },
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }

@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -18,12 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
-import com.point.envelope.scaffold.bottombar.EnvelopeNavBar
-import com.point.envelope.scaffold.bottombar.entryPoints
-import com.point.envelope.scaffold.fab.EnvelopeFab
-import com.point.envelope.scaffold.fab.FabState
-import com.point.envelope.scaffold.topappbar.EnvelopeTopAppBar
-import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.envelope.bottombar.EnvelopeNavBar
+import com.point.ui.scaffold.fab.EnvelopeFab
+import com.point.ui.scaffold.fab.FabState
+import com.point.ui.scaffold.topappbar.EnvelopeTopAppBar
+import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import dagger.hilt.android.AndroidEntryPoint

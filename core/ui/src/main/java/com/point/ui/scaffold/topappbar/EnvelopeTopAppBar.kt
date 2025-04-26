@@ -1,4 +1,4 @@
-package com.point.envelope.scaffold.topappbar
+package com.point.ui.scaffold.topappbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,9 +8,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.point.envelope.scaffold.GoBackIcon
-import com.point.envelope.scaffold.actions.ActionIcon
-import com.point.envelope.scaffold.topappbar.state.TopAppBarState
+import com.point.ui.scaffold.GoBackIcon
+import com.point.ui.scaffold.actions.ActionIcon
+import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
