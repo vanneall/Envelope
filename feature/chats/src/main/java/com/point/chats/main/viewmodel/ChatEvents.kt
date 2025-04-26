@@ -4,4 +4,7 @@ sealed interface ChatEvents {
 
     data object ShowSomethingWentWrong : ChatEvents
 
+    @JvmInline
+    value class ChangeDeleteActionVisibility(val isVisible: Boolean) : ChatEvents
+
 }

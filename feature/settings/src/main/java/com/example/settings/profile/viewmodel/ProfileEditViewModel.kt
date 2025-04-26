@@ -34,7 +34,7 @@ class ProfileEditViewModel @Inject constructor(
             name = action.data.name,
             status = action.data.status.orEmpty(),
             about = action.data.about.orEmpty(),
-            initialPhotoUrl = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
+            initialPhotoUrl = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
         )
 
         is ProfileEditAction.OnNameEntered -> state.copy(name = action.value)

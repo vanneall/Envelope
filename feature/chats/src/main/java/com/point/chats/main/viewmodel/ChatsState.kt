@@ -1,22 +1,12 @@
 package com.point.chats.main.viewmodel
 
-import java.time.Instant
+import com.point.chats.main.viewmodel.items.Mode
+import com.point.ui.items.UiItem
 
 data class ChatsState(
     val isInitialLoading: Boolean = true,
     val isRefreshing: Boolean = false,
-    val chats: List<Chat> = emptyList(),
-)
-
-data class Chat(
-    val id: String = "",
-    val name: String = "",
-    val photoUrl: String? = null,
-    val lastMessage: MessageShort? = null,
-)
-
-data class MessageShort(
-    val id: String,
-    val text: String,
-    val timestamp: Instant,
+    val isError: Boolean = false,
+    val chats: List<UiItem> = emptyList(),
+    val mode: Mode = Mode.IDLE,
 )

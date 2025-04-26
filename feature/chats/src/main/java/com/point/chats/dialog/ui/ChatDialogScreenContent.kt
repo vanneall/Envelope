@@ -348,7 +348,7 @@ fun CompactPhotoGrid(attachments: List<Long>) {
             ) {
                 rowItems.forEach { item ->
                     AsyncImage(
-                        model = "http://192.168.0.192:8084/photos/$item",
+                        model = "http://192.168.0.174:8084/photos/$item",
                         contentDescription = null,
                         modifier = Modifier
                             .weight(1f)

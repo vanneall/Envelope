@@ -7,5 +7,6 @@ interface ChatRepository {
     suspend fun fetchChats(limit: Int = 20, offset: Int = 0): Result<List<ChatInfoShort>>
 
     suspend fun deleteDialog(id: String): Result<Unit>
-    
+
+    suspend fun deleteChats(ids: List<String>): Result<Unit>
 }

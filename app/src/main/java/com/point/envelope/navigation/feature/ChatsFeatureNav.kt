@@ -1,6 +1,8 @@
 package com.point.envelope.navigation.feature
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -13,6 +15,8 @@ import com.point.chats.R
 import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.main.ui.ChatsScreen
+import com.point.chats.main.viewmodel.ChatAction
+import com.point.chats.main.viewmodel.ChatEvents
 import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.entryComposable
@@ -20,8 +24,14 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.topappbar.state.ActionType
+import com.point.envelope.scaffold.topappbar.state.TopAppBarAction
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
+
+private object DeleteChats : ActionType {
+    override val id: String = "DELETE"
+}
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
@@ -50,6 +60,27 @@ internal fun NavGraphBuilder.chatsFeature(
             onNavigate = { route -> navController.navigate(route.asComposeRoute) },
             modifier = Modifier.fillMaxSize(),
         )
+
+        LaunchedEffect(Unit) {
+            viewModel.events.collect { event ->
+                when(event) {
+                    is ChatEvents.ChangeDeleteActionVisibility -> {
+                        topAppBarState.value = topAppBarState.value.copy(
+                            actions = if (event.isVisible) {
+                                topAppBarState.value.actions + TopAppBarAction(
+                                    type = DeleteChats,
+                                    icon = Icons.Rounded.Delete,
+                                    action = { viewModel.emitAction(ChatAction.UiAction.DeleteChats) },
+                                )
+                            } else {
+                                topAppBarState.value.actions.filter { it.type != DeleteChats }
+                            }
+                        )
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     subComposable<SubRoute.Messaging> {

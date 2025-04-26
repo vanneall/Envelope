@@ -40,4 +40,8 @@ class ChatRepositoryFake @Inject constructor(): ChatRepository {
     override suspend fun deleteDialog(id: String): Result<Unit> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteChats(ids: List<String>): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 }

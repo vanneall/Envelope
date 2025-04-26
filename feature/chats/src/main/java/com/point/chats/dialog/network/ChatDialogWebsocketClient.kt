@@ -152,7 +152,7 @@ class ChatDialogWebsocketClient @Inject constructor(
 
     private companion object {
 
-        const val WS_ENDPOINT = "ws://192.168.0.192:8082/ws"
+        const val WS_ENDPOINT = "ws://192.168.0.174:8082/ws"
 
         const val WEBSOCKET_TAG = "Websocket"
     }

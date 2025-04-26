@@ -22,7 +22,7 @@ fun UserCard(user: UserCardInfo, modifier: Modifier = Modifier, trailing: (@Comp
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        UserPhoto(user.photoUrl, modifier = Modifier.size(48.dp))
+        UserPhoto(user.photoUrl, modifier = Modifier.size(52.dp))
 
         UserTextBlock(
             name = user.name,

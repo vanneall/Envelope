@@ -21,7 +21,7 @@ fun ChatsScreen(
     val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh = { onAction(ChatAction.Action.Refresh) },
+        onRefresh = { onAction(ChatAction.UiAction.Refresh) },
         swipeEnabled = !state.isRefreshing,
     ) {
         if (state.isInitialLoading) {

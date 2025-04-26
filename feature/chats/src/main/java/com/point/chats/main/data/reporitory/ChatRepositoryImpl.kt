@@ -1,5 +1,6 @@
 package com.point.chats.main.data.reporitory
 
+import com.point.chats.main.data.entity.requests.DeleteChatsRequest
 import com.point.chats.main.data.entity.response.ChatInfoShort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,5 +15,9 @@ class ChatRepositoryImpl @Inject constructor(private val chatsService: ChatsServ
 
     override suspend fun deleteDialog(id: String): Result<Unit> = withContext(Dispatchers.IO) {
         chatsService.deleteChatById(id)
+    }
+
+    override suspend fun deleteChats(ids: List<String>): Result<Unit> = withContext(Dispatchers.IO) {
+        chatsService.deleteChats(deleteChatsRequest = DeleteChatsRequest(chatIds = ids))
     }
 }

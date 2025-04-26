@@ -20,7 +20,7 @@ data class ProfileState(
     private val userInSent: Boolean = false,
 ) {
     val lastPhoto: String?
-        get() = photos.firstOrNull()?.let { uri -> "http://192.168.0.192:8084/photos/$uri" }
+        get() = photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
 
     val showSendMessage
         get() = userInContacts

@@ -28,7 +28,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
-        .baseUrl("http://192.168.0.192:8080")
+        .baseUrl("http://192.168.0.174:8080")
         .addConverterFactory(globalJson.asConverterFactory("application/json".toMediaType()))
         .addCallAdapterFactory(ResultCallAdapterFactory.create())
         .client(okHttpClient)
