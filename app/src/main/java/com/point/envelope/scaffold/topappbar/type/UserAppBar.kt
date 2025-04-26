@@ -2,12 +2,14 @@ package com.point.envelope.scaffold.topappbar.type
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.point.ui.Theme
@@ -22,7 +24,8 @@ fun UserAppBar(name: String, photo: String?, modifier: Modifier = Modifier) {
         AsyncImage(
             model = photo ?: DEFAULT_IMAGE_URL,
             contentDescription = null,
-            modifier = Modifier.clip(CircleShape)
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.clip(CircleShape).size(36.dp)
         )
 
         Text(

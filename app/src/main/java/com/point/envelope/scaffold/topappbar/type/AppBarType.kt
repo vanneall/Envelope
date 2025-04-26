@@ -1,6 +1,7 @@
 package com.point.envelope.scaffold.topappbar.type
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
@@ -60,7 +61,7 @@ sealed interface AppBarType {
             UserAppBar(
                 name = name,
                 photo = photo,
-                modifier = modifier,
+                modifier = modifier.clickable { onUserProfileClick() },
             )
         }
     }

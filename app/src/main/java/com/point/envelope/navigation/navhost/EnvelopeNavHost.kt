@@ -10,6 +10,7 @@ import com.point.envelope.navigation.feature.authFeature
 import com.point.envelope.navigation.feature.chatsFeature
 import com.point.envelope.navigation.feature.contactsFeature
 import com.point.envelope.navigation.feature.settingsFeature
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 
 @Composable
@@ -18,6 +19,7 @@ fun EnvelopeNavHost(
     startDestination: ComposeNavigationRoute,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
+    fabState: MutableState<FabState>,
     modifier: Modifier,
 ) {
     NavHost(
@@ -29,24 +31,28 @@ fun EnvelopeNavHost(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            fabState = fabState,
         )
 
         chatsFeature(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            fabState = fabState,
         )
 
         contactsFeature(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            fabState = fabState,
         )
 
         settingsFeature(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            fabState = fabState,
         )
     }
 }

@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,8 @@ import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
 import com.point.envelope.scaffold.bottombar.EnvelopeNavBar
 import com.point.envelope.scaffold.bottombar.entryPoints
+import com.point.envelope.scaffold.fab.EnvelopeFab
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.EnvelopeTheme
@@ -38,6 +41,7 @@ class MainActivity : ComponentActivity() {
             val selectedItemIndex = rememberSaveable { mutableIntStateOf(0) }
             val appBarState = remember { mutableStateOf(TopAppBarState()) }
             val bottomBarState = remember { mutableStateOf(BottomBarState(false)) }
+            val fabState = remember { mutableStateOf<FabState>(FabState.Hidden) }
             EnvelopeTheme {
                 Scaffold(
                     topBar = {
@@ -61,6 +65,17 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     },
+                    floatingActionButton = {
+                        when (val state = fabState.value) {
+                            is FabState.Showed -> {
+                               EnvelopeFab(
+                                   icon = state.icon,
+                                   onClick = state.action,
+                               )
+                            }
+                            FabState.Hidden -> {}
+                        }
+                    },
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Theme.colorScheme.background,
                 ) { innerPadding ->
@@ -73,6 +88,7 @@ class MainActivity : ComponentActivity() {
                         },
                         topAppBarState = appBarState,
                         bottomBarState = bottomBarState,
+                        fabState = fabState,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(innerPadding),

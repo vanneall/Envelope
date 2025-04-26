@@ -18,7 +18,7 @@ import timber.log.Timber
 @HiltViewModel(assistedFactory = ChatDialogViewModel.Factory::class)
 class ChatDialogViewModel @AssistedInject constructor(
     @Assisted(FACTORY_CHAT_ID)
-    private val chatId: String,
+    val chatId: String,
     private val chatDialogRepository: ChatDialogRepository,
     private val mediaContentRepository: MediaContentRepository,
 ) : MviViewModel<ChatDialogState, ChatDialogAction, ChatDialogEvent>(
@@ -34,6 +34,17 @@ class ChatDialogViewModel @AssistedInject constructor(
                         emitAction(ChatDialogAction.EventsLoaded(it))
                     },
                     onFailure = { it.printStackTrace() }
+                )
+            }
+            launch {
+                chatDialogRepository.fetchChatInfo(chatId).fold(
+                    onSuccess = {
+                        emitAction(ChatDialogAction.SetChatType(it.type))
+                        emitEvent(ChatDialogEvent.ChatInited(it.name, it.photoId))
+                    },
+                    onFailure = {
+                        it.printStackTrace()
+                    },
                 )
             }
         }
@@ -87,6 +98,8 @@ class ChatDialogViewModel @AssistedInject constructor(
                 }
             }
         )
+
+        is ChatDialogAction.SetChatType -> state.copy(chatType = action.chatType)
 
         is ChatDialogAction.DeleteSuccess -> state.copy(events = state.events.filter { it.id != action.id })
         ChatDialogAction.ClearField -> state.copy(message = "")

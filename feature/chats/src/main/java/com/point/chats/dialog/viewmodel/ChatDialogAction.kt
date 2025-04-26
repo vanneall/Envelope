@@ -2,6 +2,7 @@ package com.point.chats.dialog.viewmodel
 
 import android.net.Uri
 import com.point.chats.dialog.data.events.BaseEvent
+import com.point.chats.main.data.entity.response.ChatType
 
 sealed interface ChatDialogAction {
 
@@ -28,4 +29,6 @@ sealed interface ChatDialogAction {
     data object ClearField : ChatDialogAction
 
     data class EventsLoaded(val list: List<BaseEvent>) : ChatDialogAction
+
+    data class SetChatType(val chatType: ChatType) : ChatDialogAction
 }

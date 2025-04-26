@@ -13,6 +13,8 @@ data class ChatInfoShort(
     val name: String,
     @SerialName("photo")
     val photoId: Long?,
+    @SerialName("type")
+    val type: ChatType,
     @SerialName("last_message")
     val lastMessage: MessageInfoShort?,
 )
@@ -27,3 +29,10 @@ data class MessageInfoShort(
     @SerialName("timestamp")
     val timestamp: Instant,
 )
+
+enum class ChatType {
+    PRIVATE,
+    ONE_ON_ONE,
+    MANY,
+    ;
+}

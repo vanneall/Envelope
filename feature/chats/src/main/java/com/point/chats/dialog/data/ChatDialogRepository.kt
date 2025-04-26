@@ -33,6 +33,10 @@ class ChatDialogRepository @Inject constructor(
         DeleteMessage(messageId = id)
     )
 
+    suspend fun fetchChatInfo(id: String) = withContext(Dispatchers.IO) {
+        dialogService.getChats(100, 0).map { it.first { it.id == id } }
+    }
+
     suspend fun fetchInfo(id: String): Result<List<BaseEvent>> = withContext(Dispatchers.IO) {
         dialogService.fetchEvents(id)
     }

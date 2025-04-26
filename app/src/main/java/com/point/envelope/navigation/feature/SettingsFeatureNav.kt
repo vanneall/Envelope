@@ -20,6 +20,7 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.state.TopAppBarAction
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
@@ -28,6 +29,7 @@ internal fun NavGraphBuilder.settingsFeature(
     navController: NavController,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
+    fabState: MutableState<FabState>,
 ) {
     entryComposable<EntryRoute.Settings> {
 
@@ -37,6 +39,7 @@ internal fun NavGraphBuilder.settingsFeature(
             ),
         )
         bottomBarState.value = BottomBarState(true)
+        fabState.value = FabState.Hidden
 
         val viewModel = hiltViewModel<SettingsViewModel>()
 
@@ -73,6 +76,7 @@ internal fun NavGraphBuilder.settingsFeature(
         )
         bottomBarState.value = BottomBarState(true)
 
+        fabState.value = FabState.Hidden
         ProfileEditScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,

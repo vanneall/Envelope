@@ -1,23 +1,32 @@
 package com.point.envelope.navigation.feature
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.point.chats.R
+import com.point.chats.creation.ui.MultiDialogCreation
+import com.point.chats.creation.viewmodel.MultiCreationViewModel
 import com.point.chats.dialog.ui.ChatDialogScreen
+import com.point.chats.dialog.viewmodel.ChatDialogEvent
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
+import com.point.chats.main.data.entity.response.ChatType
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatAction
 import com.point.chats.main.viewmodel.ChatEvents
 import com.point.chats.main.viewmodel.ChatsHostViewModel
+import com.point.chats.multi.info.ui.MultiChatInfoScreen
+import com.point.chats.multi.info.viewmodel.MultiChatInfoViewModel
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.entryComposable
 import com.point.envelope.navigation.extensions.subComposable
@@ -26,8 +35,10 @@ import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
 import com.point.envelope.scaffold.topappbar.state.ActionType
 import com.point.envelope.scaffold.topappbar.state.TopAppBarAction
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
+import kotlinx.coroutines.launch
 
 private object DeleteChats : ActionType {
     override val id: String = "DELETE"
@@ -37,6 +48,7 @@ internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
+    fabState: MutableState<FabState>,
 ) {
     entryComposable<EntryRoute.Chats> {
         val focusManager = LocalFocusManager.current
@@ -51,6 +63,11 @@ internal fun NavGraphBuilder.chatsFeature(
             appBarType = AppBarType.HeaderAppBar(
                 headerRes = R.string.chats_host_screen_title,
             ),
+        )
+
+        fabState.value = FabState.Showed(
+            icon = Icons.Default.Add,
+            action = { navController.navigate(SubRoute.MultiChatCreation) },
         )
 
         ChatsScreen(
@@ -85,25 +102,91 @@ internal fun NavGraphBuilder.chatsFeature(
 
     subComposable<SubRoute.Messaging> {
 
-        topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.HeaderAppBar(
-                header = "Конкретный чат",
-            ),
-            onBack = { navController.popBackStack() }
-        )
-
-        bottomBarState.value = BottomBarState(false)
-
         val args = it.toRoute<SubRoute.Messaging>()
 
         val viewModel: ChatDialogViewModel = hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
             creationCallback = { factory -> factory.create(args.chatId) }
         )
 
+        bottomBarState.value = BottomBarState(false)
+
+        fabState.value = FabState.Hidden
+
+        LaunchedEffect(Unit) {
+            launch {
+                viewModel.events.collect {
+                    if (it !is ChatDialogEvent.ChatInited) return@collect
+                    topAppBarState.value = TopAppBarState(
+                        appBarType = AppBarType.UserAppBar(
+                            name = it.name,
+                            photo = null,
+                            onUserProfileClick = {
+                                if (viewModel.state.chatType == ChatType.MANY){
+                                    navController.navigate(
+                                        SubRoute.MultiChatInfo(viewModel.chatId)
+                                    )
+                                }
+                            }
+                        ),
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+        }
+
+
         ChatDialogScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
             modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.MultiChatCreation> {
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                header = "Создание мульти чата",
+            ),
+            onBack = { navController.popBackStack() }
+        )
+
+        bottomBarState.value = BottomBarState(false)
+
+        fabState.value = FabState.Hidden
+
+        val viewModel = hiltViewModel<MultiCreationViewModel>()
+
+        MultiDialogCreation(
+            state = viewModel.composableState.value,
+            onAction = viewModel::emitAction,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.MultiChatInfo> {
+        val args = it.toRoute<SubRoute.MultiChatInfo>()
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                header = "Инфо",
+            ),
+            onBack = { navController.popBackStack() }
+        )
+
+        bottomBarState.value = BottomBarState(false)
+
+        fabState.value = FabState.Hidden
+
+        val viewModel = hiltViewModel<MultiChatInfoViewModel, MultiChatInfoViewModel.Factory> { factory ->
+            factory.create(args.chatId)
+        }
+
+        MultiChatInfoScreen(
+            state = viewModel.composableState.value,
+            onAction = viewModel::emitAction,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
         )
     }
 }

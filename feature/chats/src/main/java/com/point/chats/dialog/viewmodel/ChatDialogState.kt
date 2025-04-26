@@ -2,12 +2,14 @@ package com.point.chats.dialog.viewmodel
 
 import android.net.Uri
 import com.point.chats.dialog.data.events.BaseEvent
+import com.point.chats.main.data.entity.response.ChatType
 import com.point.network.di.InstantSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Instant
 
 data class ChatDialogState(
+    val chatType: ChatType = ChatType.PRIVATE,
     val isInitialLoading: Boolean = true,
     val message: String = "",
     val events: List<BaseEvent> = emptyList(),

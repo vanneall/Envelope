@@ -29,6 +29,12 @@ sealed interface ComposeNavigationRoute {
         data class Messaging(val chatId: String) : SubRoute
 
         @Serializable
+        data object MultiChatCreation : SubRoute
+
+        @Serializable
+        data class MultiChatInfo(val chatId: String) : SubRoute
+
+        @Serializable
         data object Authorization : SubRoute
 
         @Serializable

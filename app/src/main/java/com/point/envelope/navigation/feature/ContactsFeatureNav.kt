@@ -26,6 +26,7 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.state.TopAppBarAction
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
@@ -34,6 +35,7 @@ internal fun NavGraphBuilder.contactsFeature(
     navController: NavController,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
+    fabState: MutableState<FabState>,
 ) {
     entryComposable<EntryRoute.Contacts> {
         topAppBarState.value = TopAppBarState(
@@ -53,6 +55,7 @@ internal fun NavGraphBuilder.contactsFeature(
         )
 
         bottomBarState.value = BottomBarState(true)
+        fabState.value = FabState.Hidden
         val viewModel = hiltViewModel<UserContactsViewModel>()
 
         ContactsScreen(
@@ -74,6 +77,7 @@ internal fun NavGraphBuilder.contactsFeature(
             onBack = { navController.popBackStack() },
         )
         bottomBarState.value = BottomBarState(true)
+        fabState.value = FabState.Hidden
 
         SearchUsersScreen(
             state = viewModel.composableState.value,
@@ -91,6 +95,7 @@ internal fun NavGraphBuilder.contactsFeature(
             onBack = { navController.popBackStack() },
         )
         bottomBarState.value = BottomBarState(true)
+        fabState.value = FabState.Hidden
         val viewModel = hiltViewModel<RequestsContactsViewModel>()
 
         UserRequestsScreen(

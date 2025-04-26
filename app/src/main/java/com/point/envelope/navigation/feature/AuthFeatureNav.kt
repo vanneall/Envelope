@@ -21,6 +21,7 @@ import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.envelope.scaffold.fab.FabState
 import com.point.envelope.scaffold.topappbar.state.TopAppBarState
 import com.point.envelope.scaffold.topappbar.type.AppBarType
 import com.point.navigation.Route
@@ -29,6 +30,7 @@ internal fun NavGraphBuilder.authFeature(
     navController: NavController,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
+    fabState: MutableState<FabState>,
 ) {
 
     composable<SubRoute.Authorization> {
@@ -40,6 +42,8 @@ internal fun NavGraphBuilder.authFeature(
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.EmptyAppBar
         )
+
+        fabState.value = FabState.Hidden
 
         bottomBarState.value = BottomBarState(false)
 
@@ -77,6 +81,8 @@ internal fun NavGraphBuilder.authFeature(
         )
 
         bottomBarState.value = BottomBarState(false)
+
+        fabState.value = FabState.Hidden
 
         val viewModel = hiltViewModel<HostViewModel>()
         viewModel.regProfileViewModel = hiltViewModel<RegistrationProfileViewModel>()
