@@ -17,9 +17,7 @@ import com.point.contacts.profile.ui.content.ProfileScreen
 import com.point.contacts.profile.viewmodel.ProfileViewModel
 import com.point.contacts.requests.ui.UserRequestsScreen
 import com.point.contacts.requests.viewModel.RequestsContactsViewModel
-import com.point.contacts.search.ui.SearchUsersScreen
-import com.point.contacts.search.viewModel.SearchContactsAction
-import com.point.contacts.search.viewModel.SearchContactsViewModel
+import com.point.contacts.search.ui.UserSearchScreen
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.entryComposable
 import com.point.envelope.navigation.extensions.subComposable
@@ -67,21 +65,12 @@ internal fun NavGraphBuilder.contactsFeature(
     }
 
     subComposable<SubRoute.SearchContacts> {
-        val viewModel = hiltViewModel<SearchContactsViewModel>()
-
-        topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.SearchAppBar(
-                placeHolder = R.string.search_screen_title,
-                onInput = { viewModel.emitAction(SearchContactsAction.OnNameTyped(it)) }
-            ),
-            onBack = { navController.popBackStack() },
-        )
         bottomBarState.value = BottomBarState(true)
         fabState.value = FabState.Hidden
 
-        SearchUsersScreen(
-            state = viewModel.composableState.value,
-            onAction = viewModel::emitAction,
+        UserSearchScreen(
+            topAppBarState = topAppBarState,
+            onBack = { navController.popBackStack() },
             onNavigation = { route -> navController.navigate(route.asComposeRoute) },
             modifier = Modifier.fillMaxSize(),
         )

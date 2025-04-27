@@ -13,7 +13,7 @@ data class Contact(
     val username: String = "",
     val name: String = "",
     val status: String = "",
-    val photoUrl: String? = null,
+    val photo: String? = null,
     val inContacts: Boolean = false,
     val isSentRequest: Boolean = false,
 )

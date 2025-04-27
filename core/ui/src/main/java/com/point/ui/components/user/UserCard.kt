@@ -21,7 +21,7 @@ fun UserCard(user: UserCardInfo, modifier: Modifier = Modifier, trailing: (@Comp
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        UserPhoto(user.photoUrl, modifier = Modifier.size(52.dp))
+        UserPhoto(user.photo, modifier = Modifier.size(54.dp))
 
         UserTextBlock(
             name = user.name,
@@ -87,4 +87,4 @@ private fun UserCardWithTrailingPreview() {
 }
 
 
-data class UserCardInfo(val name: String, val photoUrl: String? = null, val supportText: String? = null)
+data class UserCardInfo(val name: String, val photo: String? = null, val supportText: String? = null)

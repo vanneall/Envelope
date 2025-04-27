@@ -40,7 +40,7 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
                         username = it.username,
                         name = it.name,
                         status = it.status.orEmpty(),
-                        photoUrl = it.lastPhoto
+                        photo = it.lastPhoto
                     )
                 }
             ),

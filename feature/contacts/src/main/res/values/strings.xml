@@ -13,4 +13,7 @@
     <string name="name">Name</string>
     <string name="status">Status</string>
     <string name="about">About</string>
+
+    <string name="in_contacts_title">In contacts</string>
+    <string name="global_search_title">Global search</string>
 </resources>

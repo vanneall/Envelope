@@ -10,16 +10,24 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.point.settings.AppUiSettings
 import com.point.ui.EnvelopeTypography
+import com.point.ui.LocalUiSettings
+import com.point.ui.LocalUser
+import com.point.user.LocalUser
 
 @Composable
 fun NewEnvelopeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    localUser: LocalUser? = null,
+    localUiSettings: AppUiSettings = AppUiSettings(),
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         NewLocalTypography provides EnvelopeTypography(),
         NewLocalColor provides LightColorTheme,
+        LocalUser provides localUser,
+        LocalUiSettings provides localUiSettings,
         content = content,
     )
 }

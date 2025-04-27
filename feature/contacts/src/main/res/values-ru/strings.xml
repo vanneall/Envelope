@@ -13,4 +13,7 @@
     <string name="name">Имя</string>
     <string name="status">Статус</string>
     <string name="about">О себе</string>
+
+    <string name="in_contacts_title">В контактах</string>
+    <string name="global_search_title">Глобальный поиск</string>
 </resources>

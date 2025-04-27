@@ -32,7 +32,7 @@ fun ContactComposable(contact: Contact, modifier: Modifier = Modifier) {
             .background(color = Color.White)
             .padding(all = 8.dp),
     ) {
-        UserPhoto(contact.photoUrl, modifier = Modifier.size(54.dp))
+        UserPhoto(contact.photo, modifier = Modifier.size(54.dp))
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),

@@ -1,70 +1,76 @@
 package com.point.contacts.search.viewModel
 
-import com.point.contacts.main.presenter.viewmodel.Contact
+import com.point.contacts.search.data.ContactState
+import com.point.contacts.search.data.toContactUserUi
+import com.point.contacts.search.viewModel.UserSearchAction.ModelAction
+import com.point.contacts.search.viewModel.UserSearchAction.UiAction
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.point.user.repository.UserRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchContactsViewModel @Inject constructor(
+internal class SearchContactsViewModel @Inject constructor(
     private val contactsRepository: UserRepository,
-) : MviViewModel<SearchContactsState, SearchContactsAction, Any>(
-    initialValue = SearchContactsState()
-) {
+) : MviViewModel<SearchContactsState, UserSearchAction, Any>(initialValue = SearchContactsState()) {
 
     init {
         handleOnNameTyped()
         handleSendRequest()
+        handleRefresh()
     }
 
-    override fun reduce(action: SearchContactsAction, state: SearchContactsState) = when (action) {
-        is SearchContactsAction.OnNameTyped -> state.copy(query = action.query)
+    override fun reduce(action: UserSearchAction, state: SearchContactsState) = when (action) {
+        is UiAction.OnNameTyped -> state.copy(name = action.name)
 
-        is SearchContactsAction.LoadUserContacts -> state.copy(
-            inContacts = action.contacts.inContacts.map {
-                Contact(
-                    username = it.username,
-                    name = it.name,
-                    status = it.status.orEmpty(),
-                    inContacts = it.inContacts,
-                    isSentRequest = it.inSentRequests,
-                )
-            },
-            allContacts = action.contacts.allContacts.map {
-                Contact(
-                    username = it.username,
-                    name = it.name,
-                    status = it.status.orEmpty(),
-                    inContacts = it.inContacts,
-                    isSentRequest = it.inSentRequests,
-                    photoUrl = it.lastPhoto
-                )
+        UiAction.Refresh -> state.copy(isRefreshing = true)
+
+        is ModelAction.LoadUserUser -> state.copy(
+            inContacts = action.contacts.inContacts.map { contact -> contact.toContactUserUi() },
+            globalContacts = action.contacts.allContacts.map { contact -> contact.toContactUserUi() },
+        )
+
+        is ModelAction.RequestToAddSentSuccessfully -> state.copy(
+            globalContacts = state.globalContacts.map { user ->
+                if (user.username == action.username) user.copy(
+                    contactState = ContactState.REQUEST_SENT
+                ) else {
+                    user
+                }
             },
         )
 
-        is SearchContactsAction.SendRequest -> state
+        is ModelAction.StopLoading -> state.copy(isRefreshing = false)
+
+        is UiAction.SendRequest -> state
     }
 
     private fun handleOnNameTyped() {
-        handleAction<SearchContactsAction.OnNameTyped> { action ->
-            contactsRepository.fetchUsersByName(name = action.query).fold(
-                onSuccess = {
-                    Timber.tag(TAG).i("fetch success")
-                    emitAction(SearchContactsAction.LoadUserContacts(it))
-                },
+        handleAction<UiAction.OnNameTyped> { action ->
+            getContactsByName(name = action.name)
+        }
+    }
+
+    private suspend fun getContactsByName(name: String) {
+        contactsRepository.fetchUsersByName(name = name).fold(
+            onSuccess = { emitAction(ModelAction.LoadUserUser(it)) },
+            onFailure = { it.printStackTrace() }
+        )
+        emitAction(ModelAction.StopLoading)
+    }
+
+    private fun handleSendRequest() {
+        handleAction<UiAction.SendRequest> { action ->
+            contactsRepository.sendRequest(action.username).fold(
+                onSuccess = { emitAction(ModelAction.RequestToAddSentSuccessfully(action.username)) },
                 onFailure = { it.printStackTrace() }
             )
         }
     }
 
-    private fun handleSendRequest() {
-        handleAction<SearchContactsAction.SendRequest> { action ->
-            contactsRepository.sendRequest(action.userId).fold(
-                onSuccess = { Timber.tag(TAG).i("send request success") },
-                onFailure = { it.printStackTrace() }
-            )
+    private fun handleRefresh() {
+        handleAction<UiAction.Refresh> {
+            getContactsByName(name = state.name)
         }
     }
 

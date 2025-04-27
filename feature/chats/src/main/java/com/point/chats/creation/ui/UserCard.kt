@@ -20,7 +20,7 @@ internal fun UserCard(
     com.point.ui.components.user.UserCard(
         user = UserCardInfo(
             name = user.name,
-            photoUrl = user.photoId,
+            photo = user.photoId,
         ),
         modifier = modifier,
         trailing = {

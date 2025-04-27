@@ -43,7 +43,7 @@ class RequestsContactsViewModel @Inject constructor(
                     username = it.username,
                     name = it.name,
                     status = it.status.orEmpty(),
-                    photoUrl = it.lastPhoto
+                    photo = it.lastPhoto
                 )
             },
             isRefreshing = false,

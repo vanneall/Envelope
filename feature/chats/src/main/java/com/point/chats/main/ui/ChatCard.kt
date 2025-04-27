@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.point.chats.main.viewmodel.items.ChatUi
 import com.point.chats.main.viewmodel.ChatAction.UiAction
+import com.point.chats.main.viewmodel.items.ChatUi
 import com.point.ui.Theme
 import com.point.ui.components.user.UserCard
 import com.point.ui.components.user.UserCardInfo
@@ -24,7 +24,7 @@ fun ChatCard(chatUi: ChatUi, onAction: (UiAction) -> Unit, inEditMode: Boolean, 
     UserCard(
         UserCardInfo(
             name = chatUi.name,
-            photoUrl = chatUi.photoUrl,
+            photo = chatUi.photoUrl,
             supportText = chatUi.lastMessage?.text,
         ),
         modifier = modifier,

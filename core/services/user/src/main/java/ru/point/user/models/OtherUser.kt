@@ -6,7 +6,7 @@ data class OtherUser(
     val username: String,
     val name: String,
     val status: String?,
-    val lastPhoto: String?,
+    val photo: String?,
     val inContacts: Boolean,
     val inSentRequests: Boolean,
 )
@@ -15,7 +15,7 @@ internal fun OtherUserResponse.toModel() = OtherUser(
     username = username,
     name = name,
     status = status,
-    lastPhoto = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/photos/$photoId" },
+    photo = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/photos/$photoId" },
     inContacts = inContacts,
     inSentRequests = inSentRequests,
 )
