@@ -17,6 +17,8 @@
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/services" />
             <option value="$PROJECT_DIR$/core/services/auth" />
+            <option value="$PROJECT_DIR$/core/services/chats" />
+            <option value="$PROJECT_DIR$/core/services/media" />
             <option value="$PROJECT_DIR$/core/services/user" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/user" />

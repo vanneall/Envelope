@@ -3,10 +3,10 @@ package com.point.chats.dialog.viewmodel
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.point.chats.dialog.data.ChatDialogRepository
-import com.point.chats.dialog.data.MediaContentRepository
-import com.point.chats.dialog.data.events.DeleteMessageEvent
-import com.point.chats.dialog.data.events.MessageEditedEvent
-import com.point.chats.dialog.data.events.MessageSentEvent
+import com.point.services.chats.events.models.Message
+import com.point.services.chats.events.models.MessageDeleted
+import com.point.services.chats.events.models.MessageEdited
+import com.point.services.media.repository.MediaRepository
 import com.point.viewmodel.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,7 +20,7 @@ class ChatDialogViewModel @AssistedInject constructor(
     @Assisted(FACTORY_CHAT_ID)
     val chatId: String,
     private val chatDialogRepository: ChatDialogRepository,
-    private val mediaContentRepository: MediaContentRepository,
+    private val mediaRepository: MediaRepository,
 ) : MviViewModel<ChatDialogState, ChatDialogAction, ChatDialogEvent>(
     initialValue = ChatDialogState()
 ) {
@@ -40,7 +40,7 @@ class ChatDialogViewModel @AssistedInject constructor(
                 chatDialogRepository.fetchChatInfo(chatId).fold(
                     onSuccess = {
                         emitAction(ChatDialogAction.SetChatType(it.type))
-                        emitEvent(ChatDialogEvent.ChatInited(it.name, it.photoId))
+                        emitEvent(ChatDialogEvent.ChatInited(it.name, it.photo))
                     },
                     onFailure = {
                         it.printStackTrace()
@@ -58,12 +58,12 @@ class ChatDialogViewModel @AssistedInject constructor(
         is ChatDialogAction.TypeMessage -> state.copy(message = action.value)
         ChatDialogAction.Send -> state
         is ChatDialogAction.UpdateList -> {
-            if (action.text is MessageSentEvent) {
-                Timber.tag("mong").d("${action.text.attachments}")
+            if (action.event is Message) {
+                Timber.tag("mong").d("${action.event.attachments}")
             }
 
             state.copy(
-                events = listOf(action.text) + state.events,
+                events = listOf(action.event) + state.events,
                 photos = emptyList(),
             )
         }
@@ -91,7 +91,7 @@ class ChatDialogViewModel @AssistedInject constructor(
             message = "",
             isInEditMode = null,
             events = state.events.map {
-                if (it.id == action.id && it is MessageSentEvent) {
+                if (it.id == action.id && it is Message) {
                     it.copy(text = action.text, isEdited = true)
                 } else {
                     it
@@ -109,8 +109,8 @@ class ChatDialogViewModel @AssistedInject constructor(
     private suspend fun onConnectToChat() {
         chatDialogRepository.connectToChat(chatId = chatId).collect { event ->
             when (event) {
-                is DeleteMessageEvent -> emitAction(ChatDialogAction.DeleteSuccess(event.messageId))
-                is MessageEditedEvent -> emitAction(
+                is MessageDeleted -> emitAction(ChatDialogAction.DeleteSuccess(event.messageId))
+                is MessageEdited -> emitAction(
                     ChatDialogAction.EditSuccess(
                         event.editedMessageId,
                         text = event.newContent
@@ -141,7 +141,7 @@ class ChatDialogViewModel @AssistedInject constructor(
     private suspend fun sendMessage(message: String, photos: List<Uri>) {
 
         val photoIds = photos.mapNotNull { uri ->
-            mediaContentRepository.uploadPhoto(uri).onFailure { it.printStackTrace() }.getOrThrow().id
+            mediaRepository.uploadPhoto(uri).onFailure { it.printStackTrace() }.getOrThrow()
         }
         chatDialogRepository.sendMessage(text = message, photoIds = photoIds)
     }

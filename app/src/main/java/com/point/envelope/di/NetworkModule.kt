@@ -2,10 +2,10 @@ package com.point.envelope.di
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.point.chats.di.globalJson
 import com.point.envelope.network.TokenProviderImpl
 import com.point.network.di.AuthInterceptor
 import com.point.network.di.TokenProvider
+import com.point.services.chats.serializers.globalJson
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import dagger.Binds
 import dagger.Module

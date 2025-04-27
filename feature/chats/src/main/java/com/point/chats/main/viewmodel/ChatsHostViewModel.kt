@@ -1,23 +1,22 @@
 package com.point.chats.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.example.utils.Real
-import com.point.chats.main.data.entity.response.ChatInfoShort
-import com.point.chats.main.data.entity.response.MessageInfoShort
-import com.point.chats.main.data.reporitory.ChatRepository
+import com.point.chats.main.viewmodel.ChatAction.Event
+import com.point.chats.main.viewmodel.ChatAction.UiAction
 import com.point.chats.main.viewmodel.items.ChatUi
 import com.point.chats.main.viewmodel.items.MessageShort
 import com.point.chats.main.viewmodel.items.Mode
+import com.point.services.chats.models.ChatInfo
+import com.point.services.chats.models.LastMessage
+import com.point.services.chats.repository.ChatsRepository
 import com.point.ui.items.mapUi
-import com.point.chats.main.viewmodel.ChatAction.UiAction
-import com.point.chats.main.viewmodel.ChatAction.Event
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: ChatRepository) :
+class ChatsHostViewModel @Inject constructor(private val chatsRepository: ChatsRepository) :
     MviViewModel<ChatsState, ChatAction, ChatEvents>(
         initialValue = ChatsState()
     ) {
@@ -64,7 +63,7 @@ class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: C
     }
 
     private suspend fun fetchData() {
-        chatRepository.fetchChats().fold(
+        chatsRepository.getChats().fold(
             onSuccess = {
                 emitAction(Event.OnChatsLoadSuccess(it))
             },
@@ -78,7 +77,7 @@ class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: C
     private fun handleDeleteDialog() {
         handleAction<UiAction.DeleteChats> { deleteAction ->
             val ids = state.chats.map { (it as ChatUi).id }
-            chatRepository.deleteChats(ids).fold(
+            chatsRepository.delete(ids).fold(
                 onSuccess = {
                     emitAction(Event.ChatsDeleted(ids))
                 },
@@ -104,16 +103,16 @@ class ChatsHostViewModel @Inject constructor(@Real private val chatRepository: C
     }
 }
 
-private fun List<ChatInfoShort>.toChatsUi() = map {
+private fun List<ChatInfo>.toChatsUi() = map {
     ChatUi(
         id = it.id,
         name = it.name,
-        photoUrl = it.photoId?.let { uri -> "http://192.168.0.174:8084/photos/$uri" },
+        photoUrl = it.photo,
         lastMessage = it.lastMessage?.toMessageInfo(),
     )
 }
 
-fun MessageInfoShort.toMessageInfo() = MessageShort(
+fun LastMessage.toMessageInfo() = MessageShort(
     id = id,
     text = text,
     timestamp = timestamp,

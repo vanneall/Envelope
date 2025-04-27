@@ -1,18 +1,14 @@
 package com.point.chats.dialog.viewmodel
 
 import android.net.Uri
-import com.point.chats.dialog.data.events.BaseEvent
-import com.point.chats.main.data.entity.response.ChatType
-import com.point.network.di.serializers.InstantSerializer
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import java.time.Instant
+import com.point.services.chats.events.models.Event
+import com.point.services.chats.models.ChatType
 
 data class ChatDialogState(
     val chatType: ChatType = ChatType.PRIVATE,
     val isInitialLoading: Boolean = true,
     val message: String = "",
-    val events: List<BaseEvent> = emptyList(),
+    val events: List<Event> = emptyList(),
     val isInEditMode: EditMode? = null,
     val photos: List<Uri> = emptyList(),
 )
@@ -20,26 +16,4 @@ data class ChatDialogState(
 data class EditMode(
     val messageId: String,
     val text: String,
-)
-
-@Serializable
-data class Message(
-    @SerialName("id")
-    val id: String,
-
-    @Serializable(with = InstantSerializer::class)
-    @SerialName("timestamp")
-    val timestamp: Instant,
-
-    @SerialName("senderId")
-    val senderId: String,
-
-    @SerialName("text")
-    val content: String,
-
-    @SerialName("attachments")
-    val photos: List<Long> = emptyList(),
-
-    @SerialName("_class")
-    val type: String,
 )

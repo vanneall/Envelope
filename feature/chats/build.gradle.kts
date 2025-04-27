@@ -46,6 +46,9 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))
     api(project(":core:network"))
+    implementation(project(":core:services:chats"))
+    implementation(project(":core:services:user"))
+    implementation(project(":core:services:media"))
 
     // Swipe && refresh
     implementation(libs.accompanist.swiperefresh)

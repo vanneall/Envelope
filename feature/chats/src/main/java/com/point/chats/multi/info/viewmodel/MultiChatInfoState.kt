@@ -1,7 +1,7 @@
 package com.point.chats.multi.info.viewmodel
 
-import com.point.chats.main.data.entity.response.ChatType
-import com.point.chats.multi.info.data.UserRole
+import com.point.services.chats.models.ChatType
+import com.point.services.chats.models.UserRole
 
 data class MultiChatInfoState(
     val id: String = "",

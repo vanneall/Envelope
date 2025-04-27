@@ -20,7 +20,7 @@ internal fun UserCard(
     com.point.ui.components.user.UserCard(
         user = UserCardInfo(
             name = user.name,
-            photoUrl = "http://192.168.0.174:8084/photos/${user.photoId}",
+            photoUrl = user.photoId,
         ),
         modifier = modifier,
         trailing = {
@@ -39,7 +39,7 @@ private fun UserCardPreview() {
         user = User(
             username = "@username",
             name = "User name",
-            photoId = 1,
+            photoId = "",
             checked = false,
         ),
         onAction = {},

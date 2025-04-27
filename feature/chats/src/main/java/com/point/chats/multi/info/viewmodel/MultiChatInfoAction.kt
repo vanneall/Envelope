@@ -1,6 +1,6 @@
 package com.point.chats.multi.info.viewmodel
 
-import com.point.chats.multi.info.data.GroupChatInfo
+import com.point.services.chats.models.GroupChatInfo
 
 sealed interface MultiChatInfoAction {
 

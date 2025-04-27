@@ -20,7 +20,6 @@ import com.point.chats.creation.viewmodel.MultiCreationViewModel
 import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogEvent
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
-import com.point.chats.main.data.entity.response.ChatType
 import com.point.chats.main.ui.ChatsScreen
 import com.point.chats.main.viewmodel.ChatAction
 import com.point.chats.main.viewmodel.ChatEvents
@@ -33,9 +32,10 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.services.chats.models.ChatType
+import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.state.ActionType
 import com.point.ui.scaffold.topappbar.state.TopAppBarAction
-import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.scaffold.topappbar.type.AppBarType
 import kotlinx.coroutines.launch

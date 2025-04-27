@@ -49,7 +49,10 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:navigation"))
     implementation(project(":core:user"))
-    implementation(project(":core:network"))
+    implementation(project(":core:services:user"))
+    implementation(project(":core:services:auth"))
+    implementation(project(":core:services:chats"))
+    implementation(project(":core:services:media"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:settings"))
 

@@ -1,7 +1,7 @@
 package com.point.chats.main.viewmodel
 
-import com.point.chats.main.data.entity.response.ChatInfoShort
 import com.point.chats.main.viewmodel.items.Mode
+import com.point.services.chats.models.ChatInfo
 
 sealed interface ChatAction {
 
@@ -18,7 +18,7 @@ sealed interface ChatAction {
 
         data class ChangeMode(val mode: Mode): Event
 
-        data class OnChatsLoadSuccess(val chats: List<ChatInfoShort>) : Event
+        data class OnChatsLoadSuccess(val chats: List<ChatInfo>) : Event
 
         data class ChatsDeleted(val ids: List<String>) : Event
     }

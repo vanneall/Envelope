@@ -1,6 +1,6 @@
 package com.point.chats.creation.viewmodel
 
-import com.point.chats.creation.data.UserInfoShort
+import ru.point.user.models.UserContact
 
 sealed interface MultiCreationAction {
 
@@ -13,6 +13,6 @@ sealed interface MultiCreationAction {
 
     sealed interface EventAction : MultiCreationAction {
 
-        data class ContactsLoaded(val users: List<UserInfoShort>) : EventAction
+        data class ContactsLoaded(val users: List<UserContact>) : EventAction
     }
 }

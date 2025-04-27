@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.point.chats.main.data.entity.response.ChatType
-import com.point.chats.multi.info.data.UserRole
 import com.point.chats.multi.info.viewmodel.MultiChatInfoAction
 import com.point.chats.multi.info.viewmodel.MultiChatInfoState
 import com.point.chats.multi.info.viewmodel.UserInfo
+import com.point.services.chats.models.ChatType
+import com.point.services.chats.models.UserRole
 import com.point.ui.components.user.UserCardInfo
 
 @Composable

@@ -1,7 +1,7 @@
 package com.point.chats.multi.info.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.point.chats.create.repository.ChatsRepository
+import com.point.services.chats.repository.ChatsRepository
 import com.point.viewmodel.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -46,7 +46,7 @@ class MultiChatInfoViewModel @AssistedInject constructor(
                     id = it.id,
                     name = it.name,
                     photoId = it.photoId?.let { "" },
-                    userRole = it.userRole,
+                    userRole = it.role,
                 )
             }
         )

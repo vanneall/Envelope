@@ -5,6 +5,6 @@ sealed interface ChatDialogEvent {
     @JvmInline
     value class OnEditMessage(val text: String) : ChatDialogEvent
 
-    data class ChatInited(val name: String, val photoId: Long?) : ChatDialogEvent
+    data class ChatInited(val name: String, val photo: String?) : ChatDialogEvent
 
 }

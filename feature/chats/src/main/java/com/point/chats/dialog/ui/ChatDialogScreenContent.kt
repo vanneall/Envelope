@@ -62,9 +62,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.point.chats.dialog.data.events.MessageSentEvent
 import com.point.chats.dialog.viewmodel.ChatDialogAction
 import com.point.chats.dialog.viewmodel.ChatDialogState
+import com.point.services.chats.events.models.Message
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import java.time.Instant
@@ -97,7 +97,7 @@ fun ChatDialogScreenContent(
                 key = { it.id }
             ) {
                 when (it) {
-                    is MessageSentEvent -> {
+                    is Message -> {
                         Message(
                             message = it,
                             onAction = onAction,
@@ -228,7 +228,7 @@ fun ChatDialogScreenContent(
 
 @Composable
 fun Message(
-    message: MessageSentEvent,
+    message: Message,
     onAction: (ChatDialogAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -250,7 +250,7 @@ fun Message(
             .padding(vertical = 8.dp)
     ) {
         Text(
-            text = message.userName,
+            text = message.senderName,
             color = Theme.colorScheme.accent,
             style = Theme.typography.bodyS,
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -380,11 +380,11 @@ private fun ContentPreview() {
                 events = buildList {
                     repeat(4) {
                         add(
-                            MessageSentEvent(
+                            Message(
                                 id = "$it",
                                 timestamp = Instant.now(),
-                                userName = "Username",
-                                senderId = "1",
+                                senderName = "Username",
+                                sender = "1",
                                 text = "Message text",
                                 isPinned = false,
                                 isEdited = false,

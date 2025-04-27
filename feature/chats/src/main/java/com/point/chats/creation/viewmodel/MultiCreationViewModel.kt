@@ -1,23 +1,27 @@
 package com.point.chats.creation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.point.chats.create.repository.ChatsRepository
-import com.point.chats.create.repository.CreateChatRequest
 import com.point.chats.creation.data.User
+import com.point.services.chats.models.ChatCreationData
+import com.point.services.chats.repository.ChatsRepository
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.point.user.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class MultiCreationViewModel @Inject constructor(private val chatsRepository: ChatsRepository) :
+class MultiCreationViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val chatsRepository: ChatsRepository
+) :
     MviViewModel<MultiCreationState, MultiCreationAction, Any>(
         initialValue = MultiCreationState()
     ) {
 
     init {
         viewModelScope.launch {
-            chatsRepository.fetchContacts().fold(
+            userRepository.fetchUserContacts().fold(
                 onSuccess = { emitAction(MultiCreationAction.EventAction.ContactsLoaded(it)) },
                 onFailure = { it.printStackTrace() }
             )
@@ -36,7 +40,7 @@ class MultiCreationViewModel @Inject constructor(private val chatsRepository: Ch
                 User(
                     username = it.username,
                     name = it.name,
-                    photoId = it.photo,
+                    photoId = it.lastPhoto,
                     checked = false
                 )
             }
@@ -49,8 +53,8 @@ class MultiCreationViewModel @Inject constructor(private val chatsRepository: Ch
     private fun createChat() {
         handleAction<MultiCreationAction.UiAction.CreateMultiChat> {
             chatsRepository.createChat(
-                CreateChatRequest(
-                    participantIds = state.users.map { it.username },
+                ChatCreationData(
+                    participants = state.users.map { it.username },
                     name = state.users.joinToString { it.username + "," }
                 )
             )
