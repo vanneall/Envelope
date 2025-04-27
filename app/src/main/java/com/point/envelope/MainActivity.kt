@@ -9,21 +9,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.point.envelope.bottombar.EnvelopeNavBar
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
-import com.point.envelope.bottombar.EnvelopeNavBar
+import com.point.ui.EnvelopeTheme
+import com.point.ui.Theme
 import com.point.ui.scaffold.fab.EnvelopeFab
 import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
-import com.point.ui.EnvelopeTheme
-import com.point.ui.Theme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +34,11 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        splashScreen.setKeepOnScreenCondition { viewModel.isInitializing.value }
+
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
@@ -79,7 +85,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     EnvelopeNavHost(
                         navHostController = navController,
-                        startDestination = if (viewModel.token != null) {
+                        startDestination = if (viewModel.user.collectAsState().value != null) {
                             ComposeNavigationRoute.EntryRoute.Chats
                         } else {
                             ComposeNavigationRoute.SubRoute.Authorization

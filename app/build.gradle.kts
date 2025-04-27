@@ -56,6 +56,9 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:settings"))
 
+    // SplashScreen API
+    implementation(libs.androidx.core.splashscreen)
+
     // Coil
     implementation(libs.coil.compose)
 
