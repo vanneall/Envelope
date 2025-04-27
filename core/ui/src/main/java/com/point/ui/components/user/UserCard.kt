@@ -3,7 +3,6 @@ package com.point.ui.components.user
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -43,7 +42,9 @@ private fun UserCardPreview() {
                 name = "User",
                 supportText = "Some description",
             ),
-            modifier = Modifier.width(400.dp).background(color = Color.White)
+            modifier = Modifier
+                .width(400.dp)
+                .background(color = Color.White)
         )
     }
 }
@@ -56,7 +57,9 @@ private fun UserCardWithoutSupportingPreview() {
             user = UserCardInfo(
                 name = "User",
             ),
-            modifier = Modifier.width(400.dp).background(color = Color.White)
+            modifier = Modifier
+                .width(400.dp)
+                .background(color = Color.White)
         )
     }
 }
@@ -70,7 +73,9 @@ private fun UserCardWithTrailingPreview() {
                 name = "User",
                 supportText = "Some description",
             ),
-            modifier = Modifier.width(400.dp).background(color = Color.White),
+            modifier = Modifier
+                .width(400.dp)
+                .background(color = Color.White),
             trailing = {
                 EnvelopeSwitch(
                     checked = true,

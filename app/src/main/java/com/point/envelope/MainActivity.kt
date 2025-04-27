@@ -26,7 +26,9 @@ import com.point.ui.scaffold.fab.EnvelopeFab
 import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
+import com.point.user.LocalUser
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -36,8 +38,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
         splashScreen.setKeepOnScreenCondition { viewModel.isInitializing.value }
+
+        val localUser = viewModel.localUser.map { user -> user?.let { LocalUser(username = it.username) } }
 
         enableEdgeToEdge()
         setContent {
@@ -46,7 +49,9 @@ class MainActivity : ComponentActivity() {
             val appBarState = remember { mutableStateOf(TopAppBarState()) }
             val bottomBarState = remember { mutableStateOf(BottomBarState(false)) }
             val fabState = remember { mutableStateOf<FabState>(FabState.Hidden) }
-            EnvelopeTheme {
+            EnvelopeTheme(
+                localUser = localUser.collectAsState(null).value
+            ) {
                 Scaffold(
                     topBar = {
                         EnvelopeTopAppBar(
@@ -72,11 +77,12 @@ class MainActivity : ComponentActivity() {
                     floatingActionButton = {
                         when (val state = fabState.value) {
                             is FabState.Showed -> {
-                               EnvelopeFab(
-                                   icon = state.icon,
-                                   onClick = state.action,
-                               )
+                                EnvelopeFab(
+                                    icon = state.icon,
+                                    onClick = state.action,
+                                )
                             }
+
                             FabState.Hidden -> {}
                         }
                     },
@@ -85,7 +91,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     EnvelopeNavHost(
                         navHostController = navController,
-                        startDestination = if (viewModel.user.collectAsState().value != null) {
+                        startDestination = if (viewModel.localUser.collectAsState().value != null) {
                             ComposeNavigationRoute.EntryRoute.Chats
                         } else {
                             ComposeNavigationRoute.SubRoute.Authorization

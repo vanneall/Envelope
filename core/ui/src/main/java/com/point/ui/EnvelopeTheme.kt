@@ -9,15 +9,18 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.point.ui.colors.EnvelopeColors
 import com.point.ui.colors.lightColorScheme
+import com.point.user.LocalUser
 
 @Composable
 fun EnvelopeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    localUser: LocalUser? = null,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalTypography provides EnvelopeTypography(),
         LocalColor provides lightColorScheme,
+        LocalUser provides localUser,
         content = content,
     )
 }
@@ -42,3 +45,5 @@ object Theme {
 internal val LocalColor = compositionLocalOf { lightColorScheme }
 
 internal val LocalTypography = staticCompositionLocalOf { EnvelopeTypography() }
+
+internal val LocalUser = staticCompositionLocalOf<LocalUser?> { null }

@@ -84,6 +84,7 @@ class SettingsViewModel @Inject constructor(
     private fun onLeftFromAccount() {
         handleAction<SettingsAction.Action.LeftFromAccount> {
             userStorage.updateToken(null)
+            userStorage.setUser(null)
             emitEvent(SettingsEvent.LeftFromAccount)
         }
     }
