@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/core/services/chats" />
             <option value="$PROJECT_DIR$/core/services/media" />
             <option value="$PROJECT_DIR$/core/services/user" />
+            <option value="$PROJECT_DIR$/core/settings" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/user" />
             <option value="$PROJECT_DIR$/core/utils" />

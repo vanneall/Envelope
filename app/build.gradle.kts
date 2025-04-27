@@ -47,6 +47,7 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation(project(":core:ui"))
+    implementation(project(":core:settings"))
     implementation(project(":core:navigation"))
     implementation(project(":core:user"))
     implementation(project(":core:services:user"))

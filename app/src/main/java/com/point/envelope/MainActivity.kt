@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.point.envelope.bottombar.EnvelopeNavBar
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
+import com.point.settings.AppUiSettings
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import com.point.ui.scaffold.fab.EnvelopeFab
@@ -41,6 +42,8 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.isInitializing.value }
 
         val localUser = viewModel.localUser.map { user -> user?.let { LocalUser(username = it.username) } }
+        val localSettings =
+            viewModel.appSettings.map { settings -> AppUiSettings(useAnimations = settings.useAnimations) }
 
         enableEdgeToEdge()
         setContent {
@@ -50,7 +53,8 @@ class MainActivity : ComponentActivity() {
             val bottomBarState = remember { mutableStateOf(BottomBarState(false)) }
             val fabState = remember { mutableStateOf<FabState>(FabState.Hidden) }
             EnvelopeTheme(
-                localUser = localUser.collectAsState(null).value
+                localUser = localUser.collectAsState(null).value,
+                localUiSettings = localSettings.collectAsState(AppUiSettings()).value
             ) {
                 Scaffold(
                     topBar = {

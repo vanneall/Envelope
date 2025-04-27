@@ -2,6 +2,8 @@ package com.point.envelope
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.point.settings.model.AppSettings
+import com.point.settings.repository.AppSettingsRepository
 import com.point.user.User
 import com.point.user.storage.UserStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +18,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val userStorage: UserStorage,
+    private val appSettingsRepository: AppSettingsRepository,
 ) : ViewModel() {
 
     private val _isInitializing = MutableStateFlow(true)
@@ -24,10 +27,14 @@ class MainViewModel @Inject constructor(
     private val _localUser = MutableStateFlow<User?>(null)
     val localUser: StateFlow<User?> = _localUser
 
+    private val _appSettings = MutableStateFlow(AppSettings())
+    val appSettings: StateFlow<AppSettings> = _appSettings
+
     init {
         viewModelScope.launch {
             launch { initUser() }
             launch { collectTokens() }
+            launch { collectAppSettings() }
         }
     }
 
@@ -52,6 +59,12 @@ class MainViewModel @Inject constructor(
     private suspend fun collectTokens() {
         userStorage.tokenFlow().collect {
             initUser()
+        }
+    }
+
+    private suspend fun collectAppSettings() {
+        appSettingsRepository.getSettings().collect { settings ->
+            _appSettings.value = settings
         }
     }
 }
