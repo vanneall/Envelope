@@ -4,14 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +27,9 @@ import com.point.contacts.main.presenter.viewmodel.ContactsActions
 import com.point.navigation.Route
 import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
+import com.point.ui.components.user.UserBase
+import com.point.ui.components.user.UserCardInfo
+import com.point.ui.components.user.UserTextCard
 
 @Composable
 fun ContactsScreenContent(
@@ -38,43 +42,38 @@ fun ContactsScreenContent(
         modifier = modifier,
     ) {
         state.contacts.forEach { (key, contacts) ->
-            item {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    horizontalAlignment = Alignment.Start
+            itemsIndexed(
+                items = contacts,
+                key = { _, contact -> contact.username }
+            ) { index, contact ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(
-                        text = key.toString(),
-                        style = Theme.typography.bodyL,
-                        color = Theme.colorScheme.textSecondary,
-                    )
+                    if (index == 0) {
+                        Text(
+                            text = key.toString(),
+                            style = Theme.typography.titleL,
+                            color = Theme.colorScheme.textSecondary,
+                            modifier = Modifier.width(24.dp),
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.width(24.dp))
+                    }
 
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = Theme.colorScheme.textSecondary,
-                        modifier = Modifier.fillMaxWidth(),
+                    UserTextCard(
+                        user = UserCardInfo(UserBase(contact.name, contact.photo), supportText = contact.status),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(),
+                            ) {
+                                onNavigation(Route.ContactsFeature.UserProfile(contact.username))
+                            },
                     )
                 }
-            }
-
-            items(
-                items = contacts,
-                key = { it.username }
-            ) { contact ->
-                val source = remember { MutableInteractionSource() }
-                val ripple = rememberRipple(color = Color.Black)
-                ContactComposable(
-                    contact = contact,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(
-                            interactionSource = source,
-                            indication = ripple,
-                        ) {
-                            onNavigation(Route.ContactsFeature.UserProfile(contact.username))
-                        },
-                )
             }
         }
     }
