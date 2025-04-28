@@ -1,45 +1,48 @@
 package com.point.ui.components.user
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.point.ui.colors.new.EnvelopeTheme
+import com.point.ui.colors.new.Gray600
 import com.point.ui.colors.new.NewEnvelopeTheme
 import com.point.ui.materials.switches.EnvelopeSwitch
 
 @Composable
-fun UserCard(user: UserCardInfo, modifier: Modifier = Modifier, trailing: (@Composable () -> Unit)? = null) {
-    Row(
+fun UserTextCard(user: UserCardInfo, modifier: Modifier = Modifier, trailing: (@Composable () -> Unit)? = null) {
+    BaseUserCard(
+        user = user.userBase,
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        UserPhoto(user.photo, modifier = Modifier.size(54.dp))
-
-        UserTextBlock(
-            name = user.name,
-            supportText = user.supportText,
-            modifier = Modifier.weight(1f)
-        )
-
-        trailing?.invoke()
-    }
+        supporting = if (user.supportText != null) {
+            {
+                Text(
+                    text = user.supportText,
+                    style = EnvelopeTheme.typography.bodyS,
+                    color = Gray600,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        } else {
+            {}
+        },
+        trailing = trailing,
+    )
 }
 
 @Preview
 @Composable
 private fun UserCardPreview() {
     NewEnvelopeTheme {
-        UserCard(
+        UserTextCard(
             user = UserCardInfo(
-                name = "User",
+                userBase = UserBase(name = "User"),
                 supportText = "Some description",
             ),
             modifier = Modifier
@@ -53,9 +56,9 @@ private fun UserCardPreview() {
 @Composable
 private fun UserCardWithoutSupportingPreview() {
     NewEnvelopeTheme {
-        UserCard(
+        UserTextCard(
             user = UserCardInfo(
-                name = "User",
+                userBase = UserBase(name = "User"),
             ),
             modifier = Modifier
                 .width(400.dp)
@@ -68,9 +71,9 @@ private fun UserCardWithoutSupportingPreview() {
 @Composable
 private fun UserCardWithTrailingPreview() {
     NewEnvelopeTheme {
-        UserCard(
+        UserTextCard(
             user = UserCardInfo(
-                name = "User",
+                userBase = UserBase(name = "User"),
                 supportText = "Some description",
             ),
             modifier = Modifier
@@ -86,5 +89,4 @@ private fun UserCardWithTrailingPreview() {
     }
 }
 
-
-data class UserCardInfo(val name: String, val photo: String? = null, val supportText: String? = null)
+data class UserCardInfo(val userBase: UserBase, val supportText: String? = null)

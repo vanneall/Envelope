@@ -16,7 +16,7 @@ import com.point.ui.colors.new.Gray600
 import com.point.ui.colors.new.NewEnvelopeTheme
 
 @Composable
-internal fun UserTextBlock(name: String, supportText: String?, modifier: Modifier = Modifier) {
+internal fun UserTextBlock(name: String, modifier: Modifier = Modifier, supporting: (@Composable () -> Unit)? = null) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.Start,
@@ -29,15 +29,7 @@ internal fun UserTextBlock(name: String, supportText: String?, modifier: Modifie
             overflow = TextOverflow.Ellipsis,
         )
 
-        if (supportText != null) {
-            Text(
-                text = supportText,
-                style = EnvelopeTheme.typography.bodyS,
-                color = Gray600,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        supporting?.invoke()
     }
 }
 
@@ -47,7 +39,15 @@ private fun UserTextBlockPreview() {
     NewEnvelopeTheme {
         UserTextBlock(
             name = "User",
-            supportText = "Some user description",
+            supporting = {
+                Text(
+                    text = "Some user description",
+                    style = EnvelopeTheme.typography.bodyS,
+                    color = Gray600,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            },
             modifier = Modifier.background(color = Color.White),
         )
     }
@@ -59,7 +59,6 @@ private fun UserTextBlockWithEmptySupportPreview() {
     NewEnvelopeTheme {
         UserTextBlock(
             name = "User",
-            supportText = null,
             modifier = Modifier.background(color = Color.White),
         )
     }

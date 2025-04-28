@@ -16,4 +16,7 @@
 
     <string name="in_contacts_title">В контактах</string>
     <string name="global_search_title">Глобальный поиск</string>
+
+    <string name="accept_request">Принять</string>
+    <string name="reject_request">Отклонить</string>
 </resources>

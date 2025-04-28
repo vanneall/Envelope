@@ -2,16 +2,24 @@ package com.point.contacts.requests.viewModel
 
 import ru.point.user.models.RequestsInfo
 
-sealed interface RequestsAction {
+internal sealed interface RequestsAction {
 
-    data class LoadUserContacts(val contacts: List<RequestsInfo>) : RequestsAction
+    sealed interface UiAction : RequestsAction {
 
-    data class AcceptRequest(val userId: String) : RequestsAction
+        @JvmInline
+        value class AcceptRequest(val id: Long) : UiAction
 
-    data class DenyRequest(val userId: String) : RequestsAction
+        @JvmInline
+        value class DenyRequest(val id: Long) : UiAction
 
-    data class RequestHandledSuccessfully(val userId: String) : RequestsAction
+        data object Refresh : UiAction
+    }
 
-    data object Refresh : RequestsAction
+    sealed interface ModelAction : RequestsAction {
 
+        data class RequestsLoaded(val contacts: List<RequestsInfo>) : RequestsAction
+
+        @JvmInline
+        value class RequestHandledSuccessfully(val id: Long) : ModelAction
+    }
 }

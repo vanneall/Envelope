@@ -23,6 +23,7 @@ import com.point.chats.multi.info.viewmodel.MultiChatInfoState
 import com.point.chats.multi.info.viewmodel.UserInfo
 import com.point.services.chats.models.ChatType
 import com.point.services.chats.models.UserRole
+import com.point.ui.components.user.UserBase
 import com.point.ui.components.user.UserCardInfo
 
 @Composable
@@ -44,9 +45,9 @@ fun MultiChatInfoScreenContent(
         item { Spacer(modifier = Modifier.height(20.dp)) }
 
         items(state.chatUsers, key = { it.id }) {
-            com.point.ui.components.user.UserCard(
+            com.point.ui.components.user.UserTextCard(
                 user = UserCardInfo(
-                    name = it.name,
+                    userBase = UserBase(it.name),
                     null,
                 ),
                 modifier = Modifier

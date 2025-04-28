@@ -23,6 +23,12 @@ val title22 = TextStyle(
     fontSize = 22.sp,
 )
 
+val title18 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Medium,
+    fontSize = 18.sp,
+)
+
 val title16 = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Medium,
@@ -73,8 +79,8 @@ class EnvelopeTypography(
     val headlineL: TextStyle = headline32,
     val headlineM: TextStyle = headline28,
     val titleL: TextStyle = title22,
-    val titleM: TextStyle = title16,
-    val titleS: TextStyle = title14,
+    val titleM: TextStyle = title18,
+    val titleS: TextStyle = title16,
     val bodyL: TextStyle = body16,
     val bodyM: TextStyle = body14,
     val bodyS: TextStyle = body12,

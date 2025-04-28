@@ -16,4 +16,7 @@
 
     <string name="in_contacts_title">In contacts</string>
     <string name="global_search_title">Global search</string>
+
+    <string name="accept_request">Accept</string>
+    <string name="reject_request">Reject</string>
 </resources>

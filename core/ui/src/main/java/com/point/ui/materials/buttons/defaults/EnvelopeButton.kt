@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.point.ui.materials.buttons.styled.ButtonStyle
 
 @Composable
 internal fun EnvelopeButton(
@@ -24,6 +26,7 @@ internal fun EnvelopeButton(
     onClick: () -> Unit,
     colors: ButtonColors,
     modifier: Modifier = Modifier,
+    buttonStyle: ButtonStyle = ButtonStyle.M,
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
     interactionSource: InteractionSource = MutableInteractionSource(),
@@ -33,9 +36,14 @@ internal fun EnvelopeButton(
         onClick = onClick,
         enabled = enabled,
         colors = colors,
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier.indication(interactionSource = interactionSource, indication = indication),
-        contentPadding = PaddingValues(start = if (leadingIcon != null) 16.dp else 24.dp, end = 24.dp),
+        shape = RoundedCornerShape(buttonStyle.corners),
+        modifier = modifier
+            .indication(interactionSource = interactionSource, indication = indication)
+            .height(buttonStyle.height),
+        contentPadding = PaddingValues(
+            start = if (leadingIcon != null) 16.dp else buttonStyle.horizontalPadding,
+            end = buttonStyle.horizontalPadding,
+        ),
     ) {
         if (leadingIcon != null) {
             Icon(
@@ -46,6 +54,6 @@ internal fun EnvelopeButton(
 
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(text = text)
+        Text(text = text, style = buttonStyle.textStyle)
     }
 }

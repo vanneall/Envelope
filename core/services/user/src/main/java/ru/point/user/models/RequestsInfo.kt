@@ -3,6 +3,7 @@ package ru.point.user.models
 import ru.point.user.responses.RequestsInfoResponse
 
 data class RequestsInfo(
+    val id: Long,
     val username: String,
     val name: String,
     val status: String?,
@@ -10,6 +11,7 @@ data class RequestsInfo(
 )
 
 internal fun RequestsInfoResponse.toModel() = RequestsInfo(
+    id = id,
     username = username,
     name = name,
     status = status,

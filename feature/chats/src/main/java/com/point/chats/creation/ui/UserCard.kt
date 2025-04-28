@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.point.chats.creation.data.User
 import com.point.chats.creation.viewmodel.MultiCreationAction.UiAction
+import com.point.ui.components.user.UserBase
 import com.point.ui.components.user.UserCardInfo
 
 @Composable
@@ -17,10 +18,9 @@ internal fun UserCard(
     onAction: (UiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    com.point.ui.components.user.UserCard(
+    com.point.ui.components.user.UserTextCard(
         user = UserCardInfo(
-            name = user.name,
-            photo = user.photoId,
+            userBase = UserBase(name = user.name, photo = user.photoId),
         ),
         modifier = modifier,
         trailing = {

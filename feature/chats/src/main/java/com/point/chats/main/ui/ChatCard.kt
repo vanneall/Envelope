@@ -14,17 +14,20 @@ import androidx.compose.ui.unit.dp
 import com.point.chats.main.viewmodel.ChatAction.UiAction
 import com.point.chats.main.viewmodel.items.ChatUi
 import com.point.ui.Theme
-import com.point.ui.components.user.UserCard
+import com.point.ui.components.user.UserBase
 import com.point.ui.components.user.UserCardInfo
+import com.point.ui.components.user.UserTextCard
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun ChatCard(chatUi: ChatUi, onAction: (UiAction) -> Unit, inEditMode: Boolean, modifier: Modifier = Modifier) {
-    UserCard(
+    UserTextCard(
         UserCardInfo(
-            name = chatUi.name,
-            photo = chatUi.photoUrl,
+            userBase = UserBase(
+                name = chatUi.name,
+                photo = chatUi.photoUrl,
+            ),
             supportText = chatUi.lastMessage?.text,
         ),
         modifier = modifier,

@@ -29,7 +29,9 @@ internal fun LazyListScope.contactUsers(
             text = stringResource(title),
             style = Theme.typography.titleS,
             color = Theme.colorScheme.textSecondary,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .animateItem()
         )
     }
 
@@ -45,6 +47,7 @@ internal fun LazyListScope.contactUsers(
                     onNavigation(Route.ContactsFeature.UserProfile(contact.username))
                 }
                 .padding(horizontal = 8.dp)
+                .animateItem()
         )
     }
 }

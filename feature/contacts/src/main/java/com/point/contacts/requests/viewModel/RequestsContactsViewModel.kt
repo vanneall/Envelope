@@ -1,33 +1,25 @@
 package com.point.contacts.requests.viewModel
 
 import androidx.lifecycle.viewModelScope
-import com.point.contacts.main.presenter.viewmodel.Contact
+import com.point.contacts.requests.viewModel.RequestsAction.ModelAction
+import com.point.contacts.requests.viewModel.RequestsAction.UiAction
+import com.point.ui.components.user.UserBase
+import com.point.ui.components.user.UserCardButtonInfo
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.point.user.repository.UserRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RequestsContactsViewModel @Inject constructor(
+internal class RequestsContactsViewModel @Inject constructor(
     private val contactsRepository: UserRepository,
 ) : MviViewModel<RequestsState, RequestsAction, Any>(
     initialValue = RequestsState(),
 ) {
 
     init {
-        viewModelScope.launch {
-            contactsRepository.fetchIncomingRequests().fold(
-                onSuccess = {
-                    Timber.tag(TAG).i("fetch success")
-                    delay(1500)
-                    emitAction(RequestsAction.LoadUserContacts(it))
-                },
-                onFailure = { it.printStackTrace() },
-            )
-        }
+        viewModelScope.launch { getUserRequests() }
         handleRefresh()
         denyRequest()
         acceptRequest()
@@ -35,15 +27,19 @@ class RequestsContactsViewModel @Inject constructor(
 
     override fun reduce(action: RequestsAction, state: RequestsState) = when (action) {
 
-        is RequestsAction.Refresh -> state.copy(isRefreshing = true, isRefreshingEnabled = true)
+        is UiAction.Refresh -> state.copy(isRefreshing = true, isRefreshingEnabled = true)
 
-        is RequestsAction.LoadUserContacts -> state.copy(
+        is ModelAction.RequestsLoaded -> state.copy(
             contacts = action.contacts.map {
-                Contact(
+                RequestUi(
+                    id = it.id,
                     username = it.username,
-                    name = it.name,
-                    status = it.status.orEmpty(),
-                    photo = it.lastPhoto
+                    userBase = UserCardButtonInfo(
+                        userBase = UserBase(
+                            name = it.name,
+                            photo = it.lastPhoto,
+                        ),
+                    )
                 )
             },
             isRefreshing = false,
@@ -51,49 +47,42 @@ class RequestsContactsViewModel @Inject constructor(
             isInitialLoading = false,
         )
 
-        is RequestsAction.RequestHandledSuccessfully -> state.copy(
-            contacts = state.contacts.filter { it.username != action.userId }
+        is ModelAction.RequestHandledSuccessfully -> state.copy(
+            contacts = state.contacts.filter { it.id != action.id }
         )
 
-        is RequestsAction.DenyRequest,
-        is RequestsAction.AcceptRequest -> state
+        is UiAction.DenyRequest,
+        is UiAction.AcceptRequest -> state
     }
 
     private fun handleRefresh() {
-        handleAction<RequestsAction.Refresh> {
-            contactsRepository.fetchIncomingRequests()
-                .fold(
-                    onSuccess = {
-                        Timber.tag(TAG).i("fetch success")
-                        delay(1500)
-                        emitAction(RequestsAction.LoadUserContacts(it))
-                    },
-                    onFailure = { it.printStackTrace() },
-                )
+        handleAction<UiAction.Refresh> {
+            getUserRequests()
         }
     }
 
+    private suspend fun getUserRequests() {
+        contactsRepository.fetchIncomingRequests().fold(
+            onSuccess = { emitAction(ModelAction.RequestsLoaded(it)) },
+            onFailure = { it.printStackTrace() },
+        )
+    }
+
     private fun acceptRequest() {
-        handleAction<RequestsAction.AcceptRequest> { action ->
-//            contactsRepository.acceptRequest().fold(
-//                onSuccess = {
-//                    Timber.tag(TAG).i("accept success")
-//                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
-//                },
-//                onFailure = { it.printStackTrace() }
-//            )
+        handleAction<UiAction.AcceptRequest> { action ->
+            contactsRepository.acceptRequest(action.id).fold(
+                onSuccess = { emitAction(ModelAction.RequestHandledSuccessfully(action.id)) },
+                onFailure = { it.printStackTrace() }
+            )
         }
     }
 
     private fun denyRequest() {
-        handleAction<RequestsAction.DenyRequest> { action ->
-//            contactsRepository.denyRequest(action.userId).fold(
-//                onSuccess = {
-//                    Timber.tag(TAG).i("reject success")
-//                    emitAction(RequestsAction.RequestHandledSuccessfully(action.userId))
-//                },
-//                onFailure = { it.printStackTrace() }
-//            )
+        handleAction<UiAction.DenyRequest> { action ->
+            contactsRepository.denyRequest(action.id).fold(
+                onSuccess = { emitAction(ModelAction.RequestHandledSuccessfully(action.id)) },
+                onFailure = { it.printStackTrace() }
+            )
         }
     }
 

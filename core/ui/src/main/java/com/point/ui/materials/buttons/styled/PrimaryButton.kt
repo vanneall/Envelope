@@ -12,16 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.point.ui.materials.buttons.defaults.EnvelopeButton
-import com.point.ui.materials.buttons.defaults.EnvelopeButtonDefaults
 import com.point.ui.colors.new.NewEnvelopeTheme
 import com.point.ui.colors.new.White
+import com.point.ui.materials.buttons.defaults.EnvelopeButton
+import com.point.ui.materials.buttons.defaults.EnvelopeButtonDefaults
 
 @Composable
 fun PrimaryButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
+    buttonStyle: ButtonStyle = ButtonStyle.M,
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
 ) {
@@ -30,6 +31,7 @@ fun PrimaryButton(
         onClick = onClick,
         enabled = enabled,
         leadingIcon = leadingIcon,
+        buttonStyle = buttonStyle,
         colors = EnvelopeButtonDefaults.PrimaryColors,
         modifier = modifier,
         interactionSource = remember { MutableInteractionSource() },

@@ -12,8 +12,9 @@ import com.point.contacts.search.data.ContactUserUi
 import com.point.contacts.search.viewModel.UserSearchAction.UiAction
 import com.point.ui.Theme
 import com.point.ui.colors.new.NewEnvelopeTheme
-import com.point.ui.components.user.UserCard
+import com.point.ui.components.user.UserBase
 import com.point.ui.components.user.UserCardInfo
+import com.point.ui.components.user.UserTextCard
 import com.point.ui.materials.icons.defaults.EnvelopeIconButton
 
 @Composable
@@ -22,7 +23,7 @@ internal fun UserContactCard(
     onAction: (UiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    UserCard(
+    UserTextCard(
         user = contactUserUi.user,
         modifier = modifier,
         trailing = {
@@ -59,7 +60,7 @@ private fun UserContactCardPreview() {
             contactUserUi = ContactUserUi(
                 username = "@username",
                 user = UserCardInfo(
-                    name = "User",
+                    userBase = UserBase("User"),
                     supportText = "Some description",
                 ),
                 contactState = ContactState.IN_CONTACTS,

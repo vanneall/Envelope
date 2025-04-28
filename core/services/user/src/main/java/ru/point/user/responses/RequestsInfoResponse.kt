@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal class RequestsInfoResponse(
+    @SerialName("id")
+    val id: Long,
     @SerialName("username")
     val username: String,
     @SerialName("name")
