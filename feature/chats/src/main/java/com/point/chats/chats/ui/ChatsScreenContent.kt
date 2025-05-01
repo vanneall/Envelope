@@ -32,7 +32,7 @@ internal fun ChatsScreenContent(
             items = state.chats,
             key = { chat -> chat.id },
         ) { chat ->
-            Chat(
+            ChatEditable(
                 chatUi = chat,
                 chatMode = state.mode,
                 action = action,

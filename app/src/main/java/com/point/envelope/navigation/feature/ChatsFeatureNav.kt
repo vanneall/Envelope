@@ -21,6 +21,7 @@ import com.point.chats.dialog.viewmodel.ChatDialogEvent
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
 import com.point.chats.multi.info.ui.MultiChatInfoScreen
 import com.point.chats.multi.info.viewmodel.MultiChatInfoViewModel
+import com.point.chats.search.ui.ChatsSearchScreen
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.entryComposable
 import com.point.envelope.navigation.extensions.subComposable
@@ -47,8 +48,6 @@ internal fun NavGraphBuilder.chatsFeature(
 
         bottomBarState.value = BottomBarState(true)
 
-
-
         fabState.value = FabState.Showed(
             icon = Icons.Default.Add,
             action = { navController.navigate(SubRoute.MultiChatCreation) },
@@ -57,6 +56,17 @@ internal fun NavGraphBuilder.chatsFeature(
         ChatsScreen(
             navigate = { route -> navController.navigate(route.asComposeRoute) },
             modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.SearchChats> {
+
+        fabState.value = FabState.Hidden
+
+        ChatsSearchScreen(
+            navigate = { },
+            back = { navController.popBackStack() },
+            modifier = Modifier.fillMaxSize(),
         )
     }
 

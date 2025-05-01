@@ -27,6 +27,8 @@ sealed interface Route {
         data object Chats : ChatsFeature
 
         data class Messaging(val chatId: String) : ChatsFeature
+
+        data object SearchChats : ChatsFeature
     }
 
     sealed interface SettingsFeature : Route {

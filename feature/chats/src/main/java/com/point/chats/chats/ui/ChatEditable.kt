@@ -39,7 +39,12 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-internal fun Chat(chatUi: ChatUi, chatMode: ChatMode, action: (UiEvent) -> Unit, modifier: Modifier = Modifier) {
+internal fun ChatEditable(
+    chatUi: ChatUi,
+    chatMode: ChatMode,
+    action: (UiEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier.height(intrinsicSize = IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically,
@@ -148,7 +153,7 @@ val TextSecondaryColor = Color(0xFFA2A2A2)
 @Composable
 private fun ChatPreview() {
     Box(modifier = Modifier.background(color = Color.LightGray)) {
-        Chat(
+        ChatEditable(
             chatUi = ChatUi(
                 id = "1",
                 name = "User chat",
@@ -171,7 +176,7 @@ private fun ChatPreview() {
 @Composable
 private fun ChatSelectedPreview() {
     Box(modifier = Modifier.background(color = Color.LightGray)) {
-        Chat(
+        ChatEditable(
             chatUi = ChatUi(
                 id = "1",
                 name = "User chat",
@@ -194,7 +199,7 @@ private fun ChatSelectedPreview() {
 @Composable
 private fun ChatNotSelectedPreview() {
     Box(modifier = Modifier.background(color = Color.LightGray)) {
-        Chat(
+        ChatEditable(
             chatUi = ChatUi(
                 id = "1",
                 name = "User chat",

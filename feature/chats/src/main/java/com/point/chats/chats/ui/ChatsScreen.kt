@@ -56,7 +56,7 @@ fun ChatsScreen(navigate: (Route) -> Unit, modifier: Modifier = Modifier) {
             actions = listOf(
                 TopAppBarAction(
                     icon = Icons.Rounded.Search,
-                    action = { },
+                    action = { navigate(Route.ChatsFeature.SearchChats) },
                     tag = "SEARCH"
                 )
             )

@@ -44,6 +44,9 @@ sealed interface ComposeNavigationRoute {
         data object SearchContacts : SubRoute
 
         @Serializable
+        data object SearchChats : SubRoute
+
+        @Serializable
         data object NotificationContacts : SubRoute
 
         @Serializable
@@ -66,6 +69,7 @@ val Route.asComposeRoute: ComposeNavigationRoute
 
         ChatsFeature.Chats -> EntryRoute.Chats
         is ChatsFeature.Messaging -> SubRoute.Messaging(chatId)
+        ChatsFeature.SearchChats -> SubRoute.SearchChats
 
         SettingsFeature.Settings -> EntryRoute.Settings
         SettingsFeature.ProfileEdit -> SubRoute.EditProfile

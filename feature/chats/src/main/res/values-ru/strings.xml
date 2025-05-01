@@ -5,4 +5,9 @@
     <string name="settings_authorization_title">Авторизация</string>
     <string name="registration_screen_title">Регистрация</string>
     <string name="profile_edit_screen_title">Редактирование</string>
+
+    <string name="recent_chats">Недавние</string>
+    <string name="clear">Очистить</string>
+    <string name="messages">Сообщения</string>
+    <string name="search">Поиск</string>
 </resources>

@@ -5,4 +5,9 @@
     <string name="settings_authorization_title">Authorization</string>
     <string name="registration_screen_title">Registration</string>
     <string name="profile_edit_screen_title">Edit</string>
+
+    <string name="recent_chats">Recent</string>
+    <string name="clear">Clear</string>
+    <string name="messages">Messages</string>
+    <string name="search">Search</string>
 </resources>
