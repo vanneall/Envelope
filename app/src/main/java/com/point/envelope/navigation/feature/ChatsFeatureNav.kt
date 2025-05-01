@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.point.chats.chats.ui.ChatsScreen
+import com.point.chats.creation.group.ui.ChatCreationGroupScreen
 import com.point.chats.creation.single.ui.ChatCreationScreen
 import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogEvent
@@ -49,7 +50,7 @@ internal fun NavGraphBuilder.chatsFeature(
 
         fabState.value = FabState.Showed(
             icon = Icons.Default.Add,
-            action = { navController.navigate(SubRoute.MultiChatCreation) },
+            action = { navController.navigate(SubRoute.ChatCreation) },
         )
 
         ChatsScreen(
@@ -111,12 +112,23 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.MultiChatCreation> {
+    subComposable<SubRoute.ChatCreation> {
         bottomBarState.value = BottomBarState(false)
 
         fabState.value = FabState.Hidden
 
         ChatCreationScreen(
+            navigate = { route -> navController.navigate(route.asComposeRoute) },
+            back = { navController.popBackStack() },
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.ChatCreationGroup> {
+
+        bottomBarState.value = BottomBarState(false)
+
+        ChatCreationGroupScreen(
             navigate = { route -> navController.navigate(route.asComposeRoute) },
             back = { navController.popBackStack() },
             modifier = Modifier.fillMaxSize()

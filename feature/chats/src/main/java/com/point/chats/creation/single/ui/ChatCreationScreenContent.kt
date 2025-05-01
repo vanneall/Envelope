@@ -103,7 +103,7 @@ private fun ChatCreationControls(navigate: (Route) -> Unit, modifier: Modifier =
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = rememberRipple(),
-                    onClick = { }
+                    onClick = { navigate(Route.ChatsFeature.ChatsGroupCreation) }
                 )
                 .padding(horizontal = 16.dp, vertical = 10.dp)
         )

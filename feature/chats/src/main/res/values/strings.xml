@@ -14,4 +14,7 @@
     <string name="new_message">New message</string>
     <string name="create_group_chat">Create group</string>
     <string name="add_contact">Add contact</string>
+
+    <string name="group">Group</string>
+    <string name="invite_to_invite">Who do you want to invite?</string>
 </resources>

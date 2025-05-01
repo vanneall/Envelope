@@ -29,7 +29,7 @@ sealed interface ComposeNavigationRoute {
         data class Messaging(val chatId: String) : SubRoute
 
         @Serializable
-        data object MultiChatCreation : SubRoute
+        data object ChatCreation : SubRoute
 
         @Serializable
         data class MultiChatInfo(val chatId: String) : SubRoute
@@ -53,6 +53,9 @@ sealed interface ComposeNavigationRoute {
         data class UserProfile(val username: String) : SubRoute
 
         @Serializable
+        data object ChatCreationGroup : SubRoute
+
+        @Serializable
         data object EditProfile : SubRoute
     }
 }
@@ -70,6 +73,7 @@ val Route.asComposeRoute: ComposeNavigationRoute
         ChatsFeature.Chats -> EntryRoute.Chats
         is ChatsFeature.Messaging -> SubRoute.Messaging(chatId)
         ChatsFeature.SearchChats -> SubRoute.SearchChats
+        ChatsFeature.ChatsGroupCreation -> SubRoute.ChatCreationGroup
 
         SettingsFeature.Settings -> EntryRoute.Settings
         SettingsFeature.ProfileEdit -> SubRoute.EditProfile
