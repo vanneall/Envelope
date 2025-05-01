@@ -17,4 +17,5 @@
 
     <string name="group">Группа</string>
     <string name="invite_to_invite">Кого вы хотите пригласить?</string>
+    <string name="group_name">Название группы</string>
 </resources>

@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.point.chats.chats.ui.ChatsScreen
+import com.point.chats.creation.group.confirm.ui.ChatGroupConfirmScreen
 import com.point.chats.creation.group.ui.ChatCreationGroupScreen
 import com.point.chats.creation.single.ui.ChatCreationScreen
 import com.point.chats.dialog.ui.ChatDialogScreen
@@ -28,6 +29,7 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.navigation.Route
 import com.point.services.chats.models.ChatType
 import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
@@ -104,7 +106,6 @@ internal fun NavGraphBuilder.chatsFeature(
             }
         }
 
-
         ChatDialogScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
@@ -118,7 +119,16 @@ internal fun NavGraphBuilder.chatsFeature(
         fabState.value = FabState.Hidden
 
         ChatCreationScreen(
-            navigate = { route -> navController.navigate(route.asComposeRoute) },
+            navigate = { route ->
+                if (route is Route.ChatsFeature.Messaging) {
+                    navController.navigate(route.asComposeRoute) {
+                        popUpTo(EntryRoute.Chats) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                } else {
+                    navController.navigate(route.asComposeRoute)
+                }
+            },
             back = { navController.popBackStack() },
             modifier = Modifier.fillMaxSize()
         )
@@ -132,6 +142,27 @@ internal fun NavGraphBuilder.chatsFeature(
             navigate = { route -> navController.navigate(route.asComposeRoute) },
             back = { navController.popBackStack() },
             modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.GroupChatCreationConfirm> {
+
+        val ids = it.toRoute<SubRoute.GroupChatCreationConfirm>().ids
+
+        ChatGroupConfirmScreen(
+            ids = ids,
+            navigate = { route ->
+                if (route is Route.ChatsFeature.Messaging) {
+                    navController.navigate(route.asComposeRoute) {
+                        popUpTo(EntryRoute.Chats) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                } else {
+                    navController.navigate(route.asComposeRoute)
+                }
+            },
+            back = { navController.popBackStack() },
+            modifier = Modifier.fillMaxSize(),
         )
     }
 

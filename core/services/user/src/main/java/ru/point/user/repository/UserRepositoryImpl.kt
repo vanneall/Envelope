@@ -87,4 +87,10 @@ internal class UserRepositoryImpl(
 
         userService.fetchUserInfoById(username = username).map { response -> response.toModel() }
     }
+
+    override suspend fun getLightInfo(ids: List<String>) = withContext(dispatcher) {
+        require(ids.isNotEmpty()) { "Username must not be empty" }
+
+        userService.fetchUsersLightInfoByIds(ids = ids).map { response -> response.map { it.toModel() } }
+    }
 }

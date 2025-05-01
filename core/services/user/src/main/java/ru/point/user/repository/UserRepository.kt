@@ -6,6 +6,7 @@ import ru.point.user.models.RequestsInfo
 import ru.point.user.models.SearchUsersResult
 import ru.point.user.models.UserContact
 import ru.point.user.models.UserInfo
+import ru.point.user.models.UserLightInfo
 import ru.point.user.models.UserProfileUpdate
 
 interface UserRepository {
@@ -29,4 +30,6 @@ interface UserRepository {
     suspend fun sendRequest(username: String): Result<Unit>
 
     suspend fun getUserInfo(username: String): Result<UserInfo>
+
+    suspend fun getLightInfo(ids: List<String>): Result<List<UserLightInfo>>
 }

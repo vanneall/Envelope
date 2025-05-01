@@ -1,5 +1,6 @@
 package com.point.services.chats.repository
 
+import android.net.Uri
 import com.point.services.chats.events.models.Event
 import com.point.services.chats.models.ChatCreationData
 import com.point.services.chats.models.ChatInfo
@@ -11,7 +12,7 @@ interface ChatsRepository {
 
     suspend fun getChatEvents(chatId: String): Result<List<Event>>
 
-    suspend fun createChat(data: ChatCreationData): Result<String>
+    suspend fun createChat(data: ChatCreationData, uri: Uri? = null): Result<String>
 
     suspend fun getGroupChatInfo(chatId: String): Result<GroupChatInfo>
 

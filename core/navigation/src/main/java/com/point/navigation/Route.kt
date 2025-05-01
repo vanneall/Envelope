@@ -31,6 +31,8 @@ sealed interface Route {
         data object SearchChats : ChatsFeature
 
         data object ChatsGroupCreation : ChatsFeature
+
+        data class GroupChatCreationConfirmation(val ids: List<String>) : ChatsFeature
     }
 
     sealed interface SettingsFeature : Route {

@@ -14,6 +14,6 @@ internal fun ChatInfoResponse.toModel() = ChatInfo(
     id = id,
     name = name,
     type = type,
-    photo = photo?.let { uri -> "http://192.168.0.174:8084/photos/$uri" },
+    photo = photo?.let { uri -> "http://192.168.0.174:8084/media/$uri" },
     lastMessage = lastMessage?.toModel(),
 )

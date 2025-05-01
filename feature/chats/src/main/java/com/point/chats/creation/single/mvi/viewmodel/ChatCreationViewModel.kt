@@ -48,7 +48,7 @@ internal class ChatCreationViewModel @Inject constructor(
 
     private fun createChat() {
         handleAction<ChatCreationAction.UiEvent.ContactSelected> { action ->
-            chatsRepository.createChat(ChatCreationData(name = "", participants = listOf(action.username))).fold(
+            chatsRepository.createChat(ChatCreationData(name = null, participants = listOf(action.username))).fold(
                 onSuccess = { emitEvent(ChatCreationEvent.OpenChat(it)) },
                 onFailure = { Timber.tag("Error").e(it.stackTraceToString()) }
             )

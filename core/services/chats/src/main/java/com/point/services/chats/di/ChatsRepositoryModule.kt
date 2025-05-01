@@ -1,5 +1,6 @@
 package com.point.services.chats.di
 
+import android.content.Context
 import com.point.network.di.TokenProvider
 import com.point.services.chats.repository.ChatsRepositoryImpl
 import com.point.services.chats.repository.DialogRepositoryImpl
@@ -8,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 
 @Module
@@ -15,7 +17,8 @@ import okhttp3.OkHttpClient
 internal object ChatsRepositoryModule {
 
     @Provides
-    fun provideChatsRepositoryImpl(chatsService: ChatsService) = ChatsRepositoryImpl(chatsService = chatsService)
+    fun provideChatsRepositoryImpl(@ApplicationContext context: Context, chatsService: ChatsService) =
+        ChatsRepositoryImpl(context = context, chatsService = chatsService)
 
     @Provides
     fun provideDialogRepositoryImpl(okHttpClient: OkHttpClient, tokenProvider: TokenProvider) =

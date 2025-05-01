@@ -16,4 +16,4 @@ internal fun UserContact.toUi() = UserUi(
 )
 
 @Immutable
-internal data class UserUi(val username: String, val name: String, val photo: String?, val status: String?)
+internal data class UserUi(val username: String, val name: String, val photo: String?, val status: String? = null)

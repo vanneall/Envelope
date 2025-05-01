@@ -6,17 +6,24 @@ import com.point.services.chats.requests.DeleteChatsRequest
 import com.point.services.chats.responses.ChatIdResponse
 import com.point.services.chats.responses.ChatInfoResponse
 import com.point.services.chats.responses.GroupChatInfoResponse
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal interface ChatsService {
 
+    @Multipart
     @POST(PATH)
-    suspend fun createChat(@Body data: CreateChatRequest): Result<ChatIdResponse>
+    suspend fun createChat(
+        @Part("data") data: CreateChatRequest,
+        @Part photo: MultipartBody.Part?
+    ): Result<ChatIdResponse>
 
     // Group
     @GET("$PATH/group/{chatId}")
