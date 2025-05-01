@@ -10,4 +10,8 @@
     <string name="clear">Очистить</string>
     <string name="messages">Сообщения</string>
     <string name="search">Поиск</string>
+
+    <string name="new_message">Новое сообщение</string>
+    <string name="create_group_chat">Создать группу</string>
+    <string name="add_contact">Добавить контакт</string>
 </resources>

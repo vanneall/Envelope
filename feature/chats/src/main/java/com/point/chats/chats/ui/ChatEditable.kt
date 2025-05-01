@@ -90,11 +90,10 @@ internal fun ChatEditable(
 }
 
 @Composable
-internal fun ChatDescription(title: String, text: String, modifier: Modifier = Modifier) {
+internal fun ChatDescription(title: String, text: String?, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically),
     ) {
         Text(
             text = title,
@@ -107,16 +106,18 @@ internal fun ChatDescription(title: String, text: String, modifier: Modifier = M
             maxLines = 1,
         )
 
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-            ),
-            color = TextSecondaryColor,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 2,
-        )
+        if (text != null) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                ),
+                color = TextSecondaryColor,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+            )
+        }
     }
 }
 

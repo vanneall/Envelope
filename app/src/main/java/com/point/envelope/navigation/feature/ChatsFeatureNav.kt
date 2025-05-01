@@ -14,8 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.point.chats.chats.ui.ChatsScreen
-import com.point.chats.creation.ui.MultiDialogCreation
-import com.point.chats.creation.viewmodel.MultiCreationViewModel
+import com.point.chats.creation.single.ui.ChatCreationScreen
 import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogEvent
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
@@ -113,22 +112,13 @@ internal fun NavGraphBuilder.chatsFeature(
     }
 
     subComposable<SubRoute.MultiChatCreation> {
-        topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.HeaderAppBar(
-                header = "Создание мульти чата",
-            ),
-            onBack = { navController.popBackStack() }
-        )
-
         bottomBarState.value = BottomBarState(false)
 
         fabState.value = FabState.Hidden
 
-        val viewModel = hiltViewModel<MultiCreationViewModel>()
-
-        MultiDialogCreation(
-            state = viewModel.composableState.value,
-            onAction = viewModel::emitAction,
+        ChatCreationScreen(
+            navigate = { route -> navController.navigate(route.asComposeRoute) },
+            back = { navController.popBackStack() },
             modifier = Modifier.fillMaxSize()
         )
     }

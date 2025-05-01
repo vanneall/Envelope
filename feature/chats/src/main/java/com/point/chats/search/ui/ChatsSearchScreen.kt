@@ -32,6 +32,4 @@ fun ChatsSearchScreen(navigate: (Route) -> Unit, back: () -> Unit, modifier: Mod
         navigate = navigate,
         modifier = modifier,
     )
-
-
 }

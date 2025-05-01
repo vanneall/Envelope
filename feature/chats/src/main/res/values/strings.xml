@@ -10,4 +10,8 @@
     <string name="clear">Clear</string>
     <string name="messages">Messages</string>
     <string name="search">Search</string>
+
+    <string name="new_message">New message</string>
+    <string name="create_group_chat">Create group</string>
+    <string name="add_contact">Add contact</string>
 </resources>
