@@ -25,6 +25,7 @@ import com.point.ui.EnvelopeTheme
 import com.point.ui.Theme
 import com.point.ui.scaffold.fab.EnvelopeFab
 import com.point.ui.scaffold.fab.FabState
+import com.point.ui.scaffold.holder.ScaffoldHolder
 import com.point.ui.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.user.LocalUser
@@ -32,9 +33,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), ScaffoldHolder {
 
     private val viewModel by viewModels<MainViewModel>()
+
+    private val appBarState = mutableStateOf(TopAppBarState())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -49,7 +52,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val selectedItemIndex = rememberSaveable { mutableIntStateOf(0) }
-            val appBarState = remember { mutableStateOf(TopAppBarState()) }
             val bottomBarState = remember { mutableStateOf(BottomBarState(false)) }
             val fabState = remember { mutableStateOf<FabState>(FabState.Hidden) }
             EnvelopeTheme(
@@ -111,5 +113,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun setTopAppBar(topAppBarState: TopAppBarState) {
+        appBarState.value = topAppBarState
+    }
+
+    override var topAppBarState: TopAppBarState
+        get() = appBarState.value
+        set(value) {
+            appBarState.value = value
+        }
 }
 

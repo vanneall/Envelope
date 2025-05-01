@@ -3,7 +3,6 @@ package com.point.tea
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.point.tea.LoadableState.Loading
-import com.point.tea.LoadableState.StateHolder.Success
 import com.point.tea.commands.CommandHandler
 import com.point.tea.events.EmptyEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 
 abstract class MvuViewModel<UiState, Event, Effect, Dependency, Command : CommandHandler<Event, Dependency, Effect>>(
     private val dependency: Dependency,
-    initialState: LoadableState<UiState> = Loading<UiState, Success<UiState>>()
+    initialState: LoadableState<UiState> = Loading()
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState)

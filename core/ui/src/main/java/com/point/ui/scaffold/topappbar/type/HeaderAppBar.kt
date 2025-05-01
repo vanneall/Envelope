@@ -11,7 +11,7 @@ import com.point.ui.Theme
 fun HeaderAppBar(@StringRes headerRes: Int?, header: String, modifier: Modifier = Modifier) {
     Text(
         text = headerRes?.let { stringResource(headerRes) } ?: header,
-        style = Theme.typography.titleL,
+        style = Theme.typography.titleM,
         color = Theme.colorScheme.textPrimary,
         modifier = modifier,
     )

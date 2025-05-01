@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -14,16 +13,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
-import com.point.chats.R
+import com.point.chats.chats.ui.ChatsScreen
 import com.point.chats.creation.ui.MultiDialogCreation
 import com.point.chats.creation.viewmodel.MultiCreationViewModel
 import com.point.chats.dialog.ui.ChatDialogScreen
 import com.point.chats.dialog.viewmodel.ChatDialogEvent
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
-import com.point.chats.main.ui.ChatsScreen
-import com.point.chats.main.viewmodel.ChatAction
-import com.point.chats.main.viewmodel.ChatEvents
-import com.point.chats.main.viewmodel.ChatsHostViewModel
 import com.point.chats.multi.info.ui.MultiChatInfoScreen
 import com.point.chats.multi.info.viewmodel.MultiChatInfoViewModel
 import com.point.envelope.BottomBarState
@@ -34,15 +29,9 @@ import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
 import com.point.services.chats.models.ChatType
 import com.point.ui.scaffold.fab.FabState
-import com.point.ui.scaffold.topappbar.state.ActionType
-import com.point.ui.scaffold.topappbar.state.TopAppBarAction
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.scaffold.topappbar.type.AppBarType
 import kotlinx.coroutines.launch
-
-private object DeleteChats : ActionType {
-    override val id: String = "DELETE"
-}
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
@@ -57,13 +46,8 @@ internal fun NavGraphBuilder.chatsFeature(
         }
 
         bottomBarState.value = BottomBarState(true)
-        val viewModel = hiltViewModel<ChatsHostViewModel>()
 
-        topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.HeaderAppBar(
-                headerRes = R.string.chats_host_screen_title,
-            ),
-        )
+
 
         fabState.value = FabState.Showed(
             icon = Icons.Default.Add,
@@ -71,33 +55,9 @@ internal fun NavGraphBuilder.chatsFeature(
         )
 
         ChatsScreen(
-            state = viewModel.composableState.value,
-            events = viewModel.events,
-            onAction = viewModel::emitAction,
-            onNavigate = { route -> navController.navigate(route.asComposeRoute) },
-            modifier = Modifier.fillMaxSize(),
+            navigate = { route -> navController.navigate(route.asComposeRoute) },
+            modifier = Modifier.fillMaxSize()
         )
-
-        LaunchedEffect(Unit) {
-            viewModel.events.collect { event ->
-                when(event) {
-                    is ChatEvents.ChangeDeleteActionVisibility -> {
-                        topAppBarState.value = topAppBarState.value.copy(
-                            actions = if (event.isVisible) {
-                                topAppBarState.value.actions + TopAppBarAction(
-                                    type = DeleteChats,
-                                    icon = Icons.Rounded.Delete,
-                                    action = { viewModel.emitAction(ChatAction.UiAction.DeleteChats) },
-                                )
-                            } else {
-                                topAppBarState.value.actions.filter { it.type != DeleteChats }
-                            }
-                        )
-                    }
-                    else -> {}
-                }
-            }
-        }
     }
 
     subComposable<SubRoute.Messaging> {
@@ -121,7 +81,7 @@ internal fun NavGraphBuilder.chatsFeature(
                             name = it.name,
                             photo = null,
                             onUserProfileClick = {
-                                if (viewModel.state.chatType == ChatType.MANY){
+                                if (viewModel.state.chatType == ChatType.MANY) {
                                     navController.navigate(
                                         SubRoute.MultiChatInfo(viewModel.chatId)
                                     )

@@ -1,32 +1,75 @@
 package com.point.tea
 
-sealed interface LoadableState<T> {
+import com.point.tea.LoadableState.DataHolder
+import com.point.tea.LoadableState.Loading
 
-    operator fun plus(other: LoadableState<T>): LoadableState<T>
+sealed class LoadableState<T> {
 
-    data class Loading<T, H : StateHolder<T>>(val holder: H? = null) : LoadableState<T> {
+    internal data class Loading<T>(val previous: DataHolder<T>? = null) : LoadableState<T>()
 
-        override fun plus(other: LoadableState<T>): LoadableState<T> = when (other) {
-            is Loading<*, *> -> if (other.holder != null) other else this as LoadableState<T>
+    internal sealed class DataHolder<T> : LoadableState<T>() {
 
-            else -> this
-        }
+        data class Success<T>(val data: T) : DataHolder<T>()
+
+        data class Error<T>(val error: Throwable?) : DataHolder<T>()
     }
 
-    sealed interface StateHolder<T> : LoadableState<T> {
+    companion object {
 
-        data class Success<T>(val data: T) : StateHolder<T> {
+        fun <T> loadingOf(data: T? = null): LoadableState<T> = Loading(data?.let { DataHolder.Success(it) })
 
-            override fun plus(other: LoadableState<T>): LoadableState<T> = other
-        }
+        fun <T> successOf(data: T): LoadableState<T> = DataHolder.Success(data)
 
-        data class Error<T>(val data: T) : StateHolder<T> {
-
-            override fun plus(other: LoadableState<T>): LoadableState<T> = when (other) {
-                is Success -> this
-
-                else -> other
-            }
-        }
+        fun <T> errorOf(throwable: Throwable): LoadableState<T> = DataHolder.Error<T>(throwable)
     }
+
+    val isDirtyLoading: Boolean
+        get() = this is Loading && this.previous != null
+
+    val isClearLoading: Boolean
+        get() = this is Loading && this.previous == null
+
+    val isLoading: Boolean
+        get() = this is Loading
+
+    val isSuccess: Boolean
+        get() = this is DataHolder.Success
+
+    val isError: Boolean
+        get() = this is DataHolder.Error
+}
+
+
+fun <T> LoadableState<T>.mapSuccess(block: (state: T) -> T): LoadableState<T> = when (this) {
+    is DataHolder.Success -> this.copy(data = block(data))
+    else -> this
+}
+
+suspend fun <T> LoadableState<T>.doOnSuccess(block: suspend (state: T) -> Unit) {
+    if (this is DataHolder.Success) {
+        block(data)
+    }
+}
+
+/***
+ * Get saved data from Loadable
+ * It will get from DataHolder or saved DataHolder
+ */
+val <T> LoadableState<T>.dataOrNull: T?
+    get() = when {
+        this is DataHolder.Success -> data
+        this is Loading && previous is DataHolder.Success -> previous.data
+        else -> null
+    }
+
+/***
+ * Converts current Loadable to Loading
+ * If current Loadable contains data, it will passed to Loading
+ */
+fun <T> LoadableState<T>.toLoading() = if (this is DataHolder) Loading(this) else this
+
+fun <T> LoadableState<T>.toSuccess(default: T, transform: (T) -> T): LoadableState<T> = when {
+    this is DataHolder.Success -> this.mapSuccess(transform)
+    this is Loading && previous is DataHolder.Success -> LoadableState.successOf(transform(previous.data))
+    else -> LoadableState.successOf(transform(default))
 }
