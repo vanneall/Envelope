@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":core:user"))
     api(project(":core:network"))
     api(project(":core:services:user"))
+    api(project(":core:services:chats"))
 
     // Coil
     implementation(libs.coil.compose)

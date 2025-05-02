@@ -1,9 +1,7 @@
 package com.point.contacts.profile.ui.content
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.point.contacts.profile.ui.initializing.ProfileScreenContentShimmer
@@ -37,7 +35,7 @@ fun ProfileScreen(
                 onAction = onAction,
                 events = events,
                 onNavigation = onNavigation,
-                modifier = modifier.padding(horizontal = 8.dp),
+                modifier = modifier,
             )
         }
     }

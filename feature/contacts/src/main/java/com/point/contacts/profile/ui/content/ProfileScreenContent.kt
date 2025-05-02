@@ -2,16 +2,20 @@ package com.point.contacts.profile.ui.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -70,9 +74,23 @@ internal fun ProfileScreenContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            UserAvatar(state.lastPhoto, modifier = Modifier.size(120.dp))
+            val lazyListState = rememberLazyListState()
+            LazyRow(
+                state = lazyListState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp),
+                flingBehavior = rememberSnapFlingBehavior(lazyListState)
+            ) {
+                items(items = state.photos) {
+                    UserAvatar(it, modifier = Modifier.fillParentMaxWidth())
+                }
+            }
 
-            Spacer(modifier = Modifier.height(18.dp))
+
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
                 text = state.name,
@@ -92,13 +110,16 @@ internal fun ProfileScreenContent(
         ActionsRow(
             state = state,
             onAction = onAction,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
         )
 
         Text(
             text = stringResource(R.string.information),
             style = Theme.typography.bodyL,
-            color = Theme.colorScheme.accent,
+            color = Theme.colorScheme.textPrimary,
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
 
         Column(
@@ -106,7 +127,7 @@ internal fun ProfileScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
-                .padding(12.dp)
+                .padding(horizontal = 8.dp)
         ) {
             if (state.status != null) {
                 UserDescriptionItem(
@@ -121,7 +142,6 @@ internal fun ProfileScreenContent(
             }
 
             if (state.about != null) {
-
                 UserDescriptionItem(
                     title = stringResource(R.string.about),
                     description = state.about,
