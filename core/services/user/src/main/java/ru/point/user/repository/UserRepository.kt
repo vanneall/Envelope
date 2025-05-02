@@ -23,9 +23,13 @@ interface UserRepository {
 
     suspend fun fetchIncomingRequests(offset: Int = 0, limit: Int = 35): Result<List<RequestsInfo>>
 
+    suspend fun fetchOutgoingRequests(offset: Int = 0, limit: Int = 35): Result<List<RequestsInfo>>
+
     suspend fun acceptRequest(id: Long): Result<Unit>
 
     suspend fun denyRequest(id: Long): Result<Unit>
+
+    suspend fun cancelRequest(id: Long): Result<Unit>
 
     suspend fun sendRequest(username: String): Result<Unit>
 

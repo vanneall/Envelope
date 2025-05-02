@@ -58,6 +58,15 @@ internal class UserRepositoryImpl(
         }
     }
 
+    override suspend fun fetchOutgoingRequests(offset: Int, limit: Int) = withContext(dispatcher) {
+        require(offset >= 0) { "Offset must be greater or equals 0" }
+        require(limit >= 0) { "Limit must be greater or equals 0" }
+
+        userService.fetchOutgoingRequests(offset = offset, limit = limit).map { response ->
+            response.map { request -> request.toModel() }
+        }
+    }
+
     override suspend fun acceptRequest(id: Long) = withContext(dispatcher) {
         userService.patchRequestStatus(
             id = id,
@@ -74,6 +83,10 @@ internal class UserRepositoryImpl(
                 result = ApplyRequestAbility.REJECT,
             ),
         )
+    }
+
+    override suspend fun cancelRequest(id: Long) = withContext(dispatcher) {
+        userService.deleteRequestById(id = id)
     }
 
     override suspend fun sendRequest(username: String) = withContext(dispatcher) {

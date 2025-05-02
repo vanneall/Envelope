@@ -51,6 +51,12 @@ internal interface UserService {
         @Query("limit") limit: Int
     ): Result<List<RequestsInfoResponse>>
 
+    @GET("$PATH_REQUESTS/outgoing")
+    suspend fun fetchOutgoingRequests(
+        @Query("query") offset: Int,
+        @Query("limit") limit: Int
+    ): Result<List<RequestsInfoResponse>>
+
     @POST(PATH_REQUESTS)
     suspend fun postRequest(@Body addToContactRequest: AddToContactRequest): Result<CreatedRequestResponse>
 

@@ -23,6 +23,8 @@ internal class RequestsContactsViewModel @Inject constructor(
         handleRefresh()
         denyRequest()
         acceptRequest()
+        getUserOutgoingRequests()
+        handleDelete()
     }
 
     override fun reduce(action: RequestsAction, state: RequestsState) = when (action) {
@@ -53,6 +55,11 @@ internal class RequestsContactsViewModel @Inject constructor(
 
         is UiAction.DenyRequest,
         is UiAction.AcceptRequest -> state
+
+        is UiAction.Select -> state.copy(selected = action.i)
+
+        is UiAction.Cancel -> state
+        is ModelAction.RequestDeletedSuccessfully -> state.copy(contacts = state.contacts.filter { it.id != action.id })
     }
 
     private fun handleRefresh() {
@@ -61,11 +68,37 @@ internal class RequestsContactsViewModel @Inject constructor(
         }
     }
 
+    private fun handleDelete() {
+        handleAction<UiAction.Cancel> { act ->
+            contactsRepository.cancelRequest(act.id).fold(
+                onSuccess = { emitAction(ModelAction.RequestDeletedSuccessfully(id = act.id)) },
+                onFailure = { it.printStackTrace() }
+            )
+        }
+    }
+
     private suspend fun getUserRequests() {
         contactsRepository.fetchIncomingRequests().fold(
             onSuccess = { emitAction(ModelAction.RequestsLoaded(it)) },
             onFailure = { it.printStackTrace() },
         )
+    }
+
+    private suspend fun getUserRequests2() {
+        contactsRepository.fetchOutgoingRequests().fold(
+            onSuccess = { emitAction(ModelAction.RequestsLoaded(it)) },
+            onFailure = { it.printStackTrace() },
+        )
+    }
+
+    private fun getUserOutgoingRequests() {
+        handleAction<UiAction.Select> {
+            if (it.i == 0) {
+                getUserRequests()
+            } else {
+                getUserRequests2()
+            }
+        }
     }
 
     private fun acceptRequest() {

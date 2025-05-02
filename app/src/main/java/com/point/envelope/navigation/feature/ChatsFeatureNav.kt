@@ -238,6 +238,7 @@ internal fun NavGraphBuilder.chatsFeature(
 
     subComposable<SubRoute.Camera> {
         topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.Invisible,
             onBack = { navController.popBackStack() }
         )
         bottomBarState.value = BottomBarState(false)
@@ -274,7 +275,7 @@ internal fun NavGraphBuilder.chatsFeature(
 
     subComposable<SubRoute.Photo> {
         topAppBarState.value = TopAppBarState(
-            appBarType = AppBarType.EmptyAppBar,
+            appBarType = AppBarType.Invisible,
             onBack = { navController.popBackStack() }
         )
         bottomBarState.value = BottomBarState(false)

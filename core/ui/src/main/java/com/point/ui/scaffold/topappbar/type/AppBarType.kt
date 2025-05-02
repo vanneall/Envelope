@@ -20,6 +20,13 @@ sealed interface AppBarType {
         }
     }
 
+    data object Invisible : AppBarType {
+
+        @Composable
+        override fun AsComposable(modifier: Modifier) {
+        }
+    }
+
     data class HeaderAppBar(
         @StringRes private val headerRes: Int? = null,
         private val header: String = "",

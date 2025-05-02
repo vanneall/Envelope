@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
             ) {
                 Scaffold(
                     topBar = {
-                        if (appBarState.value.appBarType != AppBarType.EmptyAppBar) {
+                        if (appBarState.value.appBarType != AppBarType.Invisible) {
                             EnvelopeTopAppBar(
                                 appBarState = appBarState.value,
                                 modifier = Modifier.fillMaxWidth()
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
                         }
                     },
                     modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = if (appBarState.value.appBarType == AppBarType.EmptyAppBar) {
+                    contentWindowInsets = if (appBarState.value.appBarType == AppBarType.Invisible) {
                         WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
                     } else {
                         ScaffoldDefaults.contentWindowInsets
