@@ -1,7 +1,7 @@
 package com.point.services.chats.events.responses
 
 import com.point.network.di.serializers.InstantSerializer
-import com.point.services.chats.events.models.Message
+import com.point.services.chats.events.models.MessageUi
 import com.point.services.chats.events.responses.MessageSentEventResponse.Companion.DISCRIMINATOR
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -31,14 +31,14 @@ internal class MessageSentEventResponse(
     val isEdited: Boolean,
 ) : BaseEventResponse {
 
-    override fun toModel() = Message(
+    override fun toModel() = MessageUi(
         id = id,
         timestamp = timestamp,
         senderName = userName,
-        senderPhoto = userPhotoId?.let { uri -> "http://192.168.0.174:8084/photos/$uri" },
+        senderPhoto = userPhotoId?.let { uri -> "http://192.168.0.174:8084/media/$uri" },
         sender = senderId,
         text = text,
-        attachments = attachments,
+        attachments = attachments.map { uri -> "http://192.168.0.174:8084/media/$uri" },
         isPinned = isPinned,
         isEdited = isEdited,
     )

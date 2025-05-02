@@ -15,5 +15,5 @@ internal fun RequestsInfoResponse.toModel() = RequestsInfo(
     username = username,
     name = name,
     status = status,
-    lastPhoto = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/photos/$photoId" },
+    lastPhoto = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/media/$photoId" },
 )

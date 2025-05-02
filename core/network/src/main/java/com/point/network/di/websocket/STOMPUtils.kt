@@ -20,7 +20,7 @@ object STOMPUtils {
 
     fun send(destination: String, json: String) = """
         SEND
-        destination:destination
+        destination:$destination
         
         $json
         ${"\u0000"}

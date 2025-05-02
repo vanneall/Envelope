@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.point.ui.Theme
 
+val MyWhite = Color(0xFFE5E5E5)
 val Black = Color(0xFF1E1E1E)
 val Black50 = Color(0x80000000)
 val Gray = Color(0xFFB0B0B0)

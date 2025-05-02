@@ -3,6 +3,7 @@ package com.point.services.chats.repository
 import com.point.network.di.TokenProvider
 import com.point.network.di.websocket.STOMPUtils
 import com.point.services.chats.events.models.Event
+import com.point.services.chats.events.responses.BaseEventResponse
 import com.point.services.chats.models.MessageCreate
 import com.point.services.chats.models.MessageEdit
 import com.point.services.chats.requests.MessageDeleteRequest
@@ -49,8 +50,8 @@ internal class DialogRepositoryImpl(private val okHttpClient: OkHttpClient, priv
                 if (!text.startsWith("MESSAGE")) return
                 try {
                     val json = parseStompResponse(text)
-                    val event = globalJson.decodeFromString<Event>(json)
-                    trySend(event)
+                    val event = globalJson.decodeFromString<BaseEventResponse>(json)
+                    trySend(event.toModel())
                 } catch (e: Exception) {
                     Timber.tag(WEBSOCKET_TAG).e("onMessage error: ${e.message}")
                 }

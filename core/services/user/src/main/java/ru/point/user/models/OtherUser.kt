@@ -15,7 +15,7 @@ internal fun OtherUserResponse.toModel() = OtherUser(
     username = username,
     name = name,
     status = status,
-    photo = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/photos/$photoId" },
+    photo = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/media/$photoId" },
     inContacts = inContacts,
     inSentRequests = inSentRequests,
 )

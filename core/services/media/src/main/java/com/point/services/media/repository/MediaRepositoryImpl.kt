@@ -18,20 +18,21 @@ internal class MediaRepositoryImpl(
 ) : MediaRepository {
 
     override suspend fun uploadPhoto(uri: Uri) = withContext(Dispatchers.IO) {
-        mediaService.uploadPhoto(uriToMultipart(context = context, uri = uri)).map { response -> response.id }
+        mediaService.uploadPhoto(requireNotNull(uriToMultipart(context = context, uri = uri)))
+            .map { response -> response.id }
     }
 
-    private fun uriToMultipart(context: Context, uri: Uri): MultipartBody.Part {
+    private fun uriToMultipart(uri: Uri, context: Context): MultipartBody.Part? {
         val contentResolver = context.contentResolver
-        val inputStream = contentResolver.openInputStream(uri)!!
+        val inputStream = contentResolver.openInputStream(uri) ?: return null
         val fileName = getFileName(uri, contentResolver) ?: "image.jpg"
         val tempFile = File.createTempFile("upload_", fileName, context.cacheDir).apply {
             outputStream().use { fileOut -> inputStream.copyTo(fileOut) }
         }
 
-        val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+        val requestBody = tempFile.asRequestBody(contentResolver.getType(uri)!!.toMediaTypeOrNull())
 
-        return MultipartBody.Part.createFormData("photo", fileName, requestBody)
+        return MultipartBody.Part.createFormData("file", fileName, requestBody)
     }
 
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String? {

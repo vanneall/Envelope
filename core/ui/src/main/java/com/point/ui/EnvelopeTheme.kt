@@ -49,6 +49,6 @@ internal val LocalColor = compositionLocalOf { lightColorScheme }
 
 internal val LocalTypography = staticCompositionLocalOf { EnvelopeTypography() }
 
-internal val LocalUser = staticCompositionLocalOf<LocalUser?> { null }
+val LocalUser = staticCompositionLocalOf<LocalUser?> { null }
 
-internal val LocalUiSettings = staticCompositionLocalOf { AppUiSettings() }
+val LocalUiSettings = staticCompositionLocalOf { AppUiSettings() }

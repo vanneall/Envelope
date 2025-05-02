@@ -11,5 +11,5 @@ data class UserLightInfo(
 internal fun UserLightInfoResponse.toModel() = UserLightInfo(
     username = username,
     name = name,
-    photo = photoId?.let { uri -> "http://192.168.0.174:8084/photos/$uri" },
+    photo = photoId?.let { uri -> "http://192.168.0.174:8084/media/$uri" },
 )

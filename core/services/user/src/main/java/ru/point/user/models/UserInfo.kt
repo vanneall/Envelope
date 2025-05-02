@@ -23,7 +23,7 @@ internal fun UserInfoResponse.toModel() = UserInfo(
     status = status,
     about = about,
     birthDate = birthDate,
-    photos = photos.map { uri -> "http://192.168.0.174:8084/photos/$uri" },
+    photos = photos.map { uri -> "http://192.168.0.174:8084/media/$uri" },
     inContacts = inContacts,
     inSentRequests = inSentRequests
 )

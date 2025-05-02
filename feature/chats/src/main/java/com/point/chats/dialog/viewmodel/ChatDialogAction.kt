@@ -6,22 +6,28 @@ import com.point.services.chats.models.ChatType
 
 sealed interface ChatDialogAction {
 
-    sealed interface UiAction : ChatDialogAction {
+    sealed interface UiEvent : ChatDialogAction {
 
-        data class OnPhotoPicked(val photos: List<Uri>) : UiAction
+        data class OnPhotoPicked(val photos: List<Uri>) : UiEvent
 
-        data class OnPhotoDeletedFromMessage(val uri: Uri) : UiAction
+        @JvmInline
+        value class OnPhotoDeletedFromMessage(val uri: Uri) : UiEvent
+
+        data class EditMessage(val id: String, val text: String) : UiEvent
+
+        @JvmInline
+        value class DeleteMessage(val id: String) : UiEvent
+
+        @JvmInline
+        value class TypeMessage(val value: String) : UiEvent
+
+        data object SendMessage : UiEvent
     }
 
-    data object Send : ChatDialogAction
-    data class Delete(val id: String) : ChatDialogAction
     data class DeleteSuccess(val id: String) : ChatDialogAction
 
 
-    data class Edit(val id: String, val text: String): ChatDialogAction
     data class EditSuccess(val id: String, val text: String): ChatDialogAction
-
-    data class TypeMessage(val value: String) : ChatDialogAction
 
 
     data class UpdateList(val event: Event) : ChatDialogAction

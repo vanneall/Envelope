@@ -18,9 +18,8 @@ fun ChatDialogScreen(
     } else {
         ChatDialogScreenContent(
             state = state,
-            onAction = onAction,
+            action = onAction,
             modifier = modifier,
         )
     }
-
 }

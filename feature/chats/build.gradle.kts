@@ -42,6 +42,8 @@ android {
 
 dependencies {
 
+    implementation(libs.accompanist.systemuicontroller)
+
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))

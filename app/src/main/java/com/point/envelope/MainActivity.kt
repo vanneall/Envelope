@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.point.envelope.bottombar.EnvelopeNavBar
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
@@ -44,6 +45,7 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
         super.onCreate(savedInstanceState)
         splashScreen.setKeepOnScreenCondition { viewModel.isInitializing.value }
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         val localUser = viewModel.localUser.map { user -> user?.let { LocalUser(username = it.username) } }
         val localSettings =
             viewModel.appSettings.map { settings -> AppUiSettings(useAnimations = settings.useAnimations) }

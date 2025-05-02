@@ -63,7 +63,7 @@ class SettingsViewModel @Inject constructor(
                 username = "@${action.data.username}",
                 requests = 0,
                 contacts = 0,
-                photoId = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/photos/$uri" }
+                photoId = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/media/$uri" }
             )
         )
         SettingsAction.Action.LeftFromAccount -> state

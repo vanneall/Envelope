@@ -66,7 +66,7 @@ val label12 = TextStyle(
 )
 val label10 = TextStyle(
     fontFamily = FontFamily.Default,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.Light,
     fontSize = 10.sp,
 )
 val label8 = TextStyle(

@@ -13,5 +13,5 @@ internal fun UserContactResponse.toModel() = UserContact(
     username = username,
     name = name,
     status = status,
-    lastPhoto = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/photos/$photoId" }
+    lastPhoto = lastPhoto?.let { photoId -> "http://192.168.0.174:8084/media/$photoId" }
 )

@@ -9,6 +9,6 @@ import retrofit2.http.Part
 internal interface MediaService {
 
     @Multipart
-    @POST("/photos")
+    @POST("/media")
     suspend fun uploadPhoto(@Part photo: MultipartBody.Part): Result<PhotoIdResponse>
 }

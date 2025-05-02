@@ -17,7 +17,7 @@ internal fun GroupChatInfoResponse.toModel() = GroupChatInfo(
     name = name,
     description = description,
     type = type,
-    chatPreviewPhotosIds = chatPreviewPhotosIds.map { uri -> "http://192.168.0.174:8084/photos/$uri" },
+    chatPreviewPhotosIds = chatPreviewPhotosIds.map { uri -> "http://192.168.0.174:8084/media/$uri" },
     users = users.map { response -> response.toModel() },
     mediaContentIds = mediaContentIds,
 )

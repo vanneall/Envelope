@@ -18,4 +18,9 @@
     <string name="group">Group</string>
     <string name="invite_to_invite">Who do you want to invite?</string>
     <string name="group_name">Group name</string>
+
+    <string name="message">Message</string>
+    <string name="edit">Edit</string>
+    <string name="edited">edited</string>
+    <string name="delete">Delete</string>
 </resources>

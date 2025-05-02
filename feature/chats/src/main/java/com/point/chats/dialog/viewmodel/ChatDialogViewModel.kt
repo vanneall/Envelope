@@ -3,9 +3,10 @@ package com.point.chats.dialog.viewmodel
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.point.chats.dialog.data.ChatDialogRepository
-import com.point.services.chats.events.models.Message
+import com.point.chats.dialog.viewmodel.ChatDialogAction.UiEvent
 import com.point.services.chats.events.models.MessageDeleted
 import com.point.services.chats.events.models.MessageEdited
+import com.point.services.chats.events.models.MessageUi
 import com.point.services.media.repository.MediaRepository
 import com.point.viewmodel.MviViewModel
 import dagger.assisted.Assisted
@@ -55,10 +56,10 @@ class ChatDialogViewModel @AssistedInject constructor(
     }
 
     override fun reduce(action: ChatDialogAction, state: ChatDialogState) = when (action) {
-        is ChatDialogAction.TypeMessage -> state.copy(message = action.value)
-        ChatDialogAction.Send -> state
+        is UiEvent.TypeMessage -> state.copy(message = action.value)
+        UiEvent.SendMessage -> state
         is ChatDialogAction.UpdateList -> {
-            if (action.event is Message) {
+            if (action.event is MessageUi) {
                 Timber.tag("mong").d("${action.event.attachments}")
             }
 
@@ -68,7 +69,7 @@ class ChatDialogViewModel @AssistedInject constructor(
             )
         }
 
-        is ChatDialogAction.UiAction.OnPhotoPicked -> state.copy(photos = action.photos)
+        is UiEvent.OnPhotoPicked -> state.copy(photos = action.photos)
 
         is ChatDialogAction.EventsLoaded -> {
             state.copy(
@@ -77,9 +78,9 @@ class ChatDialogViewModel @AssistedInject constructor(
             )
         }
 
-        is ChatDialogAction.UiAction.OnPhotoDeletedFromMessage -> state.copy(photos = state.photos.filter { uri -> uri != action.uri })
+        is UiEvent.OnPhotoDeletedFromMessage -> state.copy(photos = state.photos.filter { uri -> uri != action.uri })
 
-        is ChatDialogAction.Edit -> state.copy(
+        is UiEvent.EditMessage -> state.copy(
             message = action.text,
             isInEditMode = EditMode(
                 messageId = action.id,
@@ -91,7 +92,7 @@ class ChatDialogViewModel @AssistedInject constructor(
             message = "",
             isInEditMode = null,
             events = state.events.map {
-                if (it.id == action.id && it is Message) {
+                if (it.id == action.id && it is MessageUi) {
                     it.copy(text = action.text, isEdited = true)
                 } else {
                     it
@@ -103,7 +104,7 @@ class ChatDialogViewModel @AssistedInject constructor(
 
         is ChatDialogAction.DeleteSuccess -> state.copy(events = state.events.filter { it.id != action.id })
         ChatDialogAction.ClearField -> state.copy(message = "")
-        is ChatDialogAction.Delete -> state
+        is UiEvent.DeleteMessage -> state
     }
 
     private suspend fun onConnectToChat() {
@@ -126,34 +127,37 @@ class ChatDialogViewModel @AssistedInject constructor(
     }
 
     private fun onSendMessage() {
-        handleAction<ChatDialogAction.Send> {
+        handleAction<UiEvent.SendMessage> {
             val state = state
             if (state.isInEditMode != null) {
                 if (state.message.isNotEmpty() && state.message != state.isInEditMode.text) {
                     chatDialogRepository.editMessage(state.isInEditMode.messageId, state.message)
                 }
             } else {
-                sendMessage(message = state.message, state.photos)
+                if (state.message.isNotEmpty() || state.photos.isNotEmpty()) sendMessage(
+                    message = state.message,
+                    state.photos
+                )
             }
         }
     }
 
     private suspend fun sendMessage(message: String, photos: List<Uri>) {
 
-        val photoIds = photos.mapNotNull { uri ->
+        val photoIds = photos.map { uri ->
             mediaRepository.uploadPhoto(uri).onFailure { it.printStackTrace() }.getOrThrow()
         }
         chatDialogRepository.sendMessage(text = message, photoIds = photoIds)
     }
 
     private fun onDeleteMessage() {
-        handleAction<ChatDialogAction.Delete> {
+        handleAction<UiEvent.DeleteMessage> {
             chatDialogRepository.deleteMessage(id = it.id)
         }
     }
 
     private fun onEditMessage() {
-        handleAction<ChatDialogAction.Edit> { action ->
+        handleAction<UiEvent.EditMessage> { action ->
             emitEvent(ChatDialogEvent.OnEditMessage(action.text))
         }
     }
