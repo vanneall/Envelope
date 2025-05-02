@@ -1,27 +1,36 @@
 package com.point.envelope.navigation.feature
 
+import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
+import com.point.chats.camera.CameraScreen
 import com.point.chats.chats.ui.ChatsScreen
 import com.point.chats.creation.group.confirm.ui.ChatGroupConfirmScreen
 import com.point.chats.creation.group.ui.ChatCreationGroupScreen
 import com.point.chats.creation.single.ui.ChatCreationScreen
 import com.point.chats.dialog.ui.ChatDialogScreen
-import com.point.chats.dialog.viewmodel.ChatDialogEvent
+import com.point.chats.dialog.viewmodel.ChatDialogAction
 import com.point.chats.dialog.viewmodel.ChatDialogViewModel
+import com.point.chats.gallery.GalleryScreen
 import com.point.chats.multi.info.ui.MultiChatInfoScreen
 import com.point.chats.multi.info.viewmodel.MultiChatInfoViewModel
+import com.point.chats.photo.PhotoViewScreen
 import com.point.chats.search.ui.ChatsSearchScreen
 import com.point.envelope.BottomBarState
 import com.point.envelope.navigation.extensions.entryComposable
@@ -34,7 +43,6 @@ import com.point.services.chats.models.ChatType
 import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.scaffold.topappbar.type.AppBarType
-import kotlinx.coroutines.launch
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
@@ -73,7 +81,6 @@ internal fun NavGraphBuilder.chatsFeature(
     }
 
     subComposable<SubRoute.Messaging> {
-
         val args = it.toRoute<SubRoute.Messaging>()
 
         val viewModel: ChatDialogViewModel = hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
@@ -84,19 +91,48 @@ internal fun NavGraphBuilder.chatsFeature(
 
         fabState.value = FabState.Hidden
 
+        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
+
         LaunchedEffect(Unit) {
-            launch {
-                viewModel.events.collect {
-                    if (it !is ChatDialogEvent.ChatInited) return@collect
+            val photoUris: List<Uri>? = savedStateHandle?.get("photo_result_list")
+
+            photoUris?.let {
+                viewModel.emitAction(ChatDialogAction.UiEvent.OnPhotoPicked(it))
+                savedStateHandle["photo_result_list"] = null
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            topAppBarState.value = TopAppBarState(
+                appBarType = AppBarType.UserAppBar(
+                    name = "",
+                    photo = null,
+                    isPrivate = false,
+                    onUserProfileClick = {}
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+
+        val kbm = stringResource(com.point.chats.R.string.bookmars)
+        val lifecycleOwner = LocalLifecycleOwner.current
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    val currentState = viewModel.state
                     topAppBarState.value = TopAppBarState(
                         appBarType = AppBarType.UserAppBar(
-                            name = it.name,
-                            photo = null,
+                            name = if (currentState.chatType == ChatType.PRIVATE) {
+                                kbm
+                            } else {
+                                currentState.name
+                            },
+                            photo = currentState.photo,
+                            isPrivate = currentState.chatType == ChatType.PRIVATE,
                             onUserProfileClick = {
-                                if (viewModel.state.chatType == ChatType.MANY) {
-                                    navController.navigate(
-                                        SubRoute.MultiChatInfo(viewModel.chatId)
-                                    )
+                                if (currentState.chatType == ChatType.MANY) {
+                                    navController.navigate(SubRoute.MultiChatInfo(viewModel.chatId))
                                 }
                             }
                         ),
@@ -104,11 +140,18 @@ internal fun NavGraphBuilder.chatsFeature(
                     )
                 }
             }
+
+            lifecycleOwner.lifecycle.addObserver(observer)
+
+            onDispose {
+                lifecycleOwner.lifecycle.removeObserver(observer)
+            }
         }
 
         ChatDialogScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
+            route = { r -> navController.navigate(r.asComposeRoute) },
             modifier = Modifier.fillMaxSize()
         )
     }
@@ -191,5 +234,52 @@ internal fun NavGraphBuilder.chatsFeature(
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
         )
+    }
+
+    subComposable<SubRoute.Camera> {
+        topAppBarState.value = TopAppBarState(
+            onBack = { navController.popBackStack() }
+        )
+        bottomBarState.value = BottomBarState(false)
+        fabState.value = FabState.Hidden
+
+        CameraScreen(
+            onImageCaptured = {},
+            navigate = { r -> navController.navigate(r.asComposeRoute) },
+            back = { navController.popBackStack() },
+            onBack = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("photo_result_list", it.toList())
+
+                navController.popBackStack()
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    subComposable<SubRoute.Gallery> {
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(header = "Галерея"),
+            onBack = { navController.popBackStack() }
+        )
+        bottomBarState.value = BottomBarState(false)
+        fabState.value = FabState.Hidden
+
+        GalleryScreen(
+            modifier = Modifier.fillMaxSize(),
+            onPhotoClick = { r -> navController.navigate(Route.ChatsFeature.Photo(r).asComposeRoute) }
+        )
+    }
+
+    subComposable<SubRoute.Photo> {
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.EmptyAppBar,
+            onBack = { navController.popBackStack() }
+        )
+        bottomBarState.value = BottomBarState(false)
+        fabState.value = FabState.Hidden
+
+        PhotoViewScreen(Uri.decode(it.toRoute<SubRoute.Photo>().uri))
     }
 }

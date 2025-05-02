@@ -42,6 +42,15 @@ android {
 
 dependencies {
 
+    implementation("androidx.camera:camera-core:1.3.0")
+    implementation("androidx.camera:camera-camera2:1.3.0")
+    implementation("androidx.camera:camera-lifecycle:1.3.0")
+    implementation("androidx.camera:camera-view:1.3.0")
+    implementation("androidx.camera:camera-extensions:1.3.0")
+    implementation("androidx.compose.ui:ui:1.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
+
     implementation(libs.accompanist.systemuicontroller)
 
     implementation(project(":core:navigation"))

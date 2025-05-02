@@ -53,6 +53,7 @@ sealed interface AppBarType {
     data class UserAppBar(
         private val name: String,
         private val photo: String?,
+        private val isPrivate: Boolean,
         private val onUserProfileClick: () -> Unit,
     ) : AppBarType {
 
@@ -60,6 +61,7 @@ sealed interface AppBarType {
         override fun AsComposable(modifier: Modifier) {
             UserAppBar(
                 name = name,
+                isPrivate = isPrivate,
                 photo = photo,
                 modifier = modifier.clickable { onUserProfileClick() },
             )

@@ -5,16 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
@@ -29,6 +32,7 @@ import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.holder.ScaffoldHolder
 import com.point.ui.scaffold.topappbar.EnvelopeTopAppBar
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
+import com.point.ui.scaffold.topappbar.type.AppBarType
 import com.point.user.LocalUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
@@ -62,10 +66,14 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
             ) {
                 Scaffold(
                     topBar = {
-                        EnvelopeTopAppBar(
-                            appBarState = appBarState.value,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        if (appBarState.value.appBarType != AppBarType.EmptyAppBar) {
+                            EnvelopeTopAppBar(
+                                appBarState = appBarState.value,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        } else {
+
+                        }
                     },
                     bottomBar = {
                         if (bottomBarState.value.isVisible) {
@@ -95,6 +103,11 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
                         }
                     },
                     modifier = Modifier.fillMaxSize(),
+                    contentWindowInsets = if (appBarState.value.appBarType == AppBarType.EmptyAppBar) {
+                        WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
+                    } else {
+                        ScaffoldDefaults.contentWindowInsets
+                    },
                     containerColor = Theme.colorScheme.background,
                 ) { innerPadding ->
                     EnvelopeNavHost(

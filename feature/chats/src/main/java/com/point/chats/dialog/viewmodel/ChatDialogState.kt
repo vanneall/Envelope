@@ -5,6 +5,7 @@ import com.point.services.chats.events.models.Event
 import com.point.services.chats.models.ChatType
 
 data class ChatDialogState(
+    val name: String = "", val photo: String? = null,
     val chatType: ChatType = ChatType.PRIVATE,
     val isInitialLoading: Boolean = true,
     val message: String = "",

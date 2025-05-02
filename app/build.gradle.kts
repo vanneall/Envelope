@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material:material-icons-extended")
+
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation(project(":core:ui"))

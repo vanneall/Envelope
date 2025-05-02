@@ -1,5 +1,7 @@
 package com.point.navigation
 
+import android.net.Uri
+
 sealed interface Route {
 
     sealed interface AuthFeature : Route {
@@ -33,6 +35,12 @@ sealed interface Route {
         data object ChatsGroupCreation : ChatsFeature
 
         data class GroupChatCreationConfirmation(val ids: List<String>) : ChatsFeature
+
+        data object Gallery : ChatsFeature
+
+        data object Camera : ChatsFeature
+
+        data class Photo(val uri: Uri) : ChatsFeature
     }
 
     sealed interface SettingsFeature : Route {

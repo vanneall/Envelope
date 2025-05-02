@@ -1,5 +1,6 @@
 package com.point.envelope.navigation.navhost
 
+import android.net.Uri
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.navigation.Route
@@ -60,6 +61,15 @@ sealed interface ComposeNavigationRoute {
 
         @Serializable
         data class GroupChatCreationConfirm(val ids: List<String>) : SubRoute
+
+        @Serializable
+        data object Camera : SubRoute
+
+        @Serializable
+        data object Gallery : SubRoute
+
+        @Serializable
+        data class Photo(val uri: String) : SubRoute
     }
 }
 
@@ -78,6 +88,9 @@ val Route.asComposeRoute: ComposeNavigationRoute
         ChatsFeature.SearchChats -> SubRoute.SearchChats
         ChatsFeature.ChatsGroupCreation -> SubRoute.ChatCreationGroup
         is ChatsFeature.GroupChatCreationConfirmation -> SubRoute.GroupChatCreationConfirm(ids)
+        is ChatsFeature.Camera -> SubRoute.Camera
+        is ChatsFeature.Gallery -> SubRoute.Gallery
+        is ChatsFeature.Photo -> SubRoute.Photo(Uri.encode(uri.toString()))
 
         SettingsFeature.Settings -> EntryRoute.Settings
         SettingsFeature.ProfileEdit -> SubRoute.EditProfile

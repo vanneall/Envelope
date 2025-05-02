@@ -37,4 +37,6 @@ sealed interface ChatDialogAction {
     data class EventsLoaded(val list: List<Event>) : ChatDialogAction
 
     data class SetChatType(val chatType: ChatType) : ChatDialogAction
+
+    data class ChatInited(val name: String, val photo: String?) : ChatDialogAction
 }

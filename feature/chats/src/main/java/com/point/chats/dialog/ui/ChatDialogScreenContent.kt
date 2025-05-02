@@ -1,7 +1,6 @@
 package com.point.chats.dialog.ui
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +29,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.point.chats.dialog.viewmodel.ChatDialogAction.UiEvent
 import com.point.chats.dialog.viewmodel.ChatDialogState
+import com.point.navigation.Route
 import com.point.services.chats.events.models.MessageUi
 import com.point.services.chats.models.ChatType
 import com.point.ui.LocalUser
@@ -38,6 +38,7 @@ import com.point.ui.Theme
 @Composable
 internal fun ChatDialogScreenContent(
     state: ChatDialogState,
+    navigate: (Route) -> Unit,
     action: (UiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -77,9 +78,11 @@ internal fun ChatDialogScreenContent(
                     when (item) {
                         is MessageUi -> {
                             val messageFromCurrentUser = requireNotNull(LocalUser.current?.username) == item.sender
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .animateItem()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItem()
+                            ) {
                                 Message(
                                     messageUi = item,
                                     isFromCurrentUser = messageFromCurrentUser,
@@ -128,13 +131,14 @@ internal fun ChatDialogScreenContent(
             text = state.message,
             onTextChange = { action(UiEvent.TypeMessage(it)) },
             onAdd = {
-                photoPicker.launch(
-                    PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
-                        maxItems = 10,
-                        isOrderedSelection = true,
-                    )
-                )
+                navigate(Route.ChatsFeature.Camera)
+//                photoPicker.launch(
+//                    PickVisualMediaRequest(
+//                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
+//                        maxItems = 10,
+//                        isOrderedSelection = true,
+//                    )
+//                )
             },
             onSend = { action(UiEvent.SendMessage) },
             onDelete = { action(UiEvent.OnPhotoDeletedFromMessage(it)) },

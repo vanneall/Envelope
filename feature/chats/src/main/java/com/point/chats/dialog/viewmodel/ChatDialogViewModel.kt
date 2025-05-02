@@ -41,7 +41,7 @@ class ChatDialogViewModel @AssistedInject constructor(
                 chatDialogRepository.fetchChatInfo(chatId).fold(
                     onSuccess = {
                         emitAction(ChatDialogAction.SetChatType(it.type))
-                        emitEvent(ChatDialogEvent.ChatInited(it.name, it.photo))
+                        emitAction(ChatDialogAction.ChatInited(it.name, it.photo))
                     },
                     onFailure = {
                         it.printStackTrace()
@@ -105,6 +105,11 @@ class ChatDialogViewModel @AssistedInject constructor(
         is ChatDialogAction.DeleteSuccess -> state.copy(events = state.events.filter { it.id != action.id })
         ChatDialogAction.ClearField -> state.copy(message = "")
         is UiEvent.DeleteMessage -> state
+
+        is ChatDialogAction.ChatInited -> state.copy(
+            name = action.name,
+            photo = action.photo
+        )
     }
 
     private suspend fun onConnectToChat() {
