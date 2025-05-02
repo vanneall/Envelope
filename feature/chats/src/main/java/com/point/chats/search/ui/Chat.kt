@@ -18,6 +18,7 @@ import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.chats.chats.mvi.state.ChatUi
 import com.point.chats.chats.ui.ChatDescription
+import com.point.services.chats.models.MessageType
 
 @Composable
 internal fun Chat(chatUi: ChatUi, modifier: Modifier = Modifier) {
@@ -40,6 +41,7 @@ internal fun Chat(chatUi: ChatUi, modifier: Modifier = Modifier) {
         ChatDescription(
             title = chatUi.name,
             text = chatUi.lastChatEventUi.message,
+            type = MessageType.TEXT,
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)

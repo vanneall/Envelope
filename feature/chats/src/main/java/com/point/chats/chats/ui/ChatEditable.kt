@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,6 +38,9 @@ import com.point.chats.chats.mvi.actions.ChatsAction.UiEvent
 import com.point.chats.chats.mvi.state.ChatEventUi
 import com.point.chats.chats.mvi.state.ChatMode
 import com.point.chats.chats.mvi.state.ChatUi
+import com.point.services.chats.models.ChatType
+import com.point.services.chats.models.MessageType
+import com.point.ui.Theme
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -50,20 +58,34 @@ internal fun ChatEditable(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        AsyncImage(
-            model = chatUi.photo,
-            contentDescription = null,
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop,
-            error = painterResource(R.drawable.ic_person_error_24),
-            fallback = painterResource(R.drawable.ic_person_default_24),
-        )
+        if (chatUi.type == ChatType.PRIVATE) {
+            Icon(
+                imageVector = Icons.Rounded.BookmarkBorder,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(color = Theme.colorScheme.accent)
+                    .padding(8.dp),
+            )
+        } else {
+            AsyncImage(
+                model = chatUi.photo,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop,
+                error = painterResource(R.drawable.ic_person_error_24),
+                fallback = painterResource(R.drawable.ic_person_default_24),
+            )
+        }
 
         ChatDescription(
-            title = chatUi.name,
+            title = if (chatUi.type == ChatType.PRIVATE) stringResource(R.string.bookmars) else chatUi.name,
             text = chatUi.lastChatEventUi.message,
+            type = chatUi.lastChatEventUi.type,
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)
@@ -90,7 +112,7 @@ internal fun ChatEditable(
 }
 
 @Composable
-internal fun ChatDescription(title: String, text: String?, modifier: Modifier = Modifier) {
+internal fun ChatDescription(title: String, type: MessageType, text: String?, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically),
@@ -106,9 +128,13 @@ internal fun ChatDescription(title: String, text: String?, modifier: Modifier = 
             maxLines = 1,
         )
 
-        if (text != null) {
+        when (type) {
+            MessageType.IMAGE -> "Фото"
+            MessageType.CREATED -> "Чат создан"
+            MessageType.TEXT -> text
+        }?.let {
             Text(
-                text = text,
+                text = it,
                 style = TextStyle(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
@@ -159,8 +185,10 @@ private fun ChatPreview() {
                 id = "1",
                 name = "User chat",
                 photo = null,
+                type = ChatType.ONE_ON_ONE,
                 lastChatEventUi = ChatEventUi(
                     message = "User message",
+                    type = MessageType.TEXT,
                     timestamp = Instant.now(),
                 ),
             ),
@@ -182,8 +210,10 @@ private fun ChatSelectedPreview() {
                 id = "1",
                 name = "User chat",
                 photo = null,
+                type = ChatType.ONE_ON_ONE,
                 lastChatEventUi = ChatEventUi(
                     message = "User message",
+                    type = MessageType.TEXT,
                     timestamp = Instant.now(),
                 ),
             ),
@@ -205,8 +235,10 @@ private fun ChatNotSelectedPreview() {
                 id = "1",
                 name = "User chat",
                 photo = null,
+                type = ChatType.ONE_ON_ONE,
                 lastChatEventUi = ChatEventUi(
                     message = "User message",
+                    type = MessageType.TEXT,
                     timestamp = Instant.now(),
                 ),
             ),

@@ -43,6 +43,7 @@ import com.point.chats.chats.ui.ChatDescription
 import com.point.chats.creation.group.mvi.actions.ChatCreationGroupAction.UiEvent
 import com.point.chats.creation.group.mvi.state.ChatCreationGroupState
 import com.point.chats.creation.single.mvi.state.UserUi
+import com.point.services.chats.models.MessageType
 import com.point.ui.colors.Black
 
 @Composable
@@ -174,6 +175,7 @@ internal fun UserCardSelectable(
         ChatDescription(
             title = userUi.name,
             text = userUi.status,
+            type = MessageType.TEXT,
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)

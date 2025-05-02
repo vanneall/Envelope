@@ -2,6 +2,8 @@ package com.point.chats.chats.mvi.state
 
 import androidx.compose.runtime.Immutable
 import com.point.services.chats.models.ChatInfo
+import com.point.services.chats.models.ChatType
+import com.point.services.chats.models.MessageType
 import java.time.Instant
 
 
@@ -19,12 +21,14 @@ internal data class ChatState(
 internal data class ChatUi(
     val id: String,
     val name: String,
+    val type: ChatType,
     val photo: String?,
     val lastChatEventUi: ChatEventUi,
 )
 
 internal data class ChatEventUi(
     val message: String,
+    val type: MessageType,
     val timestamp: Instant,
 )
 
@@ -40,8 +44,10 @@ internal fun ChatInfo.toChatsUi() = ChatUi(
     id = id,
     name = name,
     photo = photo,
+    type = type,
     lastChatEventUi = ChatEventUi(
         message = lastMessage?.text ?: "",
+        type = lastMessage?.type ?: MessageType.CREATED,
         timestamp = lastMessage?.timestamp ?: Instant.now(),
     ),
 )

@@ -23,4 +23,5 @@
     <string name="edit">Изменить</string>
     <string name="edited">изменено</string>
     <string name="delete">Удалить</string>
+    <string name="bookmars">Закладки</string>
 </resources>
