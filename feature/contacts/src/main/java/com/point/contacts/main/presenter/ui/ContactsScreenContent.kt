@@ -1,101 +1,146 @@
 package com.point.contacts.main.presenter.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.point.contacts.R
 import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.main.presenter.viewmodel.ContactState
 import com.point.contacts.main.presenter.viewmodel.ContactsActions
 import com.point.navigation.Route
-import com.point.ui.EnvelopeTheme
-import com.point.ui.Theme
-import com.point.ui.components.user.UserBase
-import com.point.ui.components.user.UserCardInfo
-import com.point.ui.components.user.UserTextCard
+import com.point.ui.colors.Black
 
 @Composable
 fun ContactsScreenContent(
     state: ContactState,
-    onAction: (ContactsActions) -> Unit,
-    onNavigation: (Route) -> Unit,
+    action: (ContactsActions) -> Unit,
+    navigate: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-    ) {
-        state.contacts.forEach { (key, contacts) ->
-            itemsIndexed(
+    LazyColumn(modifier = modifier) {
+        state.contacts.forEach { (group, contacts) ->
+            item {
+                Text(
+                    text = group,
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                    ),
+                    color = Black,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                )
+            }
+            items(
                 items = contacts,
-                key = { _, contact -> contact.username }
-            ) { index, contact ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(start = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    if (index == 0) {
-                        Text(
-                            text = key.toString(),
-                            style = Theme.typography.titleL,
-                            color = Theme.colorScheme.textSecondary,
-                            modifier = Modifier.width(24.dp),
+                key = { contact -> contact.username }
+            ) { item ->
+                UserCard(
+                    contact = item,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(),
+                            onClick = { navigate(Route.ContactsFeature.UserProfile(item.username)) }
                         )
-                    } else {
-                        Spacer(modifier = Modifier.width(24.dp))
-                    }
-
-                    UserTextCard(
-                        user = UserCardInfo(UserBase(contact.name, contact.photo), supportText = contact.status),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(),
-                            ) {
-                                onNavigation(Route.ContactsFeature.UserProfile(contact.username))
-                            },
-                    )
-                }
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .animateItem()
+                )
             }
         }
     }
 }
 
-@Preview(locale = "ru")
+
 @Composable
-private fun ContentPreview() {
-    EnvelopeTheme {
-        ContactsScreenContent(
-            state = ContactState(
-                contacts = mapOf(
-                    'U' to listOf(Contact(username = "username", name = "User")),
-                    'R' to listOf(Contact(username = "user", name = "Ryan Gosling")),
-                ),
-            ),
-            onAction = {},
-            onNavigation = {},
+internal fun UserCard(
+    contact: Contact,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.height(intrinsicSize = IntrinsicSize.Min),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        AsyncImage(
+            model = contact.photo,
+            contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)
-                .padding(vertical = 10.dp)
+                .size(48.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop,
+            error = painterResource(R.drawable.ic_person_error_24),
+            fallback = painterResource(R.drawable.ic_person_default_24),
+        )
+
+        ChatDescription(
+            title = contact.name,
+            text = contact.status,
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
         )
     }
 }
+
+@Composable
+internal fun ChatDescription(title: String, text: String?, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically),
+    ) {
+        Text(
+            text = title,
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+            ),
+            color = TextPrimaryColor,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+        )
+
+        if (!text.isNullOrEmpty()) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                ),
+                color = TextSecondaryColor,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+            )
+        }
+    }
+}
+
+val TextPrimaryColor = Color(0xFF1E1E1E)
+val TextSecondaryColor = Color(0xFFA2A2A2)

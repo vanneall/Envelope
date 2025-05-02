@@ -1,11 +1,11 @@
 package com.point.contacts.search.viewModel
 
-import com.point.contacts.search.data.ContactState
-import com.point.contacts.search.data.toContactUserUi
+import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.search.viewModel.UserSearchAction.ModelAction
 import com.point.contacts.search.viewModel.UserSearchAction.UiAction
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.point.user.models.OtherUser
 import ru.point.user.repository.UserRepository
 import javax.inject.Inject
 
@@ -26,24 +26,27 @@ internal class SearchContactsViewModel @Inject constructor(
         UiAction.Refresh -> state.copy(isRefreshing = true)
 
         is ModelAction.LoadUserUser -> state.copy(
-            inContacts = action.contacts.inContacts.map { contact -> contact.toContactUserUi() },
-            globalContacts = action.contacts.allContacts.map { contact -> contact.toContactUserUi() },
+            inContacts = action.contacts.inContacts.map { contact -> contact.toUi() },
+            globalContacts = action.contacts.allContacts.map { contact -> contact.toUi() },
         )
 
         is ModelAction.RequestToAddSentSuccessfully -> state.copy(
-            globalContacts = state.globalContacts.map { user ->
-                if (user.username == action.username) user.copy(
-                    contactState = ContactState.REQUEST_SENT
-                ) else {
-                    user
-                }
-            },
+            globalContacts = state.globalContacts.map { user -> user },
         )
 
         is ModelAction.StopLoading -> state.copy(isRefreshing = false)
 
         is UiAction.SendRequest -> state
     }
+
+    private fun OtherUser.toUi() = Contact(
+        username = username,
+        name = name,
+        status = status,
+        photo = photo,
+        inContacts = inContacts,
+        isSentRequest = inSentRequests,
+    )
 
     private fun handleOnNameTyped() {
         handleAction<UiAction.OnNameTyped> { action ->

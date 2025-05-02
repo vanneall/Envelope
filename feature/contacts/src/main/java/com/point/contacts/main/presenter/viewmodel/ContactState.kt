@@ -1,7 +1,7 @@
 package com.point.contacts.main.presenter.viewmodel
 
 data class ContactState(
-    val contacts: Map<Char, List<Contact>> = emptyMap(),
+    val contacts: Map<String, List<Contact>> = emptyMap(),
     val isRefreshing: Boolean = false,
     val isRefreshingEnabled: Boolean = false,
     val isInitialLoading: Boolean = true,
@@ -12,7 +12,7 @@ data class ContactState(
 data class Contact(
     val username: String = "",
     val name: String = "",
-    val status: String = "",
+    val status: String? = null,
     val photo: String? = null,
     val inContacts: Boolean = false,
     val isSentRequest: Boolean = false,

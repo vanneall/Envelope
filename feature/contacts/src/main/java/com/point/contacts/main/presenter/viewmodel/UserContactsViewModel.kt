@@ -34,7 +34,7 @@ class UserContactsViewModel @Inject constructor(private val contactsRepository: 
     override fun reduce(action: ContactsActions, state: ContactState) = when (action) {
         is ContactsActions.LoadUserContacts -> state.copy(
             contacts = action.contacts.groupBy(
-                keySelector = { it.name.first() },
+                keySelector = { it.name.first().uppercase() },
                 valueTransform = {
                     Contact(
                         username = it.username,

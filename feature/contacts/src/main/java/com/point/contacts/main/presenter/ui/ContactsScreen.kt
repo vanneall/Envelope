@@ -53,8 +53,8 @@ fun ContactsScreen(
         ) {
             ContactsScreenContent(
                 state = state,
-                onAction = viewModel::emitAction,
-                onNavigation = onNavigation,
+                action = viewModel::emitAction,
+                navigate = onNavigation,
                 modifier = modifier,
             )
         }
