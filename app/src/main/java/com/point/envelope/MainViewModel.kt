@@ -18,7 +18,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val userStorage: UserStorage,
-    private val appSettingsRepository: AppSettingsRepository,
+    val appSettingsRepository: AppSettingsRepository,
 ) : ViewModel() {
 
     private val _isInitializing = MutableStateFlow(true)

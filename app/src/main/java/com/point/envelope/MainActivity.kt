@@ -1,5 +1,7 @@
 package com.point.envelope
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -54,6 +56,10 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
         val localUser = viewModel.localUser.map { user -> user?.let { LocalUser(username = it.username) } }
         val localSettings =
             viewModel.appSettings.map { settings -> AppUiSettings(useAnimations = settings.useAnimations) }
+
+        val batteryLevelReceiver = BatteryLevelReceiver(applicationContext, viewModel.appSettingsRepository)
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        applicationContext.registerReceiver(batteryLevelReceiver, filter)
 
         enableEdgeToEdge()
         setContent {

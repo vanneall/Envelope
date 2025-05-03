@@ -8,4 +8,6 @@ interface AppSettingsRepository {
     fun getSettings(): Flow<AppSettings>
 
     suspend fun changeAnimationUsage(use: Boolean)
+
+    suspend fun setBatteryThreshold(percent: Int)
 }

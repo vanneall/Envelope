@@ -21,16 +21,22 @@ internal class AppSettingsRepositoryImpl(private val sharedPrefs: SharedPreferen
 
     private val settings: AppSettings
         get() = AppSettings(
-            useAnimations = sharedPrefs.getBoolean(KEY_USE_ANIMATIONS, true)
+            useAnimations = sharedPrefs.getBoolean(KEY_USE_ANIMATIONS, true),
+            batteryThreshold = sharedPrefs.getInt(KEY_BATTERY_THRESHOLD, 20),
         )
 
     override suspend fun changeAnimationUsage(use: Boolean) {
         sharedPrefs.edit { putBoolean(KEY_USE_ANIMATIONS, use) }
     }
 
+    override suspend fun setBatteryThreshold(percent: Int) {
+        sharedPrefs.edit { putInt(KEY_BATTERY_THRESHOLD, percent) }
+    }
+
     companion object {
         const val SHARED_PREFS_NAME = "app_settings_prefs"
 
         private const val KEY_USE_ANIMATIONS = "use_animations"
+        private const val KEY_BATTERY_THRESHOLD = "battery_threshold"
     }
 }

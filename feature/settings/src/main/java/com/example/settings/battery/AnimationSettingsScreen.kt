@@ -13,9 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
     val animationsEnabled by viewModel.useAnimations.collectAsState()
-    var batteryThreshold by remember { mutableStateOf(50f) }
+    val batteryThreshold by viewModel.batteryThreshold.collectAsState()
 
     Column(
         modifier = Modifier
@@ -65,8 +62,8 @@ fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
             }
 
             Slider(
-                value = batteryThreshold,
-                onValueChange = { batteryThreshold = it },
+                value = batteryThreshold.toFloat(),
+                onValueChange = { viewModel.onBatteryThresholdChanged(it.toInt()) },
                 valueRange = 0f..100f,
                 steps = 98,
                 enabled = animationsEnabled
