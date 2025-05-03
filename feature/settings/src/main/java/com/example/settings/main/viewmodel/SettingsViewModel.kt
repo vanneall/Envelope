@@ -97,6 +97,7 @@ val settings = listOf(
         icon = Icons.Default.Palette,
         iconColor = PurpleContent,
         iconBackground = PurpleContainer,
+        route = Route.SettingsFeature.Appearance,
     ),
     AppSettings(
         textId = R.string.storage_settings,

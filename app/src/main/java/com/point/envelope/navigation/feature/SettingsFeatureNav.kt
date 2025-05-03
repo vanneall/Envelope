@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
 import com.example.settings.battery.AnimationSettingsScreen
+import com.example.settings.colors.ColorPickerScreen
 import com.example.settings.main.ui.MainSettingsScreen
 import com.example.settings.main.viewmodel.SettingsViewModel
 import com.example.settings.profile.ui.ProfileEditScreen
@@ -103,5 +104,22 @@ internal fun NavGraphBuilder.settingsFeature(
         fabState.value = FabState.Hidden
 
         AnimationSettingsScreen()
+    }
+
+    subComposable<SubRoute.Appearance>(useAnim) { entry ->
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = com.example.settings.R.string.theme_settings
+            ),
+            onBack = { navController.popBackStack() },
+            actions = listOf(
+            )
+        )
+        bottomBarState.value = BottomBarState(true)
+
+        fabState.value = FabState.Hidden
+
+        ColorPickerScreen()
     }
 }

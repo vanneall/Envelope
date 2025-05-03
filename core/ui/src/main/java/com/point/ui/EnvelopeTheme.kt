@@ -21,7 +21,9 @@ fun EnvelopeTheme(
 ) {
     CompositionLocalProvider(
         LocalTypography provides EnvelopeTypography(),
-        LocalColor provides lightColorScheme,
+        LocalColor provides lightColorScheme.copy(
+            accent = localUiSettings.color.color,
+        ),
         LocalUser provides localUser,
         LocalUiSettings provides localUiSettings,
         content = content,

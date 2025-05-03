@@ -1,5 +1,6 @@
 package com.point.settings.repository
 
+import com.point.settings.model.AppColor
 import com.point.settings.model.AppSettings
 import kotlinx.coroutines.flow.Flow
 
@@ -10,4 +11,6 @@ interface AppSettingsRepository {
     suspend fun changeAnimationUsage(use: Boolean)
 
     suspend fun setBatteryThreshold(percent: Int)
+
+    suspend fun setSelectedColor(color: AppColor)
 }

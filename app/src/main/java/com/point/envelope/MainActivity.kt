@@ -23,10 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.point.color.AppColorColor
 import com.point.envelope.bottombar.EnvelopeNavBar
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
 import com.point.settings.AppUiSettings
+import com.point.settings.model.AppColor
 import com.point.ui.EnvelopeTheme
 import com.point.ui.LocalUiSettings
 import com.point.ui.Theme
@@ -55,7 +57,18 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val localUser = viewModel.localUser.map { user -> user?.let { LocalUser(username = it.username) } }
         val localSettings =
-            viewModel.appSettings.map { settings -> AppUiSettings(useAnimations = settings.useAnimations) }
+            viewModel.appSettings.map { settings ->
+                AppUiSettings(
+                    useAnimations = settings.useAnimations, color =
+                        when (settings.selectedColor) {
+                            AppColor.RED -> AppColorColor.RED
+                            AppColor.BLUE -> AppColorColor.BLUE
+                            AppColor.GREEN -> AppColorColor.GREEN
+                            AppColor.BROWN -> AppColorColor.BROWN
+                            AppColor.PURPLE -> AppColorColor.PURPLE
+                        }
+                )
+            }
 
         val batteryLevelReceiver = BatteryLevelReceiver(applicationContext, viewModel.appSettingsRepository)
         val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
