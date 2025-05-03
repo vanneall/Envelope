@@ -7,9 +7,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.point.navigation.Route
 
 data class MainSettingsState(
-    val isRefreshing: Boolean,
-    val userData: UserData,
-    val settings: List<SettingsSection>,
+    val isRefreshing: Boolean = false,
+    val userData: UserData = UserData(),
+    val settings: List<SettingsSection> = emptyList(),
 )
 
 data class UserData(

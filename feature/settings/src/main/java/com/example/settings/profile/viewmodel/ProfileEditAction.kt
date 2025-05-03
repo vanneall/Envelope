@@ -1,12 +1,12 @@
 package com.example.settings.profile.viewmodel
 
 import android.net.Uri
-import com.example.settings.data.UserProfileDetailedResponse
+import ru.point.user.models.UserInfo
 
 sealed interface ProfileEditAction {
 
     @JvmInline
-    value class OnDataFetchedSuccess(val data: UserProfileDetailedResponse): ProfileEditAction
+    value class OnDataFetchedSuccess(val data: UserInfo) : ProfileEditAction
 
     @JvmInline
     value class OnNameEntered(val value: String) : ProfileEditAction

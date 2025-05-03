@@ -64,14 +64,6 @@ fun UserSettings(userSettings: UserSettings, onClick: () -> Unit, modifier: Modi
             modifier = Modifier.weight(1f),
         )
 
-        if (userSettings.count != 0) {
-            Text(
-                text = userSettings.count.toString(),
-                style = Theme.typography.bodyM,
-                color = Theme.colorScheme.textSecondary,
-            )
-        }
-
         Icon(
             imageVector = Icons.Default.ArrowBackIosNew,
             contentDescription = null,

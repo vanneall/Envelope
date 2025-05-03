@@ -1,6 +1,8 @@
 package com.point.envelope.navigation.feature
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,7 +21,9 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.ui.LocalUser
 import com.point.ui.scaffold.fab.FabState
+import com.point.ui.scaffold.topappbar.state.TopAppBarAction
 import com.point.ui.scaffold.topappbar.state.TopAppBarState
 import com.point.ui.scaffold.topappbar.type.AppBarType
 
@@ -67,11 +71,23 @@ internal fun NavGraphBuilder.contactsFeature(
     subComposable<SubRoute.UserProfile> {
         val userProfileData = it.toRoute<SubRoute.UserProfile>()
 
+        val username = requireNotNull(LocalUser.current?.username)
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.HeaderAppBar(
                 headerRes = R.string.profile_title
             ),
             onBack = { navController.popBackStack() },
+            actions = if (userProfileData.username == username) {
+                listOf(
+                    TopAppBarAction(
+                        icon = Icons.Rounded.Edit,
+                        action = { },
+                        tag = "EDIT_PROFILE"
+                    )
+                )
+            } else {
+                emptyList()
+            }
         )
 
         val viewModel = hiltViewModel<ProfileViewModel, ProfileViewModel.Factory> { factory ->

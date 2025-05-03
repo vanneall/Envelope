@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import androidx.lifecycle.viewModelScope
 import com.example.settings.R
-import com.example.settings.data.ContactsRepository
 import com.point.navigation.Route
 import com.point.ui.colors.BlueContainerLight
 import com.point.ui.colors.BlueContentLight
@@ -30,19 +29,20 @@ import com.point.user.storage.UserStorage
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.point.user.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userStorage: UserStorage,
-    private val contactsRepository: ContactsRepository,
+    private val contactsRepository: UserRepository,
 ) : MviViewModel<MainSettingsState, SettingsAction, SettingsEvent>(
-    initialValue = state,
+    initialValue = MainSettingsState(),
 ) {
 
     init {
         viewModelScope.launch {
-            contactsRepository.fetchUserData().fold(
+            contactsRepository.fetchUserDetailedInfo().fold(
                 onSuccess = {
                     emitAction(SettingsAction.Event.UserDataFetched(it))
                 },
@@ -63,8 +63,9 @@ class SettingsViewModel @Inject constructor(
                 username = "@${action.data.username}",
                 requests = 0,
                 contacts = 0,
-                photoId = action.data.photos.firstOrNull()?.let { uri -> "http://192.168.0.174:8084/media/$uri" }
-            )
+                photoId = action.data.photos.firstOrNull()
+            ),
+            settings = getState(action.data.username).settings
         )
         SettingsAction.Action.LeftFromAccount -> state
 
@@ -72,7 +73,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun handleOnRefresh() {
         handleAction<SettingsAction.Action.Refresh> {
-            contactsRepository.fetchUserData().fold(
+            contactsRepository.fetchUserDetailedInfo().fold(
                 onSuccess = {
                     emitAction(SettingsAction.Event.UserDataFetched(it))
                 },
@@ -120,14 +121,14 @@ val exitSettings = listOf(
     )
 )
 
-val userSettings = listOf(
+fun getUserSettings(username: String) = listOf(
     UserSettings(
         textId = R.string.edit_profile_settings,
         icon = Icons.Default.Edit,
         iconColor = BlueContentLight,
         iconBackground = BlueContainerLight,
         count = 0,
-        route = Route.SettingsFeature.ProfileEdit,
+        route = Route.ContactsFeature.UserProfile(username),
     ),
     UserSettings(
         textId = R.string.requests_settings,
@@ -147,12 +148,12 @@ val userSettings = listOf(
     )
 )
 
-val state = MainSettingsState(
+fun getState(username: String) = MainSettingsState(
     isRefreshing = false,
     userData = UserData(),
     settings = listOf(
         SettingsSection(
-            settings = userSettings,
+            settings = getUserSettings(username),
             type = Settings.Type.USER,
         ),
         SettingsSection(

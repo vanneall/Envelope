@@ -1,6 +1,6 @@
 package com.example.settings.main.viewmodel
 
-import com.example.settings.data.UserProfileDetailedResponse
+import ru.point.user.models.DetailedUserProfile
 
 sealed interface SettingsAction {
 
@@ -14,7 +14,7 @@ sealed interface SettingsAction {
     sealed interface Event : SettingsAction {
 
         data class UserDataFetched(
-            val data: UserProfileDetailedResponse,
+            val data: DetailedUserProfile,
         ) : Event
 
     }

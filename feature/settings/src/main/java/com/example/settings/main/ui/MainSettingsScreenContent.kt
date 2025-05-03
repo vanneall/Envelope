@@ -54,14 +54,6 @@ internal fun MainSettingsScreenContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            UserAvatar(
-                userData = state.userData,
-            )
-            
-            Spacer(modifier = Modifier.height(24.dp))
-        }
-        
         state.settings.forEach { section ->
             itemsIndexed(
                 items = section.settings,
