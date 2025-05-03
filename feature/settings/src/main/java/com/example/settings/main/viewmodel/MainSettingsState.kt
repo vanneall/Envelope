@@ -39,6 +39,7 @@ data class AppSettings(
     override val icon: ImageVector,
     override val iconColor: Color,
     override val iconBackground: Color,
+    val route: Route? = null,
 ) : Settings
 
 data class ExitSettings(

@@ -4,4 +4,5 @@
     <string name="chats_screen">Чаты</string>
     <string name="settings_screen">Настройки</string>
     <string name="contacts_screen">Контакты</string>
+    <string name="battery_screen">Батарея</string>
 </resources>

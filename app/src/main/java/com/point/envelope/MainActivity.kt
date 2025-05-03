@@ -26,6 +26,7 @@ import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
 import com.point.settings.AppUiSettings
 import com.point.ui.EnvelopeTheme
+import com.point.ui.LocalUiSettings
 import com.point.ui.Theme
 import com.point.ui.scaffold.fab.EnvelopeFab
 import com.point.ui.scaffold.fab.FabState
@@ -120,6 +121,7 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
                         topAppBarState = appBarState,
                         bottomBarState = bottomBarState,
                         fabState = fabState,
+                        useAnim = LocalUiSettings.current.useAnimations,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(innerPadding),

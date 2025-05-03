@@ -85,12 +85,18 @@ internal fun MainSettingsScreenContent(
                     .clip(shape = backgroundShape)
 
                 when (item) {
-                    is AppSettings -> AppSettings(appSettings = item, modifier)
+                    is AppSettings -> AppSettings(
+                        appSettings = item,
+                        modifier = modifier,
+                        onClick = { item.route?.let { onNavigate(it) } },
+                    )
+
                     is ExitSettings -> ExitSettings(
                         exitSettings = item,
                         onClick = onAction,
                         modifier = modifier,
                     )
+
                     is UserSettings -> UserSettings(
                         userSettings = item,
                         onClick = { item.route?.let { onNavigate(it) } },

@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
+import com.example.settings.battery.AnimationSettingsScreen
 import com.example.settings.main.ui.MainSettingsScreen
 import com.example.settings.main.viewmodel.SettingsViewModel
 import com.example.settings.profile.ui.ProfileEditScreen
@@ -28,11 +29,12 @@ import com.point.ui.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.settingsFeature(
     navController: NavController,
+    useAnim: Boolean,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
     fabState: MutableState<FabState>,
 ) {
-    entryComposable<EntryRoute.Settings> {
+    entryComposable<EntryRoute.Settings>(useAnim) {
 
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.HeaderAppBar(
@@ -59,7 +61,7 @@ internal fun NavGraphBuilder.settingsFeature(
         )
     }
 
-    subComposable<SubRoute.EditProfile> { entry ->
+    subComposable<SubRoute.EditProfile>(useAnim) { entry ->
         val viewModel = hiltViewModel<ProfileEditViewModel, ProfileEditViewModel.Factory> {
             it.create(username = entry.toRoute<SubRoute.EditProfile>().username)
         }
@@ -84,5 +86,22 @@ internal fun NavGraphBuilder.settingsFeature(
             onAction = viewModel::emitAction,
             modifier = Modifier.fillMaxSize(),
         )
+    }
+
+    subComposable<SubRoute.Battery>(useAnim) { entry ->
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = com.example.settings.R.string.battery_settings
+            ),
+            onBack = { navController.popBackStack() },
+            actions = listOf(
+            )
+        )
+        bottomBarState.value = BottomBarState(true)
+
+        fabState.value = FabState.Hidden
+
+        AnimationSettingsScreen()
     }
 }

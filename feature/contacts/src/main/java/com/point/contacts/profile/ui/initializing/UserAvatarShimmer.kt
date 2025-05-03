@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import com.point.ui.LocalUiSettings
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.shimmer
 
@@ -17,7 +18,7 @@ internal fun UserAvatarShimmer(
 ) {
     Box(
         modifier = modifier
-            .shimmer(shimmer)
+            .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
             .clip(CircleShape)
             .background(color = Color.Gray),
     )

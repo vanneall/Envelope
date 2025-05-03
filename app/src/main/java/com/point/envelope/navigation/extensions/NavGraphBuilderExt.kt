@@ -1,6 +1,8 @@
 package com.point.envelope.navigation.extensions
 
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,34 +20,74 @@ import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 
 
 inline fun <reified T : SubRoute> NavGraphBuilder.subComposable(
+    useAnim: Boolean = true,
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
     composable<T>(
-        enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-        exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        enterTransition = {
+            if (useAnim) {
+                slideInHorizontally(initialOffsetX = { it })
+            } else EnterTransition.None
+        },
+        exitTransition = {
+            if (useAnim) {
+                slideOutHorizontally(targetOffsetX = { -it })
+            } else ExitTransition.None
+        },
+        popEnterTransition = {
+            if (useAnim) {
+                slideInHorizontally(initialOffsetX = { -it })
+            } else EnterTransition.None
+        },
+        popExitTransition = {
+            if (useAnim) {
+                slideOutHorizontally(targetOffsetX = { it })
+            } else ExitTransition.None
+        },
         content = content,
     )
 }
 
 inline fun <reified T : EntryRoute> NavGraphBuilder.entryComposable(
+    useAnim: Boolean = true,
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
     composable<T>(
         enterTransition = {
-            slideInVertically(
-                initialOffsetY = { it / 2 }
-            ) + scaleIn(
-                initialScale = 0.85f,
-                animationSpec = tween(ANIM_DURATION, easing = FastOutSlowInEasing)
-            ) + fadeIn(
-                animationSpec = tween(ANIM_DURATION)
-            )
+            if (useAnim) {
+                slideInVertically(
+                    initialOffsetY = { it / 2 }
+                ) + scaleIn(
+                    initialScale = 0.85f,
+                    animationSpec = tween(ANIM_DURATION, easing = FastOutSlowInEasing)
+                ) + fadeIn(
+                    animationSpec = tween(ANIM_DURATION)
+                )
+            } else {
+                EnterTransition.None
+            }
         },
-        exitTransition = { fadeOut(animationSpec = tween(0)) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        exitTransition = {
+            if (useAnim) {
+                fadeOut(animationSpec = tween(0))
+            } else {
+                ExitTransition.None
+            }
+        },
+        popEnterTransition = {
+            if (useAnim) {
+                slideInHorizontally(initialOffsetX = { -it })
+            } else {
+                EnterTransition.None
+            }
+        },
+        popExitTransition = {
+            if (useAnim) {
+                slideOutHorizontally(targetOffsetX = { it })
+            } else {
+                ExitTransition.None
+            }
+        },
         content = content,
     )
 }

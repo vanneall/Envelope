@@ -46,11 +46,12 @@ import com.point.ui.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.chatsFeature(
     navController: NavController,
+    useAnim: Boolean,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
     fabState: MutableState<FabState>,
 ) {
-    entryComposable<EntryRoute.Chats> {
+    entryComposable<EntryRoute.Chats>(useAnim) {
         val focusManager = LocalFocusManager.current
         LaunchedEffect(Unit) {
             focusManager.clearFocus()
@@ -69,7 +70,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.SearchChats> {
+    subComposable<SubRoute.SearchChats>(useAnim) {
 
         fabState.value = FabState.Hidden
 
@@ -80,7 +81,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.Messaging> {
+    subComposable<SubRoute.Messaging>(useAnim) {
         val args = it.toRoute<SubRoute.Messaging>()
 
         val viewModel: ChatDialogViewModel = hiltViewModel<ChatDialogViewModel, ChatDialogViewModel.Factory>(
@@ -156,7 +157,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.ChatCreation> {
+    subComposable<SubRoute.ChatCreation>(useAnim) {
         bottomBarState.value = BottomBarState(false)
 
         fabState.value = FabState.Hidden
@@ -177,7 +178,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.ChatCreationGroup> {
+    subComposable<SubRoute.ChatCreationGroup>(useAnim) {
 
         bottomBarState.value = BottomBarState(false)
 
@@ -188,7 +189,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.GroupChatCreationConfirm> {
+    subComposable<SubRoute.GroupChatCreationConfirm>(useAnim) {
 
         val ids = it.toRoute<SubRoute.GroupChatCreationConfirm>().ids
 
@@ -209,7 +210,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.MultiChatInfo> {
+    subComposable<SubRoute.MultiChatInfo>(useAnim) {
         val args = it.toRoute<SubRoute.MultiChatInfo>()
 
         topAppBarState.value = TopAppBarState(
@@ -236,7 +237,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.Camera> {
+    subComposable<SubRoute.Camera>(useAnim) {
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.Invisible,
             onBack = { navController.popBackStack() }
@@ -259,7 +260,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.Gallery> {
+    subComposable<SubRoute.Gallery>(useAnim) {
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.HeaderAppBar(header = "Галерея"),
             onBack = { navController.popBackStack() }
@@ -273,7 +274,7 @@ internal fun NavGraphBuilder.chatsFeature(
         )
     }
 
-    subComposable<SubRoute.Photo> {
+    subComposable<SubRoute.Photo>(useAnim) {
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.Invisible,
             onBack = { navController.popBackStack() }

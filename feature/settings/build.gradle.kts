@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":core:user"))
+    implementation(project(":core:settings"))
     implementation(project(":core:services:user"))
     implementation(project(":core:utils"))
     api(project(":core:network"))

@@ -3,4 +3,5 @@
     <string name="chats_screen">Chats</string>
     <string name="settings_screen">Settings</string>
     <string name="contacts_screen">Contacts</string>
+    <string name="battery_screen">Battery</string>
 </resources>

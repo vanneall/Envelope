@@ -69,6 +69,9 @@ sealed interface ComposeNavigationRoute {
         data object Gallery : SubRoute
 
         @Serializable
+        data object Battery : SubRoute
+
+        @Serializable
         data class Photo(val uri: String) : SubRoute
     }
 }
@@ -94,4 +97,5 @@ val Route.asComposeRoute: ComposeNavigationRoute
 
         SettingsFeature.Settings -> EntryRoute.Settings
         is SettingsFeature.ProfileEdit -> SubRoute.EditProfile(username = username)
+        is SettingsFeature.Battery -> SubRoute.Battery
     }

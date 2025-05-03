@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.point.ui.LocalUiSettings
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -55,11 +56,11 @@ internal fun ProfileScreenContentShimmer(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(8.dp),
                 titleModifier = Modifier
-                    .shimmer(shimmer)
+                    .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                     .width(140.dp)
                     .background(color = Color.Gray, shape = RoundedCornerShape(12.dp)),
                 descriptionModifier = Modifier
-                    .shimmer(shimmer)
+                    .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                     .width(100.dp)
                     .background(color = Color.Gray, shape = RoundedCornerShape(12.dp))
             )
@@ -69,11 +70,11 @@ internal fun ProfileScreenContentShimmer(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp), titleModifier = Modifier
-                .shimmer(shimmer)
+                .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                 .width(140.dp)
                 .background(color = Color.Gray, shape = RoundedCornerShape(12.dp)),
             descriptionModifier = Modifier
-                .shimmer(shimmer)
+                .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                 .width(280.dp)
                 .height(60.dp)
                 .background(color = Color.Gray, shape = RoundedCornerShape(12.dp))
@@ -83,11 +84,11 @@ internal fun ProfileScreenContentShimmer(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp), titleModifier = Modifier
-                .shimmer(shimmer)
+                .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                 .width(140.dp)
                 .background(color = Color.Gray, shape = RoundedCornerShape(12.dp)),
             descriptionModifier = Modifier
-                .shimmer(shimmer)
+                .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                 .fillMaxWidth()
                 .height(140.dp)
                 .background(color = Color.Gray, shape = RoundedCornerShape(12.dp))

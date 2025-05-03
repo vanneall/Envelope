@@ -17,6 +17,7 @@ import com.point.ui.scaffold.topappbar.state.TopAppBarState
 fun EnvelopeNavHost(
     navHostController: NavHostController,
     startDestination: ComposeNavigationRoute,
+    useAnim: Boolean,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
     fabState: MutableState<FabState>,
@@ -38,6 +39,7 @@ fun EnvelopeNavHost(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            useAnim = useAnim,
             fabState = fabState,
         )
 
@@ -45,6 +47,7 @@ fun EnvelopeNavHost(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            useAnim = useAnim,
             fabState = fabState,
         )
 
@@ -52,6 +55,7 @@ fun EnvelopeNavHost(
             navController = navHostController,
             topAppBarState = topAppBarState,
             bottomBarState = bottomBarState,
+            useAnim = useAnim,
             fabState = fabState,
         )
     }

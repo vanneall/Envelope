@@ -2,6 +2,12 @@ package com.point.chats.dialog.ui
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +50,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.point.chats.R
+import com.point.ui.LocalUiSettings
 import kotlinx.coroutines.flow.debounce
 
 @Composable
@@ -59,7 +66,9 @@ internal fun MessageField(
     val mText = remember(text) { mutableStateOf(text) }
     Column(modifier = modifier) {
         AnimatedVisibility(
-            visible = content.isNotEmpty()
+            visible = content.isNotEmpty(),
+            enter = if (LocalUiSettings.current.useAnimations) fadeIn() + expandVertically() else EnterTransition.None,
+            exit = if (LocalUiSettings.current.useAnimations) fadeOut() + shrinkOut() else ExitTransition.None
         ) {
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),

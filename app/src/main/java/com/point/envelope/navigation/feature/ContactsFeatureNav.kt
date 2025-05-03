@@ -30,11 +30,12 @@ import com.point.ui.scaffold.topappbar.type.AppBarType
 
 internal fun NavGraphBuilder.contactsFeature(
     navController: NavController,
+    useAnim: Boolean,
     topAppBarState: MutableState<TopAppBarState>,
     bottomBarState: MutableState<BottomBarState>,
     fabState: MutableState<FabState>,
 ) {
-    entryComposable<EntryRoute.Contacts> {
+    entryComposable<EntryRoute.Contacts>(useAnim) {
         bottomBarState.value = BottomBarState(true)
         fabState.value = FabState.Hidden
 
@@ -45,7 +46,7 @@ internal fun NavGraphBuilder.contactsFeature(
         )
     }
 
-    subComposable<SubRoute.SearchContacts> {
+    subComposable<SubRoute.SearchContacts>(useAnim) {
         bottomBarState.value = BottomBarState(true)
         fabState.value = FabState.Hidden
 
@@ -57,7 +58,7 @@ internal fun NavGraphBuilder.contactsFeature(
         )
     }
 
-    subComposable<SubRoute.NotificationContacts> {
+    subComposable<SubRoute.NotificationContacts>(useAnim) {
         bottomBarState.value = BottomBarState(true)
         fabState.value = FabState.Hidden
 
@@ -69,7 +70,7 @@ internal fun NavGraphBuilder.contactsFeature(
         )
     }
 
-    subComposable<SubRoute.UserProfile> {
+    subComposable<SubRoute.UserProfile>(useAnim) {
         val userProfileData = it.toRoute<SubRoute.UserProfile>()
 
         val username = requireNotNull(LocalUser.current?.username)

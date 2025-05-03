@@ -109,6 +109,7 @@ val settings = listOf(
         icon = Icons.Default.BatterySaver,
         iconColor = CyanContent,
         iconBackground = CyanContainer,
+        route = Route.SettingsFeature.Battery,
     ),
 )
 
