@@ -21,6 +21,7 @@ import com.point.envelope.navigation.extensions.subComposable
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.EntryRoute
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute.SubRoute
 import com.point.envelope.navigation.navhost.asComposeRoute
+import com.point.navigation.Route
 import com.point.ui.LocalUser
 import com.point.ui.scaffold.fab.FabState
 import com.point.ui.scaffold.topappbar.state.TopAppBarAction
@@ -81,7 +82,7 @@ internal fun NavGraphBuilder.contactsFeature(
                 listOf(
                     TopAppBarAction(
                         icon = Icons.Rounded.Edit,
-                        action = { },
+                        action = { navController.navigate(Route.SettingsFeature.ProfileEdit(username).asComposeRoute) },
                         tag = "EDIT_PROFILE"
                     )
                 )

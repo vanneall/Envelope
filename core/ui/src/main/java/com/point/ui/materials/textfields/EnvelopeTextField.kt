@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.debounce
 import kotlin.time.Duration
@@ -41,6 +42,7 @@ fun EnvelopeTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
+    placeholder: String = "",
     supportingText: String? = null,
     labelText: String? = null,
 ) {
@@ -57,10 +59,11 @@ fun EnvelopeTextField(
             )
         }
 
-        var text by remember { mutableStateOf(value) }
+        var text by remember(value) { mutableStateOf(value) }
         TextField(
             value = text,
             onValueChange = { text = it },
+            placeholder = { Text(text = placeholder, color = Theme.colorScheme.textSecondary, fontSize = 14.sp) },
             maxLines = maxLines,
             singleLine = singleLine,
             keyboardOptions = keyboardOptions,
@@ -94,7 +97,7 @@ fun EnvelopeTextField(
             )
         }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(text) {
             snapshotFlow { text }
                 .debounce(timeout = { debounce })
                 .collect { text -> onValueChange(text) }

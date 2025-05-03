@@ -9,4 +9,13 @@
     <string name="theme_settings">App theme</string>
     
     <string name="exit_settings">Exit</string>
+
+    <string name="name">Name</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="about">About</string>
+    <string name="enter_about">Enter about you</string>
+    <string name="status">Status</string>
+    <string name="enter_status">Share your status</string>
+    <string name="bd">Birth Date</string>
+    <string name="enter_bd">Your birthday</string>
 </resources>

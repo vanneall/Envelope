@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.toRoute
 import com.example.settings.main.ui.MainSettingsScreen
 import com.example.settings.main.viewmodel.SettingsViewModel
 import com.example.settings.profile.ui.ProfileEditScreen
@@ -58,9 +59,10 @@ internal fun NavGraphBuilder.settingsFeature(
         )
     }
 
-    subComposable<SubRoute.EditProfile> {
-
-        val viewModel = hiltViewModel<ProfileEditViewModel>()
+    subComposable<SubRoute.EditProfile> { entry ->
+        val viewModel = hiltViewModel<ProfileEditViewModel, ProfileEditViewModel.Factory> {
+            it.create(username = entry.toRoute<SubRoute.EditProfile>().username)
+        }
 
         topAppBarState.value = TopAppBarState(
             appBarType = AppBarType.HeaderAppBar(

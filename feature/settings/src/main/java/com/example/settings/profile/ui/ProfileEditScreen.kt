@@ -23,7 +23,7 @@ fun ProfileEditScreen(
         ProfileEditScreenContent(
             state = state,
             onAction = onAction,
-            modifier = modifier.padding(horizontal = 12.dp)
+            modifier = modifier.padding(horizontal = 10.dp)
         )
     }
 }

@@ -2,6 +2,7 @@ package com.example.settings.profile.viewmodel
 
 import android.net.Uri
 import ru.point.user.models.UserInfo
+import java.time.LocalDate
 
 sealed interface ProfileEditAction {
 
@@ -20,4 +21,7 @@ sealed interface ProfileEditAction {
 
     @JvmInline
     value class PickPhoto(val uri: Uri) : ProfileEditAction
+
+    @JvmInline
+    value class PickDate(val localDate: LocalDate) : ProfileEditAction
 }

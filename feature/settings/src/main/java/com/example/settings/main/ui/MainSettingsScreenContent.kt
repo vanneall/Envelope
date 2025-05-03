@@ -130,7 +130,7 @@ private fun MainSettingsScreenContentPreview() {
             iconColor = BlueContentLight,
             iconBackground = BlueContainerLight,
             count = 0,
-            route = Route.SettingsFeature.ProfileEdit,
+//            route = Route.SettingsFeature.ProfileEdit,
         ),
         UserSettings(
             textId = R.string.requests_settings,

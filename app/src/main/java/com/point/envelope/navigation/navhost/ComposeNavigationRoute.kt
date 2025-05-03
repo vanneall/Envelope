@@ -57,7 +57,7 @@ sealed interface ComposeNavigationRoute {
         data object ChatCreationGroup : SubRoute
 
         @Serializable
-        data object EditProfile : SubRoute
+        data class EditProfile(val username: String) : SubRoute
 
         @Serializable
         data class GroupChatCreationConfirm(val ids: List<String>) : SubRoute
@@ -93,5 +93,5 @@ val Route.asComposeRoute: ComposeNavigationRoute
         is ChatsFeature.Photo -> SubRoute.Photo(Uri.encode(uri.toString()))
 
         SettingsFeature.Settings -> EntryRoute.Settings
-        SettingsFeature.ProfileEdit -> SubRoute.EditProfile
+        is SettingsFeature.ProfileEdit -> SubRoute.EditProfile(username = username)
     }

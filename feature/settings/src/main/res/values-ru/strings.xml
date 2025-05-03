@@ -9,4 +9,13 @@
     <string name="theme_settings">Оформление</string>
 
     <string name="exit_settings">Выйти из аккаунта</string>
+
+    <string name="name">Имя</string>
+    <string name="enter_name">Ваше имя</string>
+    <string name="about">О себе</string>
+    <string name="enter_about">Расскажите о себе</string>
+    <string name="status">Статус</string>
+    <string name="enter_status">Поделитесь своим статусом</string>
+    <string name="bd">Дата рождения</string>
+    <string name="enter_bd">Ваш день рождения</string>
 </resources>
