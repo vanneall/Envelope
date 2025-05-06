@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.point.chats.multi.info.viewmodel.MultiChatInfoAction
 import com.point.chats.multi.info.viewmodel.UserInfo
+import com.point.ui.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,14 +32,17 @@ fun UserInfoBottomSheet(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Text(text = userInfo.name)
+            Text(text = userInfo.name, style = Theme.typography.bodyM)
 
             with(userInfo.userRole) {
                 AbilityCard("Can pin messages", canSentMessages, {}, Modifier.fillMaxWidth())
                 AbilityCard("Can sent messages", canSentMessages, {}, Modifier.fillMaxWidth())
             }
 
-            Text("Удалить", Modifier.clickable { onAction(MultiChatInfoAction.UiAction.DeleteUser(userInfo.id)) })
+            Text(
+                "Удалить",
+                style = Theme.typography.bodyM,
+                modifier = Modifier.clickable { onAction(MultiChatInfoAction.UiAction.DeleteUser(userInfo.id)) })
         }
     }
 }
@@ -50,7 +54,7 @@ private fun AbilityCard(title: String, checked: Boolean, onCheck: (Boolean) -> U
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = title)
+        Text(text = title, style = Theme.typography.bodyM)
 
         Switch(
             checked = checked,

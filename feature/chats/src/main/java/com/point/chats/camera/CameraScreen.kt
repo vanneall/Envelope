@@ -58,7 +58,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
@@ -67,6 +66,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.point.navigation.Route
+import com.point.ui.Theme
 import timber.log.Timber
 import java.io.File
 
@@ -237,7 +237,7 @@ fun CameraScreen(
                     Text(
                         text = if (state.aspectRatio == AspectRatioOption.RATIO_16_9) "16:9" else "4:3",
                         color = Color.Black,
-                        fontSize = 14.sp,
+                        style = Theme.typography.bodyM,
                         fontWeight = FontWeight.SemiBold
                     )
                 }

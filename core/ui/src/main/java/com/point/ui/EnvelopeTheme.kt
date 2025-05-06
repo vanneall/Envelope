@@ -7,6 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.unit.sp
 import com.point.settings.AppUiSettings
 import com.point.ui.colors.EnvelopeColors
 import com.point.ui.colors.lightColorScheme
@@ -19,8 +20,23 @@ fun EnvelopeTheme(
     localUiSettings: AppUiSettings = AppUiSettings(),
     content: @Composable () -> Unit,
 ) {
+    val baseTypography = EnvelopeTypography()
+    val spacingSp = localUiSettings.access.letterSpacing.toSp().sp
+    val adjustedTypography = EnvelopeTypography(
+        headlineL = baseTypography.headlineL.copy(letterSpacing = spacingSp),
+        headlineM = baseTypography.headlineM.copy(letterSpacing = spacingSp),
+        titleL = baseTypography.titleL.copy(letterSpacing = spacingSp),
+        titleM = baseTypography.titleM.copy(letterSpacing = spacingSp),
+        titleS = baseTypography.titleS.copy(letterSpacing = spacingSp),
+        bodyL = baseTypography.bodyL.copy(letterSpacing = spacingSp),
+        bodyM = baseTypography.bodyM.copy(letterSpacing = spacingSp),
+        bodyS = baseTypography.bodyS.copy(letterSpacing = spacingSp),
+        labelL = baseTypography.labelL.copy(letterSpacing = spacingSp),
+        labelM = baseTypography.labelM.copy(letterSpacing = spacingSp),
+        labelS = baseTypography.labelS.copy(letterSpacing = spacingSp)
+    )
     CompositionLocalProvider(
-        LocalTypography provides EnvelopeTypography(),
+        LocalTypography provides adjustedTypography,
         LocalColor provides lightColorScheme.copy(
             accent = localUiSettings.color.color,
         ),

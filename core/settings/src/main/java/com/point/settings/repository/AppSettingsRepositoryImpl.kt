@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.point.settings.model.AppColor
 import com.point.settings.model.AppSettings
+import com.point.settings.model.LetterSpacingPresetSettings
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -24,6 +25,9 @@ internal class AppSettingsRepositoryImpl(private val sharedPrefs: SharedPreferen
         get() = AppSettings(
             useAnimations = sharedPrefs.getBoolean(KEY_USE_ANIMATIONS, true),
             batteryThreshold = sharedPrefs.getInt(KEY_BATTERY_THRESHOLD, 20),
+            letterSpacing = LetterSpacingPresetSettings.entries.firstOrNull {
+                it.name == sharedPrefs.getString(KEY_LETTER_SPACING, "")
+            } ?: LetterSpacingPresetSettings.NORMAL,
             selectedColor = AppColor.valueOf(
                 sharedPrefs.getString(KEY_SELECTED_COLOR, AppColor.BLUE.name) ?: AppColor.BLUE.name
             ),
@@ -41,11 +45,16 @@ internal class AppSettingsRepositoryImpl(private val sharedPrefs: SharedPreferen
         sharedPrefs.edit { putString(KEY_SELECTED_COLOR, color.name) }
     }
 
+    override suspend fun setLetterSpacingPreset(preset: LetterSpacingPresetSettings) {
+        sharedPrefs.edit { putString(KEY_LETTER_SPACING, preset.name) }
+    }
+
     companion object {
         const val SHARED_PREFS_NAME = "app_settings_prefs"
 
         private const val KEY_USE_ANIMATIONS = "use_animations"
         private const val KEY_BATTERY_THRESHOLD = "battery_threshold"
         private const val KEY_SELECTED_COLOR = "selected_color"
+        const val KEY_LETTER_SPACING = "letter_spacing_preset"
     }
 }

@@ -26,12 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.chats.chats.mvi.actions.ChatsAction.UiEvent
@@ -119,10 +117,8 @@ internal fun ChatDescription(title: String, type: MessageType, text: String?, mo
     ) {
         Text(
             text = title,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-            ),
+            style = Theme.typography.bodyL,
+            fontWeight = FontWeight.Medium,
             color = TextPrimaryColor,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -135,10 +131,7 @@ internal fun ChatDescription(title: String, type: MessageType, text: String?, mo
         }?.let {
             Text(
                 text = it,
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                ),
+                style = Theme.typography.bodyS,
                 color = TextSecondaryColor,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2,
@@ -163,10 +156,7 @@ internal fun TimeText(instant: Instant, modifier: Modifier = Modifier) {
 
     Text(
         text = formattedText,
-        style = TextStyle(
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-        ),
+        style = Theme.typography.bodyS,
         color = TextSecondaryColor,
         maxLines = 1,
         modifier = modifier,

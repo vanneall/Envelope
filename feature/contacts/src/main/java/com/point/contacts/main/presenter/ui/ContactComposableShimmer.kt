@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.point.ui.LocalUiSettings
+import com.point.ui.Theme
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -62,6 +63,7 @@ fun ContactComposableShimmer(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = "",
+                style = Theme.typography.bodyM,
                 modifier = Modifier
                     .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                     .background(color = Color.Gray, shape = RoundedCornerShape(12.dp))
@@ -70,6 +72,7 @@ fun ContactComposableShimmer(modifier: Modifier = Modifier) {
 
             Text(
                 text = "",
+                style = Theme.typography.bodyM,
                 modifier = Modifier
                     .then(if (LocalUiSettings.current.useAnimations) Modifier.shimmer(shimmer) else Modifier)
                     .background(color = Color.Gray, shape = RoundedCornerShape(12.dp))

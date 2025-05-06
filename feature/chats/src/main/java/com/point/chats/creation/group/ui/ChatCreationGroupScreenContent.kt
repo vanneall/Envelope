@@ -33,10 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.chats.chats.ui.ChatDescription
@@ -44,6 +41,7 @@ import com.point.chats.creation.group.mvi.actions.ChatCreationGroupAction.UiEven
 import com.point.chats.creation.group.mvi.state.ChatCreationGroupState
 import com.point.chats.creation.single.mvi.state.UserUi
 import com.point.services.chats.models.MessageType
+import com.point.ui.Theme
 import com.point.ui.colors.Black
 
 @Composable
@@ -75,10 +73,7 @@ internal fun ChatCreationGroupScreenContent(
             ) {
                 Text(
                     text = stringResource(R.string.invite_to_invite),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                    ),
+                    style = Theme.typography.bodyS,
                     color = Black,
                 )
             }
@@ -88,10 +83,7 @@ internal fun ChatCreationGroupScreenContent(
                 item {
                     Text(
                         text = group,
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                        ),
+                        style = Theme.typography.bodyM,
                         color = Black,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                     )
@@ -140,10 +132,7 @@ internal fun UserChips(userUi: UserUi, modifier: Modifier) {
 
         Text(
             text = userUi.name,
-            style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-            ),
+            style = Theme.typography.bodyS,
             color = Black,
         )
     }

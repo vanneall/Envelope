@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.point.auth.R
 import com.point.auth.authorization.presenter.viewmodel.AuthAction
 import com.point.auth.authorization.presenter.viewmodel.AuthAction.Action.Authorization
@@ -41,7 +40,7 @@ internal fun AuthorizationButtons(
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
-            Text(text = stringResource(R.string.sign_in), fontSize = 16.sp)
+            Text(text = stringResource(R.string.sign_in), style = Theme.typography.bodyL)
         }
 
         Button(
@@ -56,7 +55,7 @@ internal fun AuthorizationButtons(
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
-            Text(text = stringResource(R.string.registration_button), fontSize = 16.sp)
+            Text(text = stringResource(R.string.registration_button), style = Theme.typography.bodyL)
         }
     }
 }

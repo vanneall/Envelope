@@ -29,12 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.point.contacts.R
 import com.point.contacts.main.presenter.ui.TextPrimaryColor
@@ -42,6 +40,7 @@ import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.requests.viewModel.RequestsAction.UiAction
 import com.point.contacts.requests.viewModel.RequestsState
 import com.point.navigation.Route
+import com.point.ui.Theme
 import com.point.ui.materials.buttons.styled.ButtonStyle
 import com.point.ui.materials.buttons.styled.PrimaryButton
 import com.point.ui.materials.buttons.styled.SecondaryButton
@@ -143,10 +142,7 @@ internal fun ChatDescriptionButton(
     ) {
         Text(
             text = title,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-            ),
+            style = Theme.typography.titleM,
             color = TextPrimaryColor,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -204,6 +200,7 @@ fun SegmentedSwitch(
                 Text(
                     text = title,
                     color = if (isSelected) Color.White else Color.Black,
+                    style = Theme.typography.bodyM,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center
                 )

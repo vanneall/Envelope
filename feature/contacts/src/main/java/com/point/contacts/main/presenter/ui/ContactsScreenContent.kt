@@ -24,17 +24,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.point.contacts.R
 import com.point.contacts.main.presenter.viewmodel.Contact
 import com.point.contacts.main.presenter.viewmodel.ContactState
 import com.point.contacts.main.presenter.viewmodel.ContactsActions
 import com.point.navigation.Route
+import com.point.ui.Theme
 import com.point.ui.colors.Black
 
 @Composable
@@ -49,10 +48,8 @@ fun ContactsScreenContent(
             item {
                 Text(
                     text = group,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                    ),
+                    style = Theme.typography.bodyM,
+                    fontWeight = FontWeight.Medium,
                     color = Black,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
@@ -118,10 +115,7 @@ internal fun ChatDescription(title: String, text: String?, modifier: Modifier = 
     ) {
         Text(
             text = title,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-            ),
+            style = Theme.typography.titleL,
             color = TextPrimaryColor,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -130,10 +124,7 @@ internal fun ChatDescription(title: String, text: String?, modifier: Modifier = 
         if (!text.isNullOrEmpty()) {
             Text(
                 text = text,
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                ),
+                style = Theme.typography.bodyS,
                 color = TextSecondaryColor,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2,

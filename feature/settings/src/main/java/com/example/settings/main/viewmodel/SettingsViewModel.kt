@@ -3,11 +3,11 @@ package com.example.settings.main.viewmodel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.BatterySaver
-import androidx.compose.material.icons.filled.DataUsage
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.rounded.Accessibility
 import androidx.lifecycle.viewModelScope
 import com.example.settings.R
 import com.point.navigation.Route
@@ -100,10 +100,11 @@ val settings = listOf(
         route = Route.SettingsFeature.Appearance,
     ),
     AppSettings(
-        textId = R.string.storage_settings,
-        icon = Icons.Default.DataUsage,
+        textId = R.string.accessibility_settings,
+        icon = Icons.Rounded.Accessibility,
         iconColor = GrayContentLight,
         iconBackground = GrayContainerLight,
+        route = Route.SettingsFeature.Accessibility,
     ),
     AppSettings(
         textId = R.string.battery_settings,

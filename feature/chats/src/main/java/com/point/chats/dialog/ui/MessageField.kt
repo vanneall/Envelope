@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.ui.LocalUiSettings
+import com.point.ui.Theme
 import kotlinx.coroutines.flow.debounce
 
 @Composable
@@ -113,7 +114,13 @@ internal fun MessageField(
         TextField(
             value = mText.value,
             maxLines = 5,
-            placeholder = { Text(text = stringResource(R.string.message), color = Color(0xffA2A2A2)) },
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.message),
+                    style = Theme.typography.bodyM,
+                    color = Color(0xffA2A2A2)
+                )
+            },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,

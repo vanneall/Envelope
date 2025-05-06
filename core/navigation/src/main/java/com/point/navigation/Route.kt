@@ -49,6 +49,8 @@ sealed interface Route {
 
         data object Battery : SettingsFeature
 
+        data object Accessibility : SettingsFeature
+
         data object Appearance : SettingsFeature
 
         data class ProfileEdit(val username: String) : SettingsFeature

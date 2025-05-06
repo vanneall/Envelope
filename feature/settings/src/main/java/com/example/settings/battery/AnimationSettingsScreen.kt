@@ -6,17 +6,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.point.ui.Theme
 
 @Composable
 fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
@@ -36,12 +39,16 @@ fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
         ) {
             Text(
                 text = "Анимации",
-                style = MaterialTheme.typography.bodyLarge,
+                style = Theme.typography.bodyL,
                 modifier = Modifier.weight(1f)
             )
             Switch(
                 checked = animationsEnabled,
-                onCheckedChange = { viewModel.onAnimationToggled(it) }
+                onCheckedChange = { viewModel.onAnimationToggled(it) },
+                colors = SwitchDefaults.colors(
+                    checkedTrackColor = Theme.colorScheme.accent,
+                    checkedBorderColor = Color.Transparent
+                )
             )
         }
 
@@ -52,12 +59,12 @@ fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
             ) {
                 Text(
                     text = "Отключать при заряде ниже:",
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = Theme.typography.bodyL,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "${batteryThreshold.toInt()}%",
-                    style = MaterialTheme.typography.bodyLarge
+                    text = "$batteryThreshold%",
+                    style = Theme.typography.bodyL,
                 )
             }
 
@@ -66,7 +73,12 @@ fun AnimationSettingsScreen(viewModel: BatteryViewModel = hiltViewModel()) {
                 onValueChange = { viewModel.onBatteryThresholdChanged(it.toInt()) },
                 valueRange = 0f..100f,
                 steps = 98,
-                enabled = animationsEnabled
+                enabled = animationsEnabled,
+                colors = SliderDefaults.colors(
+                    activeTrackColor = Theme.colorScheme.accent,
+                    inactiveTrackColor = Theme.colorScheme.secondary,
+                    thumbColor = Theme.colorScheme.accent,
+                )
             )
         }
     }

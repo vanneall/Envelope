@@ -141,7 +141,7 @@ private fun MessageItemMenu(
                 )
             },
             text = {
-                Text(text = stringResource(R.string.edit))
+                Text(text = stringResource(R.string.edit), style = Theme.typography.bodyS)
             },
             onClick = {
                 action(UiEvent.EditMessage(id = id, text = text))
@@ -163,7 +163,7 @@ private fun MessageItemMenu(
                 )
             },
             text = {
-                Text(text = stringResource(R.string.delete))
+                Text(text = stringResource(R.string.delete), style = Theme.typography.bodyS)
             },
             onClick = {
                 action(UiEvent.DeleteMessage(id = id))

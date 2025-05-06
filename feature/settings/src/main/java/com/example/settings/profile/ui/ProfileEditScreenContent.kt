@@ -57,7 +57,6 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 @Composable
 internal fun ProfileEditScreenContent(
@@ -194,12 +193,12 @@ fun EditableDateField(
                     }
                     showDialog = false
                 }) {
-                    Text("ОК", color = Theme.colorScheme.accent)
+                    Text("ОК", color = Theme.colorScheme.accent, style = Theme.typography.bodyM)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Отмена", color = Theme.colorScheme.accent)
+                    Text("Отмена", color = Theme.colorScheme.accent, style = Theme.typography.bodyM)
                 }
             }
         ) {
@@ -241,6 +240,7 @@ fun EditableDateField(
                 Text(
                     text = selectedDate.format(formatter) ?: "Выбрать дату",
                     color = Theme.colorScheme.textSecondary,
+                    style = Theme.typography.bodyM,
                     modifier = Modifier.weight(1f)
                 )
                 Icon(
@@ -252,20 +252,6 @@ fun EditableDateField(
         }
     }
 }
-
-
-@Composable
-fun SelectedDateText(date: LocalDate?) {
-    val formatter = remember {
-        DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale("ru"))
-    }
-
-    Text(
-        text = date?.format(formatter) ?: "Дата не выбрана",
-        style = Theme.typography.bodyM
-    )
-}
-
 
 @Preview(locale = "ru")
 @Composable

@@ -27,8 +27,11 @@ import com.point.color.AppColorColor
 import com.point.envelope.bottombar.EnvelopeNavBar
 import com.point.envelope.navigation.navhost.ComposeNavigationRoute
 import com.point.envelope.navigation.navhost.EnvelopeNavHost
+import com.point.settings.Accessibility
 import com.point.settings.AppUiSettings
+import com.point.settings.LetterSpacingPreset
 import com.point.settings.model.AppColor
+import com.point.settings.model.LetterSpacingPresetSettings
 import com.point.ui.EnvelopeTheme
 import com.point.ui.LocalUiSettings
 import com.point.ui.Theme
@@ -66,7 +69,8 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
                             AppColor.GREEN -> AppColorColor.GREEN
                             AppColor.BROWN -> AppColorColor.BROWN
                             AppColor.PURPLE -> AppColorColor.PURPLE
-                        }
+                        },
+                    access = Accessibility(letterSpacing = settings.letterSpacing.toModel()),
                 )
             }
 
@@ -159,5 +163,14 @@ class MainActivity : ComponentActivity(), ScaffoldHolder {
         set(value) {
             appBarState.value = value
         }
+}
+
+private fun LetterSpacingPresetSettings.toModel(): LetterSpacingPreset {
+    return when (this) {
+        LetterSpacingPresetSettings.NORMAL -> LetterSpacingPreset.NORMAL
+        LetterSpacingPresetSettings.MEDIUM -> LetterSpacingPreset.MEDIUM
+        LetterSpacingPresetSettings.WIDE -> LetterSpacingPreset.WIDE
+        LetterSpacingPresetSettings.EXTRA_WIDE -> LetterSpacingPreset.EXTRA_WIDE
+    }
 }
 

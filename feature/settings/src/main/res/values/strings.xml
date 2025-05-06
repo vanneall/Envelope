@@ -3,8 +3,8 @@
     <string name="edit_profile_settings">Profile</string>
     <string name="requests_settings">My requests</string>
     <string name="contacts_settings">Contacts</string>
-    
-    <string name="storage_settings">Storage</string>
+
+    <string name="accessibility_settings">Accessibility</string>
     <string name="battery_settings">Battery and optimization</string>
     <string name="theme_settings">App theme</string>
     
@@ -18,4 +18,6 @@
     <string name="enter_status">Share your status</string>
     <string name="bd">Birth Date</string>
     <string name="enter_bd">Your birthday</string>
+    <string name="dyslexia">Dyslexia</string>
+    <string name="dislecsia_description">Increase or decrease the space between characters to improve the readability of the text.</string>
 </resources>

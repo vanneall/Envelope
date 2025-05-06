@@ -28,10 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.point.chats.R
 import com.point.chats.chats.ui.ChatDescription
@@ -40,6 +37,7 @@ import com.point.chats.creation.single.mvi.state.ChatCreationState
 import com.point.chats.creation.single.mvi.state.UserUi
 import com.point.navigation.Route
 import com.point.services.chats.models.MessageType
+import com.point.ui.Theme
 import com.point.ui.colors.Black
 
 @Composable
@@ -61,10 +59,7 @@ internal fun ChatCreationScreenContent(
             item {
                 Text(
                     text = group,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                    ),
+                    style = Theme.typography.bodyM,
                     color = Black,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
@@ -141,10 +136,7 @@ private fun IconText(icon: ImageVector, title: String, modifier: Modifier = Modi
 
         Text(
             text = title,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-            ),
+            style = Theme.typography.bodyL,
             color = Black,
         )
     }

@@ -83,6 +83,7 @@ fun ColorOptionItem(
 
         Text(
             text = label,
+            style = Theme.typography.bodyM,
             modifier = Modifier.weight(1f)
         )
 

@@ -35,6 +35,7 @@ import com.point.chats.R
 import com.point.chats.creation.group.confirm.mvi.actions.GroupChatConfirmAction
 import com.point.chats.creation.group.confirm.mvi.state.GroupChatConfirmState
 import com.point.chats.creation.single.ui.UserCard
+import com.point.ui.Theme
 
 @Composable
 internal fun ChatGroupConfirmScreenContent(
@@ -78,9 +79,7 @@ internal fun ChatGroupConfirmScreenContent(
                     placeholder = {
                         Text(
                             text = stringResource(R.string.group_name),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                            ),
+                            style = Theme.typography.bodyL,
                             color = Color(0xFFA2A2A2)
                         )
                     },

@@ -72,6 +72,9 @@ sealed interface ComposeNavigationRoute {
         data object Battery : SubRoute
 
         @Serializable
+        data object Accessibility : SubRoute
+
+        @Serializable
         data object Appearance : SubRoute
 
         @Serializable
@@ -101,5 +104,6 @@ val Route.asComposeRoute: ComposeNavigationRoute
         SettingsFeature.Settings -> EntryRoute.Settings
         is SettingsFeature.ProfileEdit -> SubRoute.EditProfile(username = username)
         is SettingsFeature.Battery -> SubRoute.Battery
+        is SettingsFeature.Accessibility -> SubRoute.Accessibility
         is SettingsFeature.Appearance -> SubRoute.Appearance
     }

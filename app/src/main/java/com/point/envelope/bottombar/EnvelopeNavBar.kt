@@ -35,7 +35,8 @@ fun EnvelopeNavBar(
                     Text(
                         text = stringResource(item.textId),
                         fontSize = 14.sp,
-                        fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                        fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                        style = Theme.typography.bodyM
                     )
                 },
                 icon = {

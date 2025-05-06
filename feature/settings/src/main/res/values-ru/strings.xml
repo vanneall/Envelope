@@ -3,8 +3,8 @@
     <string name="edit_profile_settings">Профиль</string>
     <string name="requests_settings">Заявки</string>
     <string name="contacts_settings">Контакты</string>
-    
-    <string name="storage_settings">Данные и память</string>
+
+    <string name="accessibility_settings">Доступность</string>
     <string name="battery_settings">Батарея</string>
     <string name="theme_settings">Оформление</string>
 
@@ -18,4 +18,6 @@
     <string name="enter_status">Поделитесь своим статусом</string>
     <string name="bd">Дата рождения</string>
     <string name="enter_bd">Ваш день рождения</string>
+    <string name="dyslexia">Дислексия</string>
+    <string name="dislecsia_description">Увеличьте или уменьшите пространство между символами, чтобы улучшить читаемость текста.</string>
 </resources>

@@ -23,6 +23,7 @@ import com.point.chats.multi.info.viewmodel.MultiChatInfoState
 import com.point.chats.multi.info.viewmodel.UserInfo
 import com.point.services.chats.models.ChatType
 import com.point.services.chats.models.UserRole
+import com.point.ui.Theme
 import com.point.ui.components.user.UserBase
 import com.point.ui.components.user.UserCardInfo
 
@@ -36,11 +37,11 @@ fun MultiChatInfoScreenContent(
     var showModal by remember { mutableStateOf(ModalSelected(false, null)) }
 
     LazyColumn(modifier = modifier) {
-        item { Text(text = state.name) }
+        item { Text(text = state.name, style = Theme.typography.bodyM) }
 
         item { Spacer(modifier = Modifier.height(20.dp)) }
 
-        item { Text(text = state.description ?: "Пустое описание") }
+        item { Text(text = state.description ?: "Пустое описание", style = Theme.typography.bodyM) }
 
         item { Spacer(modifier = Modifier.height(20.dp)) }
 

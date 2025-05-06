@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.debounce
 import kotlin.time.Duration
@@ -63,7 +62,13 @@ fun EnvelopeTextField(
         TextField(
             value = text,
             onValueChange = { text = it },
-            placeholder = { Text(text = placeholder, color = Theme.colorScheme.textSecondary, fontSize = 14.sp) },
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    color = Theme.colorScheme.textSecondary,
+                    style = Theme.typography.bodyM,
+                )
+            },
             maxLines = maxLines,
             singleLine = singleLine,
             keyboardOptions = keyboardOptions,
@@ -75,6 +80,7 @@ fun EnvelopeTextField(
                     trailingIcon != null -> {
                         trailingIcon()
                     }
+
                     text.isNotEmpty() -> {
                         Icon(
                             imageVector = Icons.Default.Close,

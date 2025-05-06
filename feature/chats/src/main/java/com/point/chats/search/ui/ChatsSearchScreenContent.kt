@@ -16,14 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.point.chats.R
 import com.point.chats.search.mvi.actions.ChatsSearchAction.UiEvent
 import com.point.chats.search.mvi.state.ChatsSearchState
 import com.point.navigation.Route
+import com.point.ui.Theme
 import com.point.ui.colors.Black
 
 @Composable
@@ -50,10 +48,7 @@ internal fun ChatsSearchScreenContent(
             } else {
                 Text(
                     text = stringResource(R.string.messages),
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                    ),
+                    style = Theme.typography.bodyM,
                     color = Black,
                     modifier = titleModifier,
                 )
@@ -88,10 +83,7 @@ private fun RecentTitle(title: String, buttonTitle: String, onClick: () -> Unit,
     ) {
         Text(
             text = title,
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-            ),
+            style = Theme.typography.bodyM,
             color = Black,
         )
 
@@ -101,10 +93,7 @@ private fun RecentTitle(title: String, buttonTitle: String, onClick: () -> Unit,
             ) {
             Text(
                 text = buttonTitle,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                ),
+                style = Theme.typography.bodyM,
                 color = Black,
             )
         }

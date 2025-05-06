@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.toRoute
+import com.example.settings.accessibility.AccessibilityScreen
 import com.example.settings.battery.AnimationSettingsScreen
 import com.example.settings.colors.ColorPickerScreen
 import com.example.settings.main.ui.MainSettingsScreen
@@ -121,5 +122,22 @@ internal fun NavGraphBuilder.settingsFeature(
         fabState.value = FabState.Hidden
 
         ColorPickerScreen()
+    }
+
+    subComposable<SubRoute.Accessibility>(useAnim) {
+
+        topAppBarState.value = TopAppBarState(
+            appBarType = AppBarType.HeaderAppBar(
+                headerRes = com.example.settings.R.string.accessibility_settings
+            ),
+            onBack = { navController.popBackStack() },
+            actions = listOf(
+            )
+        )
+        bottomBarState.value = BottomBarState(true)
+
+        fabState.value = FabState.Hidden
+
+        AccessibilityScreen()
     }
 }

@@ -4,6 +4,7 @@ data class AppSettings(
     val useAnimations: Boolean = true,
     val batteryThreshold: Int = 10,
     val selectedColor: AppColor = AppColor.BLUE,
+    val letterSpacing: LetterSpacingPresetSettings = LetterSpacingPresetSettings.NORMAL,
 )
 
 enum class AppColor {
@@ -13,3 +14,12 @@ enum class AppColor {
     BROWN,
     PURPLE,
 }
+
+enum class LetterSpacingPresetSettings {
+    NORMAL,
+    MEDIUM,
+    WIDE,
+    EXTRA_WIDE,
+    ;
+}
+

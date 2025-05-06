@@ -20,7 +20,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.point.auth.registration.presenter.host.HostAction
 import com.point.auth.registration.presenter.host.HostAction.UiAction
 import com.point.ui.Theme
@@ -60,7 +59,7 @@ fun NavigationButtons(
                     disabledContainerColor = Theme.colorScheme.disabled,
                 )
             ) {
-                Text("Назад", fontSize = 16.sp)
+                Text("Назад", style = Theme.typography.bodyL)
             }
         }
 
@@ -94,7 +93,7 @@ fun NavigationButtons(
                     disabledContainerColor = Theme.colorScheme.disabled,
                 )
             ) {
-                Text(text = if (isLastPage) "Создать аккаунт" else "Вперед", fontSize = 16.sp)
+                Text(text = if (isLastPage) "Создать аккаунт" else "Вперед", style = Theme.typography.bodyL)
             }
         }
     }
