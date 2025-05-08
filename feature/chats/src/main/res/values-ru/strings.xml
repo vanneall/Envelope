@@ -24,4 +24,14 @@
     <string name="edited">изменено</string>
     <string name="delete">Удалить</string>
     <string name="bookmars">Закладки</string>
+
+    <plurals name="participants_count">
+        <item quantity="one">%d участник</item>
+        <item quantity="few">%d участника</item>
+        <item quantity="many">%d участников</item>
+    </plurals>
+
+    <string name="description">Описание</string>
+    <string name="participants">Участники</string>
+    <string name="can_sent_messages">Может отправлять сообщения</string>
 </resources>

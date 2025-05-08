@@ -24,4 +24,13 @@
     <string name="edited">edited</string>
     <string name="delete">Delete</string>
     <string name="bookmars">Bookmarks</string>
+
+    <plurals name="participants_count">
+        <item quantity="one">%d participant</item>
+        <item quantity="other">%d participants</item>
+    </plurals>
+
+    <string name="description">Description</string>
+    <string name="participants">Participants</string>
+    <string name="can_sent_messages">Can sent messages</string>
 </resources>

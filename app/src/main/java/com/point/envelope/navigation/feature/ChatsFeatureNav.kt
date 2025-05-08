@@ -231,6 +231,7 @@ internal fun NavGraphBuilder.chatsFeature(
         MultiChatInfoScreen(
             state = viewModel.composableState.value,
             onAction = viewModel::emitAction,
+            navigate = { route -> navController.navigate(route.asComposeRoute) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)

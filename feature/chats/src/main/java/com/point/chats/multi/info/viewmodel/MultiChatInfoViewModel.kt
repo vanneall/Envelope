@@ -39,13 +39,13 @@ class MultiChatInfoViewModel @AssistedInject constructor(
             name = action.groupChatInfo.name,
             description = action.groupChatInfo.description,
             type = action.groupChatInfo.type,
-            chatPreviewPhotos = action.groupChatInfo.chatPreviewPhotosIds.map { "" },
-            mediaContentIds = action.groupChatInfo.mediaContentIds.map { "" },
+            chatPreviewPhotos = action.groupChatInfo.chatPreviewPhotosIds,
+            mediaContentIds = action.groupChatInfo.mediaContentIds.map { "http://192.168.0.174:8084/media/$it" },
             chatUsers = action.groupChatInfo.users.map {
                 UserInfo(
                     id = it.id,
                     name = it.name,
-                    photoId = it.photoId?.let { "" },
+                    photoId = it.photoId?.let { "http://192.168.0.174:8084/media/$it" },
                     userRole = it.role,
                 )
             }
