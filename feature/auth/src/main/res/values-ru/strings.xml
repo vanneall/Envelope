@@ -29,6 +29,13 @@
 
     <!-- Registration screen -->
     <string name="welcome_to_envelope">Добро пожаловать в Envelope</string>
+    <string name="login_and_password">Логин и пароль</string>
+    <string name="email">Почта</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="next">Дальше</string>
+    <string name="code">Код</string>
+    <string name="previous">Назад</string>
+    <string name="request">Запросить код</string>
     <string name="welcome_to_envelope_description">Общайся легко, делись моментами и будь на связи.
 Сообщения и медиа — все, что нужно, в одном месте.
 Создавай чаты с друзьями, отправляй фото, не теряя важного.

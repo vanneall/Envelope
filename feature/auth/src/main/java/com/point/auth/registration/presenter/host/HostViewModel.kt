@@ -7,12 +7,14 @@ import com.point.auth.registration.presenter.profile.RegistrationProfileViewMode
 import com.point.viewmodel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.point.core.services.auth.models.SignupData
+import ru.point.core.services.auth.repository.AuthorizationRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HostViewModel @Inject constructor(
     private val registrationUseCase: RegistrationUseCase,
+    private val authorizationRepository: AuthorizationRepository,
 ) : MviViewModel<RegState, HostAction, HostEvent>(
     initialValue = RegState()
 ) {
@@ -23,6 +25,7 @@ class HostViewModel @Inject constructor(
     init {
         onRegistration()
         onNewPage()
+        onRequestCode()
     }
 
     private fun onNewPage() {
@@ -33,6 +36,12 @@ class HostViewModel @Inject constructor(
                 action.old == 1 && regProfileViewModel.isValid() -> HostEvent.SwitchPage(action.old, action.new)
                 else -> null
             }?.let { emitEvent(it) } ?: Timber.tag(TAG).d("No scroll")
+        }
+    }
+
+    private fun onRequestCode() {
+        handleAction<UiAction.RequestCode> { action ->
+            authorizationRepository.requestCode(action.email)
         }
     }
 
@@ -51,6 +60,8 @@ class HostViewModel @Inject constructor(
                     status = userData.status,
                     about = userData.about,
                     uri = userData.uri,
+                    email = userCredentials.email,
+                    code = userCredentials.code,
                 )
             ).fold(
                 onSuccess = { emitEvent(HostEvent.NavigateToMainScreen) },

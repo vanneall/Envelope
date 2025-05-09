@@ -15,6 +15,8 @@ class CredentialsViewModel @Inject constructor() :
         get() = UserCredentials(
             username = state.login,
             password = state.password,
+            email = state.email,
+            code = state.code,
         )
 
     override fun reduce(action: CredentialsAction, state: CredentialsState) = when (action) {
@@ -22,6 +24,8 @@ class CredentialsViewModel @Inject constructor() :
         is Action.OnPasswordInput -> state.copy(password = action.value)
         is Action.OnPasswordSecondInput -> state.copy(passwordSecondInput = action.value)
         Action.OnRegistration -> state
+        is Action.OnEmailInput -> state.copy(email = action.value)
+        is Action.OnCodeInput -> state.copy(code = action.value)
     }
 
     fun isRegistrationValid() = state.login.isNotEmpty()&&

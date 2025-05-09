@@ -18,9 +18,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RegistrationHostScreenContent(
+    state: RegStateHost,
     onAction: (HostAction) -> Unit,
     onNavigate: (Route) -> Unit,
     events: Flow<HostEvent>,
+    email: String,
     pages: ImmutableList<@Composable () -> Unit>,
     modifier: Modifier = Modifier,
 ) {
@@ -41,6 +43,8 @@ fun RegistrationHostScreenContent(
             currentPage = pagerState.currentPage,
             isLastPage = pagerState.currentPage == pages.value.lastIndex,
             modifier = Modifier.fillMaxWidth(),
+            isCodeEntered = state.code.isNotEmpty(),
+            email = email,
         )
 
         LaunchedEffect(Unit) {

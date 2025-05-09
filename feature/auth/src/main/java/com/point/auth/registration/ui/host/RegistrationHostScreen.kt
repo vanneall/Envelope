@@ -52,5 +52,7 @@ fun RegistrationHostScreen(
         events = events,
         onNavigate = onNavigate,
         modifier = modifier,
+        state = RegStateHost(code = credentialsState.code),
+        email = credentialsState.email,
     )
 }

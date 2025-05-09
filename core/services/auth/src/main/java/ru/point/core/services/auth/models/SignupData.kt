@@ -9,4 +9,6 @@ data class SignupData(
     val status: String?,
     val about: String?,
     val uri: Uri?,
+    val email: String,
+    val code: String,
 )

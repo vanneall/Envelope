@@ -19,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.point.auth.R
 import com.point.auth.registration.presenter.host.HostAction
 import com.point.auth.registration.presenter.host.HostAction.UiAction
 import com.point.ui.Theme
@@ -30,6 +32,8 @@ fun NavigationButtons(
     onAction: (HostAction) -> Unit,
     currentPage: Int,
     isLastPage: Boolean,
+    isCodeEntered: Boolean,
+    email: String,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -75,12 +79,10 @@ fun NavigationButtons(
                 animateColorAsState(if (isLastPage) Color.White else Color.Black)
             Button(
                 onClick = {
-                    coroutineScope.launch {
-                        if (!isLastPage) {
-                            onAction(UiAction.OnNewPage(currentPage, currentPage + 1))
-                        } else {
-                            onAction(UiAction.OnRegistration)
-                        }
+                    when {
+                        isCodeEntered && isLastPage -> onAction(UiAction.OnRegistration)
+                        isLastPage -> onAction(UiAction.RequestCode(email))
+                        else -> onAction(UiAction.OnNewPage(currentPage, currentPage + 1))
                     }
                 },
                 modifier = Modifier
@@ -93,7 +95,14 @@ fun NavigationButtons(
                     disabledContainerColor = Theme.colorScheme.disabled,
                 )
             ) {
-                Text(text = if (isLastPage) "Создать аккаунт" else "Вперед", style = Theme.typography.bodyL)
+                Text(
+                    text = when {
+                        isCodeEntered && isLastPage -> stringResource(R.string.create_account)
+                        isLastPage -> stringResource(R.string.request)
+                        else -> stringResource(R.string.next)
+                    },
+                    style = Theme.typography.bodyL
+                )
             }
         }
     }

@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import ru.point.core.services.auth.requests.Email
 import ru.point.core.services.auth.requests.SignInRequest
 import ru.point.core.services.auth.responses.TokenResponse
 
@@ -13,6 +14,9 @@ internal interface AuthorizeService {
 
     @POST("$PATH/login")
     suspend fun authorize(@Body signInRequest: SignInRequest): Result<TokenResponse>
+
+    @POST("$PATH/send-code")
+    suspend fun email(@Body email: Email): Result<Unit>
 
     @Multipart
     @POST("$PATH/registration")

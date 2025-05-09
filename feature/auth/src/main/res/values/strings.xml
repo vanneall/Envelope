@@ -29,6 +29,13 @@
 
     <!-- Registration screen -->
     <string name="welcome_to_envelope">Welcome to envelope</string>
+    <string name="login_and_password">Login and password</string>
+    <string name="email">Email</string>
+    <string name="code">Code</string>
+    <string name="create_account">Create account</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="request">Request code</string>
     <string name="welcome_to_envelope_description">Communicate easily, share moments and stay in touch.
 Messages and media are all you need in one place.
 Create chats with friends, send photos without losing anything important.

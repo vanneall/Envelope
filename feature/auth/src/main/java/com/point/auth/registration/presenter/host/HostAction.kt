@@ -8,5 +8,7 @@ sealed interface HostAction {
 
         data object OnRegistration : UiAction
 
+        class RequestCode(val email: String) : UiAction
+
     }
 }

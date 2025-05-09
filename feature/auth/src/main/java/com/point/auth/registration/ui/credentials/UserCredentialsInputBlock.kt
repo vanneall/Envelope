@@ -47,6 +47,24 @@ internal fun UserCredentialsInputBlock(
             username = state.login,
             onUsernameEntered = { onAction(CredentialsAction.Action.OnLoginInput(it)) },
             modifier = Modifier.fillMaxWidth(),
+            label = stringResource(R.string.login_label),
+            type = KeyboardType.Text,
+        )
+
+        UsernameInput(
+            username = state.email,
+            onUsernameEntered = { onAction(CredentialsAction.Action.OnEmailInput(it)) },
+            label = stringResource(R.string.email),
+            modifier = Modifier.fillMaxWidth(),
+            type = KeyboardType.Email,
+        )
+
+        UsernameInput(
+            username = state.code,
+            onUsernameEntered = { onAction(CredentialsAction.Action.OnCodeInput(it)) },
+            label = stringResource(R.string.code),
+            modifier = Modifier.fillMaxWidth(),
+            type = KeyboardType.Number,
         )
 
         PasswordInput(
@@ -70,6 +88,8 @@ private fun UsernameInput(
     username: String,
     onUsernameEntered: (String) -> Unit,
     modifier: Modifier = Modifier,
+    label: String,
+    type: KeyboardType,
 ) {
     EnvelopeTextField(
         value = username,
@@ -83,10 +103,10 @@ private fun UsernameInput(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
             autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Text,
+            keyboardType = type,
             imeAction = ImeAction.Next
         ),
-        labelText = stringResource(R.string.login_label)
+        labelText = label,
     )
 }
 

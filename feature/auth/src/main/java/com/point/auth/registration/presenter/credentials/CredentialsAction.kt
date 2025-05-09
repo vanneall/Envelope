@@ -8,6 +8,12 @@ sealed interface CredentialsAction {
         value class OnLoginInput(val value: String) : Action
 
         @JvmInline
+        value class OnEmailInput(val value: String) : Action
+
+        @JvmInline
+        value class OnCodeInput(val value: String) : Action
+
+        @JvmInline
         value class OnPasswordInput(val value: String) : Action
 
         @JvmInline

@@ -15,6 +15,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import ru.point.core.services.auth.models.SigninData
 import ru.point.core.services.auth.models.SignupData
+import ru.point.core.services.auth.requests.Email
 import ru.point.core.services.auth.requests.toRequest
 import ru.point.core.services.auth.services.AuthorizeService
 import java.io.File
@@ -61,5 +62,9 @@ internal class AuthorizationRepositoryImpl(
             it.moveToFirst()
             it.getString(nameIndex)
         }
+    }
+
+    override suspend fun requestCode(email: String): Result<Unit> = withContext(dispatcher) {
+        authorizeService.email(email = Email(email))
     }
 }
