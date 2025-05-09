@@ -27,6 +27,8 @@ internal class DetailedUserProfileResponse(
     val photos: List<String>,
     @SerialName("friends_count")
     val friendsCount: Int,
+    @SerialName("email")
+    val email: String,
     @SerialName("friends")
     val contacts: List<OtherUserResponse>,
     @SerialName("blocked_count")

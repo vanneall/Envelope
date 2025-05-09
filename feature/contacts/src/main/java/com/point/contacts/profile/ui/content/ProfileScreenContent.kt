@@ -37,18 +37,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import com.point.contacts.R
 import com.point.contacts.profile.viewmodel.ProfileAction
 import com.point.contacts.profile.viewmodel.ProfileEvent
 import com.point.contacts.profile.viewmodel.ProfileState
 import com.point.navigation.Route
 import com.point.ui.EnvelopeTheme
+import com.point.ui.LocalUser
 import com.point.ui.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun ProfileScreenContent(
@@ -75,20 +79,33 @@ internal fun ProfileScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val lazyListState = rememberLazyListState()
-            LazyRow(
-                state = lazyListState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = PaddingValues(horizontal = 10.dp),
-                flingBehavior = rememberSnapFlingBehavior(lazyListState)
-            ) {
-                items(items = state.photos) {
-                    UserAvatar(it, modifier = Modifier.fillParentMaxWidth())
+            if (state.photos.isNotEmpty()) {
+                LazyRow(
+                    state = lazyListState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(horizontal = 10.dp),
+                    flingBehavior = rememberSnapFlingBehavior(lazyListState)
+                ) {
+                    items(items = state.photos) {
+                        UserAvatar(it, modifier = Modifier.fillParentMaxWidth())
+                    }
                 }
+            } else {
+                Icon(
+                    painter = painterResource(R.drawable.ic_person_default_24),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp)
+                        .height(300.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(color = Theme.colorScheme.surface),
+                    tint = Color.LightGray
+                )
             }
-
 
             Spacer(modifier = Modifier.height(6.dp))
 
@@ -107,46 +124,53 @@ internal fun ProfileScreenContent(
             )
         }
 
-        ActionsRow(
-            state = state,
-            onAction = onAction,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+        if (state.username != requireNotNull(LocalUser.current?.username)) {
+            ActionsRow(
+                state = state,
+                onAction = onAction,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+            )
+        }
+
+        val l = listOfNotNull(
+            state.status?.let { stringResource(R.string.status) to it },
+            state.about?.let { stringResource(R.string.about) to it },
+            state.birthDate?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                ?.let { stringResource(R.string.birthdat) to it }
         )
 
-        Text(
-            text = stringResource(R.string.information),
-            style = Theme.typography.bodyL,
-            color = Theme.colorScheme.textPrimary,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
+        if (l.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.information),
+                style = Theme.typography.bodyL,
+                color = Theme.colorScheme.textPrimary,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
-                .padding(horizontal = 8.dp)
-        ) {
-            if (state.status != null) {
-                UserDescriptionItem(
-                    title = stringResource(R.string.status),
-                    description = state.status,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
 
-            if (state.status != null && state.about != null) {
-                HorizontalDivider(modifier = Modifier.fillMaxWidth())
-            }
+        if (l.isNotEmpty()) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .background(color = Theme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
+                    .padding(horizontal = 8.dp, vertical = 12.dp)
+            ) {
+                l.fastForEachIndexed { index, s ->
+                    UserDescriptionItem(
+                        title = s.first,
+                        description = s.second,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            if (state.about != null) {
-                UserDescriptionItem(
-                    title = stringResource(R.string.about),
-                    description = state.about,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                    if (index != l.lastIndex) {
+                        HorizontalDivider(modifier = Modifier.fillMaxWidth())
+                    }
+                }
             }
         }
     }

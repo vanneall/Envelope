@@ -83,7 +83,7 @@ internal fun ProfileEditScreenContent(
             modifier = modifier
                 .height(300.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(color = Theme.colorScheme.accent)
+                .background(color = Theme.colorScheme.surface)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = rememberRipple(),
@@ -221,7 +221,8 @@ fun EditableDateField(
         Text(
             text = label,
             style = Theme.typography.bodyM,
-            modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
+            color = Theme.colorScheme.textSecondary,
+            modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Surface(

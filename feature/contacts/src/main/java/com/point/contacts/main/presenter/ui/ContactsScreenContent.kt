@@ -115,7 +115,7 @@ internal fun ChatDescription(title: String, text: String?, modifier: Modifier = 
     ) {
         Text(
             text = title,
-            style = Theme.typography.titleL,
+            style = Theme.typography.titleS,
             color = TextPrimaryColor,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,

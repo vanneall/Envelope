@@ -46,13 +46,11 @@ class ProfileViewModel @AssistedInject constructor(
             name = action.data.name,
             status = action.data.status,
             about = action.data.about,
-            photos = listOf(
-                "https://static1.dualshockersimages.com/wordpress/wp-content/uploads/2018/09/DMC5_Screens_Dante-Intro03_result.png",
-                "https://cs14.pikabu.ru/post_img/big/2022/09/24/11/1664049510190058921.jpg",
-            ),
+            photos = action.data.photos,
             isRefreshing = false,
             isInitialLoading = false,
             isRefreshingEnable = true,
+            birthDate = action.data.birthDate,
             userInContacts = action.data.inContacts,
             userInSent = action.data.inSentRequests,
         )

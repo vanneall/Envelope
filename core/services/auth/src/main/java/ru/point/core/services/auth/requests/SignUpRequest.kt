@@ -19,6 +19,10 @@ internal data class SignUpRequest(
     val aboutUser: String? = null,
     @SerialName("birth_date")
     val birthDate: String,
+    @SerialName("email")
+    val email: String,
+    @SerialName("code")
+    val code: String,
     @SerialName("is_dev")
     val isDeveloper: Boolean = false
 )
@@ -30,5 +34,7 @@ internal fun SignupData.toRequest() = SignUpRequest(
     birthDate = LocalDate.now().toString(),
     status = status,
     aboutUser = about,
+    email = email,
+    code = code,
     isDeveloper = true,
 )

@@ -23,6 +23,8 @@ internal class UserInfoResponse(
     @Serializable(LocalDateSerializer::class)
     @SerialName("birth_date")
     val birthDate: LocalDate,
+    @SerialName("email")
+    val email: String,
     @SerialName("photos")
     val photos: List<Long>,
     @SerialName("in_contacts")

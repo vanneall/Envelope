@@ -13,6 +13,7 @@ data class UserInfo(
     val birthDate: LocalDate,
     val photos: List<String>,
     val inContacts: Boolean,
+    val email: String,
     val inSentRequests: Boolean,
 )
 
@@ -25,5 +26,6 @@ internal fun UserInfoResponse.toModel() = UserInfo(
     birthDate = birthDate,
     photos = photos.map { uri -> "http://192.168.0.174:8084/media/$uri" },
     inContacts = inContacts,
-    inSentRequests = inSentRequests
+    inSentRequests = inSentRequests,
+    email = email,
 )

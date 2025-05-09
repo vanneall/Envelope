@@ -1,6 +1,5 @@
 package com.point.contacts.profile.ui.content
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +9,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.point.contacts.R
-import com.point.ui.Theme
 
 @Composable
 internal fun UserAvatar(url: String?, modifier: Modifier = Modifier) {
@@ -20,9 +18,7 @@ internal fun UserAvatar(url: String?, modifier: Modifier = Modifier) {
         contentScale = ContentScale.Crop,
         placeholder = painterResource(R.drawable.ic_person_default_24),
         error = painterResource(R.drawable.ic_person_error_24),
-        modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
-            .background(color = Theme.colorScheme.accent),
+        modifier = modifier.clip(RoundedCornerShape(24.dp)),
     )
 }
 
